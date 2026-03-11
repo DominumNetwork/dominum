@@ -186,6 +186,9 @@ const tabsContainer = document.getElementById('tabs');
 const newTabBtn = document.getElementById('newTab');
 const closeTabBtn = document.getElementById('closeTab');
 
+document.getElementById('back').addEventListener('click', () => iframe.contentWindow.history.back());
+document.getElementById('forward').addEventListener('click', () => iframe.contentWindow.history.forward());
+
 function updateTabWidths() {
   const tabs = [...document.querySelectorAll('.tab')];
   const totalWidth = tabsContainer.offsetWidth - 90;
@@ -197,13 +200,16 @@ function updateTabWidths() {
 function loadURL(input) {
   let url = input.trim();
   if (!url) return;
-  if (!url.startsWith('http') && !url.includes('.')) {
-    url = `https://search.brave.com/search?q=${encodeURIComponent(input)}`;
-  } else if (!url.startsWith('http')) {
+  
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+  } else if (url.includes('.')) {
     url = 'https://' + url;
+  } else {
+    url = `https://search.brave.com/search?q=${encodeURIComponent(url)}`;
   }
+  
   iframe.classList.remove('loaded');
-  iframe.src = `/s/embed.html#${url}`;
+  iframe.src = `/src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
 }
 
 omnibox.addEventListener('keydown', e => {
@@ -248,7 +254,7 @@ closeTabBtn.addEventListener('click', () => {
 function activateTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
-  iframe.src = '/assets/pages/prx/home.html';
+  iframe.src = '/src/assets/pages/prx/home.html';
   omnibox.value = '';
 }
 
