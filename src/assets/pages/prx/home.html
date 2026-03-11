@@ -90,28 +90,6 @@
     transform: scale(1.05);
     background: #9a7eff;
   }
-
-  .quick-links {
-    margin-top: 40px;
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .quick-links a {
-    padding: 10px 16px;
-    background: var(--input-bg);
-    border-radius: 12px;
-    color: var(--text);
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .quick-links a:hover {
-    background: var(--accent);
-    transform: scale(1.05);
-  }
 </style>
 </head>
 <body>
@@ -125,9 +103,11 @@
     <input type="text" id="searchInput" placeholder="Search the web...">
     <button id="searchBtn">🔍</button>
   </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script src="/src/sj/baremux/index.js"></script>
+
+<script src="/baremux/bare-mux.js"></script>
 <script src="/src/sj/scramjet.all.js"></script>
 
 <script>
@@ -145,9 +125,14 @@
   
   navigator.serviceWorker.register("/sw.js");
   
-  const connection = new BareMux.BareMuxConnection("/src/sj/baremux/worker.js");
-  connection.setTransport("/bare/");
+  const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+  
+  connection.setTransport(
+      "https://unpkg.com/@mercuryworkshop/epoxy-transport@2.1.4/dist/index.mjs", 
+      [{ wisp: "wss://anura.pro/" }]
+  );
 </script>
+
 <script>
   particlesJS("particles-js", {
     "particles": {
@@ -177,9 +162,7 @@
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
 
-  function performSearch() {
-
-    const query = searchInput.value.trim();
+  function performSearch(query) {
     if (!query) return;
   
     let url;
@@ -193,13 +176,19 @@
     }
   
     scramjet.go(url);
-  
   }
 
-  searchBtn.addEventListener('click', performSearch);
+  searchBtn.addEventListener('click', () => performSearch(searchInput.value.trim()));
   searchInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') performSearch();
+    if (e.key === 'Enter') performSearch(searchInput.value.trim());
   });
+
+  const params = new URLSearchParams(window.location.search);
+  const targetUrl = params.get('url');
+  
+  if (targetUrl) {
+      performSearch(decodeURIComponent(targetUrl));
+  }
 </script>
 
 </body>
