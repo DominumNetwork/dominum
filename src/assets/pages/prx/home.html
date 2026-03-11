@@ -131,22 +131,22 @@
 <script src="/src/sj/scramjet.all.js"></script>
 
 <script>
-const { ScramjetController } = $scramjetLoadController();
-
-const scramjet = new ScramjetController({
-  files: {
-    wasm: "/src/sj/scramjet.wasm.wasm",
-    all: "/src/sj/scramjet.all.js",
-    sync: "/src/sj/scramjet.sync.js"
-  }
-});
-
-scramjet.init();
-
-navigator.serviceWorker.register("/sw.js");
-
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
-connection.setTransport("/bare/");
+  const { ScramjetController } = $scramjetLoadController();
+  
+  const scramjet = new ScramjetController({
+    files: {
+      wasm: "/src/sj/scramjet.wasm.wasm",
+      all: "/src/sj/scramjet.all.js",
+      sync: "/src/sj/scramjet.sync.js"
+    }
+  });
+  
+  scramjet.init();
+  
+  navigator.serviceWorker.register("/sw.js");
+  
+  const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+  connection.setTransport("/bare/");
 </script>
 <script>
   particlesJS("particles-js", {
@@ -178,10 +178,22 @@ connection.setTransport("/bare/");
   const searchBtn = document.getElementById('searchBtn');
 
   function performSearch() {
+
     const query = searchInput.value.trim();
     if (!query) return;
-    const url = query.includes('.') ? `https://${query}` : `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-    window.location.href = `/s/embed.html#${url}`;
+  
+    let url;
+  
+    if (query.startsWith("http://") || query.startsWith("https://")) {
+      url = query;
+    } else if (query.includes(".")) {
+      url = "https://" + query;
+    } else {
+      url = "https://search.brave.com/search?q=" + encodeURIComponent(query);
+    }
+  
+    scramjet.go(url);
+  
   }
 
   searchBtn.addEventListener('click', performSearch);
