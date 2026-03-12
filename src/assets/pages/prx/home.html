@@ -90,28 +90,6 @@
     transform: scale(1.05);
     background: #9a7eff;
   }
-
-  .quick-links {
-    margin-top: 40px;
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .quick-links a {
-    padding: 10px 16px;
-    background: var(--input-bg);
-    border-radius: 12px;
-    color: var(--text);
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .quick-links a:hover {
-    background: var(--accent);
-    transform: scale(1.05);
-  }
 </style>
 </head>
 <body>
@@ -129,67 +107,77 @@
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.0.9/dist/index.js"></script>
-<script src="/src/sj/scramjet.all.js"></script>
+<script src="/baremux/index.js"></script>
+<script src="/scram/scramjet.all.js"></script>
 
 <script>
   const { ScramjetController } = $scramjetLoadController();
   
   const scramjet = new ScramjetController({
     files: {
-      wasm: "/src/sj/scramjet.wasm.wasm",
-      all: "/src/sj/scramjet.all.js",
-      sync: "/src/sj/scramjet.sync.js"
+      wasm: "/scram/wasm.wasm",
+      all: "/scram/scramjet.all.js",
+      sync: "/scram/scramjet.sync.js"
     }
   });
   
   scramjet.init();
   navigator.serviceWorker.register("/sw.js");
   
-  const connection = new BareMux.BareMuxConnection("/src/sj/baremux/worker.js");
+  const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
   
-  connection.setTransport(
-      "https://cdn.jsdelivr.net/npm/@mercuryworkshop/epoxy-transport/dist/index.mjs", 
-      [{ wisp: "wss://anura.pro/" }]
-  );
+  async function initTransport() {
+      if ((await connection.getTransport()) !== "/libcurl/index.mjs") {
+          await connection.setTransport("/libcurl/index.mjs", [{ websocket: "wss://wisp.mercurywork.shop/" }]);
+      }
+  }
+  initTransport();
 </script>
 
 <script>
   particlesJS("particles-js", {
-    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#7a5cff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.6, "random": true }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 120, "color": "#7a5cff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out" } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } }, "push": { "particles_nb": 4 } } }, "retina_detect": true
+    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#7a5cff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.6, "random": true }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 120, "color": "#7a5cff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out" } },
+    "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } }, "push": { "particles_nb": 4 } } },
+    "retina_detect": true
   });
 
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
 
+  function formatUrl(input) {
+      try {
+          return new URL(input).toString();
+      } catch (err) {}
+      try {
+          const url = new URL(`http://${input}`);
+          if (url.hostname.includes(".")) return url.toString();
+      } catch (err) {}
+      return `https://search.brave.com/search?q=${encodeURIComponent(input)}`;
+  }
+
   function performSearch(query) {
-    if (!query) return;
-  
-    let url;
-  
-    if (query.startsWith("http://") || query.startsWith("https://")) {
-      url = query;
-    } else if (query.includes(".")) {
-      url = "https://" + query;
-    } else {
-      url = "https://search.brave.com/search?q=" + encodeURIComponent(query);
-    }
-  
-    const prefix = scramjet.config?.prefix || "/scramjet/";
-    
-    window.location.href = prefix + encodeURIComponent(url);
+      if (!query) return;
+      
+      const formattedUrl = formatUrl(query);
+      const prefix = scramjet.config?.prefix || "/scramjet/";
+      
+      function encodeUrl(str) {
+          if (!str) return str;
+          return encodeURIComponent(str.split('').map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char).join(''));
+      }
+      
+      window.location.href = prefix + encodeUrl(formattedUrl);
   }
 
   searchBtn.addEventListener('click', () => performSearch(searchInput.value.trim()));
   searchInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') performSearch(searchInput.value.trim());
+      if (e.key === 'Enter') performSearch(searchInput.value.trim());
   });
 
   const params = new URLSearchParams(window.location.search);
   const targetUrl = params.get('url');
-  
   if (targetUrl) {
-      performSearch(targetUrl);
+      performSearch(decodeURIComponent(targetUrl));
   }
 </script>
 </body>

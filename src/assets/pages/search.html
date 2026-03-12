@@ -201,14 +201,8 @@ function loadURL(input) {
   let url = input.trim();
   if (!url) return;
   
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-  } else if (url.includes('.')) {
-    url = 'https://' + url;
-  } else {
-    url = `https://search.brave.com/search?q=${encodeURIComponent(url)}`;
-  }
-  
   iframe.classList.remove('loaded');
+  
   iframe.src = `/src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
 }
 
