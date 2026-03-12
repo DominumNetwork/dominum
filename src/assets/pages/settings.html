@@ -353,7 +353,7 @@ function getCookie(name){
 const particlesContainer = document.getElementById('particles-js');
 
 function initParticles() {
-    if (window.pJSDom && window.pJSDom.length > 0) return; // Already running
+    if (window.pJSDom && window.pJSDom.length > 0) return;
     particlesContainer.style.display = 'block';
     particlesJS("particles-js", {
       "particles":{"number":{"value":60},"color":{"value":["#7a5cff","#00bfff"]},

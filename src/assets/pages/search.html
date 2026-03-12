@@ -176,7 +176,7 @@
   <input class="omnibox" id="omnibox" type="text" placeholder="Search or enter URL">
 </div>
 
-<iframe id="viewer" src="/src/assets/pages/prx/home.html"></iframe>
+<iframe id="viewer" src="./src/assets/pages/prx/home.html"></iframe>
 
 <script>
 const iframe = document.getElementById('viewer');
@@ -203,7 +203,7 @@ function loadURL(input) {
   
   iframe.classList.remove('loaded');
   
-  iframe.src = `/src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
+  iframe.src = `./src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
 }
 
 omnibox.addEventListener('keydown', e => {
@@ -248,7 +248,7 @@ closeTabBtn.addEventListener('click', () => {
 function activateTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   tab.classList.add('active');
-  iframe.src = '/src/assets/pages/prx/home.html';
+  iframe.src = './src/assets/pages/prx/home.html';
   omnibox.value = '';
 }
 

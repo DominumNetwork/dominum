@@ -100,7 +100,7 @@
     </div>
   </aside>
 
-  <iframe id="content-frame" src="/src/assets/pages/home.html"></iframe>
+  <iframe id="content-frame" src="./src/assets/pages/home.html"></iframe>
 
 <script>
     function getCookie(name) {
@@ -119,7 +119,7 @@
         frame.style.opacity = 0;
         
         setTimeout(() => {
-            frame.src = `/src/assets/pages/${page}.html`;
+            frame.src = `./src/assets/pages/${page}.html`;
             frame.onload = () => {
                 frame.style.opacity = 1;
                 loadTheme(); 

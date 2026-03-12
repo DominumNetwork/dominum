@@ -107,28 +107,28 @@
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-<script src="/baremux/index.js"></script>
-<script src="/scram/scramjet.all.js"></script>
+<script src="./baremux/index.js"></script>
+<script src="./scram/scramjet.all.js"></script>
 
 <script>
   const { ScramjetController } = $scramjetLoadController();
   
   const scramjet = new ScramjetController({
     files: {
-      wasm: "/scram/wasm.wasm",
-      all: "/scram/scramjet.all.js",
-      sync: "/scram/scramjet.sync.js"
+      wasm: "./scram/wasm.wasm",
+      all: "./scram/scramjet.all.js",
+      sync: "./scram/scramjet.sync.js"
     }
   });
   
   scramjet.init();
-  navigator.serviceWorker.register("/sw.js");
+  navigator.serviceWorker.register("./sw.js");
   
-  const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+  const connection = new BareMux.BareMuxConnection("./baremux/worker.js");
   
   async function initTransport() {
-      if ((await connection.getTransport()) !== "/libcurl/index.mjs") {
-          await connection.setTransport("/libcurl/index.mjs", [{ websocket: "wss://wisp.mercurywork.shop/" }]);
+      if ((await connection.getTransport()) !== "./libcurl/index.mjs") {
+          await connection.setTransport("./libcurl/index.mjs", [{ websocket: "wss://wisp.mercurywork.shop/" }]);
       }
   }
   initTransport();

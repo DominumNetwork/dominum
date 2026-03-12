@@ -377,14 +377,6 @@
       }
     });
 
-    function openGamePorts() {
-        if (window.parent && window.parent.document.getElementById("content-frame")) {
-            window.parent.document.getElementById("content-frame").src = "/assets/pages/home.html";
-        } else {
-            window.location.href = "/assets/pages/home.html";
-        }
-    }
-
   function openHomePage() {
     if (window.parent && window.parent.document.getElementById("content-frame")) {
       window.parent.document.getElementById("content-frame").src = "/assets/pages/home.html";
