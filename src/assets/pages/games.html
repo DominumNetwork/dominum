@@ -335,6 +335,7 @@
     <option value="sea-bean">Sea Bean</option>
     <option value="ugs">UGS (Page may lag)</option>
     <option value="blox">Bloxcraft UBG</option>
+    <option value="seraph">Seraph</option>
   </select>
 
   <select id="truffledProxySelect" class="control-input" style="display: none;" onchange="loadGames()">
@@ -369,6 +370,7 @@
     <div id="fullscreenHeader">
       <h2 id="gameTitle">Game Title</h2>
       <div class="header-controls">
+        <button id="blankBtn" class="header-btn" title="Open in about:blank tab"><i class="fa-solid fa-up-right-from-square"></i></button>
         <button id="downloadBtn" class="header-btn" title="Download Game"><i class="fas fa-download"></i></button>
         <button id="fullscreenBtn" class="header-btn" title="Fullscreen"><i class="fas fa-expand"></i></button>
         <button id="closeFullscreen" class="header-btn" title="Close"><i class="fas fa-times"></i></button>
@@ -417,10 +419,21 @@ function getFallbackImage(name) {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0b0a16&color=7a5cff&size=256&font-size=0.33&bold=true`;
 }
 
-function resolveGameUrl(url) {
+function resolveGameUrl(url, provider) {
   if (!url) return '';
   if (url.startsWith('http')) return url;
-  return "https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io/" + url.replace(/^\//, '');
+
+  const cleanPath = url.replace(/^\//, '');
+
+  if (provider === 'seraph') {
+    return "https://cdn.jsdelivr.net/gh/a456pur/seraph@main/" + cleanPath;
+  }
+  
+  if (provider === 'blox') {
+    return "https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/" + cleanPath;
+  }
+
+  return "https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/" + cleanPath;
 }
 
 function handleProviderChange() {
@@ -477,7 +490,8 @@ async function loadGames() {
     if (provider === 'blox') {
       const response = await fetch('https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io/games/games.json');
       const data = await response.json();
-      allGames = data.map((g, index) => {
+      
+      const bloxGames = data.map((g, index) => {
         let cleanedUrl = g.url.replace('/app-viewer/?view=/', '/');
 
         if (!cleanedUrl.endsWith('index.html')) {
@@ -488,11 +502,13 @@ async function loadGames() {
           provider: 'blox',
           name: g.name,
           cover: g.img || getFallbackImage(g.name),
-          url: resolveGameUrl(cleanedUrl),
+          url: resolveGameUrl(cleanedUrl, 'blox'),
           isAbsolute: true,
           addedOrder: index
         };
       });
+      
+      allGames = [...allGames, ...bloxGames];
     } else if (provider === 'gn-math') {
       const response = await fetch("https://cdn.jsdelivr.net/gh/freebuisness/assets/zones.json");
       const rawZones = await response.json();
@@ -634,6 +650,22 @@ async function loadGames() {
         };
       });
 
+    } else if (provider === 'seraph') {
+        const response = await fetch('https://cdn.jsdelivr.net/gh/DominumNetwork/dominum@main/src/assets/libraries/seraph/games.json');
+        const data = await response.json();
+
+        allGames = data.map((g, index) => {
+            const gamePath = g.url.endsWith('index.html') ? g.url : g.url.replace(/\/?$/, '/index.html');
+
+            return {
+                provider: 'seraph',
+                name: g.name,
+                cover: g.img ? g.img : getFallbackImage(g.name),
+                url: resolveGameUrl(gamePath, 'seraph'),
+                isAbsolute: true,
+                addedOrder: index
+            };
+        });
     } else if (provider === 'petezah') {
       const response = await fetch("https://cdn.jsdelivr.net/gh/PeteZah-G/singlefile-json@main/search.json");
       const data = await response.json();
@@ -738,12 +770,18 @@ async function openGame(game) {
   overlay.style.display = 'flex';
   gameTitle.textContent = game.name;
 
+  if (game.provider === 'blox') {
+    downloadBtn.style.display = 'none';
+  } else {
+    downloadBtn.style.display = 'flex';
+  }
+
   let fullUrl = game.url;
   if (game.provider === 'gn-math' && !game.isAbsolute) {
     fullUrl = 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/' + game.url.replace('{HTML_URL}', '');
   }
 
-  const needsBlobFix = ['blox', 'elite', 'sea-bean', 'ugs', 'gn-math'];
+  const needsBlobFix = ['blox', 'elite', 'sea-bean', 'ugs', 'gn-math', 'seraph'];
 
   if (needsBlobFix.includes(game.provider) || game.provider === 'petezah') {
     try {
@@ -828,6 +866,50 @@ fullscreenBtn.onclick = () => {
 };
 
 handleProviderChange();
+
+const blankBtn = document.getElementById('blankBtn');
+
+blankBtn.addEventListener('click', () => {
+    const currentUrl = gameFrame.src;
+    
+    if (!currentUrl) return;
+
+    const blankWin = window.open('about:blank', '_blank');
+    
+    if (!blankWin) {
+        alert("Please allow pop-ups to open games in a blank tab.");
+        return;
+    }
+
+    const doc = blankWin.document;
+    doc.open();
+    doc.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <title>Google Drive</title> <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"> <style>
+                body, html { 
+                    margin: 0; 
+                    padding: 0; 
+                    width: 100vw; 
+                    height: 100vh; 
+                    overflow: hidden; 
+                    background-color: #000; 
+                }
+                iframe { 
+                    width: 100%; 
+                    height: 100%; 
+                    border: none; 
+                }
+            </style>
+        </head>
+        <body>
+            <iframe src="${currentUrl}"></iframe>
+        </body>
+        </html>
+    `);
+    doc.close();
+});
 </script>
 
 <script>
