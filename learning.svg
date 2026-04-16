@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    <body xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:0;width:100vw;height:100vh;overflow:hidden;background:#0b0a16;">
+      <iframe id="dominum-frame" title="Dominum" style="width:100%;height:100%;border:0;background:#0b0a16;"></iframe>
+    </body>
+  </foreignObject>
+
+  <script type="application/ecmascript"><![CDATA[
+    (async function () {
+      const frame = document.getElementById('dominum-frame');
+      const svgUrl = new URL(window.location.href);
+      const repoBase = new URL('./', svgUrl).href;
+      const indexUrl = new URL('index.html', repoBase).href;
+
+      function fail(message) {
+        frame.srcdoc = `<!doctype html><html><body style="margin:0;display:grid;place-items:center;height:100vh;background:#0b0a16;color:#e6e6ff;font-family:system-ui,sans-serif;"><div style="text-align:center;padding:20px;"><h2 style="margin:0 0 10px;">Dominum failed to load</h2><p style="margin:0;opacity:.85;">${message}</p><p style="margin:8px 0 0;opacity:.7;font-size:12px;">Tried: ${indexUrl}</p></div></body></html>`;
+      }
+
+      try {
+        const response = await fetch(indexUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          fail(`HTTP ${response.status} while fetching index.html.`);
+          return;
+        }
+
+        const htmlText = await response.text();
+        const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+        let baseTag = doc.querySelector('base');
+        if (!baseTag) {
+          baseTag = doc.createElement('base');
+          doc.head.insertBefore(baseTag, doc.head.firstChild);
+        }
+        baseTag.setAttribute('href', repoBase);
+
+        frame.srcdoc = '<!doctype html>\n' + doc.documentElement.outerHTML;
+      } catch (error) {
+        fail(error && error.message ? error.message : 'Unknown error.');
+      }
+    })();
+  ]]></script>
+</svg>
