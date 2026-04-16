@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    <body xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:0;width:100vw;height:100vh;overflow:hidden;background:#0b0a16;">
+      <iframe id="dominum-frame" title="Dominum" style="width:100%;height:100%;border:0;background:#0b0a16;"></iframe>
+    </body>
+  </foreignObject>
+
+  <script type="application/ecmascript"><![CDATA[
+    (async function () {
+      const frame = document.getElementById('dominum-frame');
+      const repoBase = new URL('./', window.location.href).href;
+      const indexUrl = new URL('index.html', repoBase).href;
+
+      function toRepoUrl(raw) {
+        if (!raw) return raw;
+        if (/^(data:|blob:|https?:|javascript:|mailto:|tel:)/i.test(raw)) return raw;
+        if (raw.startsWith('//')) return window.location.protocol + raw;
+        if (raw.startsWith('/')) return new URL(raw.slice(1), repoBase).href;
+        return new URL(raw, repoBase).href;
+      }
+
+      function syncParentBrandingFromDoc(doc) {
+        try {
+          if (doc && doc.title) document.title = doc.title;
+          const icon = doc && doc.querySelector("link[rel~='icon'], link[rel='shortcut icon']");
+          if (icon && icon.getAttribute('href')) {
+            const href = toRepoUrl(icon.getAttribute('href'));
+            let parentIcon = document.querySelector("link[rel~='icon'], link[rel='shortcut icon']");
+            if (!parentIcon) {
+              parentIcon = document.createElement('link');
+              parentIcon.setAttribute('rel', 'icon');
+              document.head.appendChild(parentIcon);
+            }
+            parentIcon.setAttribute('href', href);
+          }
+        } catch (e) {}
+      }
+
+      function patchDocForCdn(doc) {
+        let baseTag = doc.querySelector('base');
+        if (!baseTag) {
+          baseTag = doc.createElement('base');
+          doc.head.insertBefore(baseTag, doc.head.firstChild);
+        }
+        baseTag.setAttribute('href', repoBase);
+
+        doc.querySelectorAll('[src], [href], form[action]').forEach((el) => {
+          ['src', 'href', 'action'].forEach((attr) => {
+            if (!el.hasAttribute(attr)) return;
+            const v = el.getAttribute(attr);
+            if (v && v.startsWith('/')) el.setAttribute(attr, toRepoUrl(v));
+          });
+        });
+      }
+
+      function injectNetworkPatch(doc) {
+        const patchScript = doc.createElement('script');
+        patchScript.textContent = `
+          (function () {
+            const repoBase = ${JSON.stringify(repoBase)};
+            const toRepoUrl = (raw) => {
+              if (!raw) return raw;
+              if (/^(data:|blob:|https?:|javascript:|mailto:|tel:)/i.test(raw)) return raw;
+              if (raw.startsWith('//')) return window.location.protocol + raw;
+              if (raw.startsWith('/')) return new URL(raw.slice(1), repoBase).href;
+              return raw;
+            };
+
+            const originalFetch = window.fetch.bind(window);
+            window.fetch = function(input, init) {
+              if (typeof input === 'string') return originalFetch(toRepoUrl(input), init);
+              if (input && input.url) return originalFetch(new Request(toRepoUrl(input.url), input), init);
+              return originalFetch(input, init);
+            };
+
+            const originalOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(method, url) {
+              const args = Array.prototype.slice.call(arguments);
+              if (typeof url === 'string') args[1] = toRepoUrl(url);
+              return originalOpen.apply(this, args);
+            };
+          })();
+        `;
+        doc.head.appendChild(patchScript);
+      }
+
+      async function fetchHtml(url) {
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status} while fetching ${url}`);
+        return response.text();
+      }
+
+      function showFail(message) {
+        frame.srcdoc = `<!doctype html><html><body style="margin:0;display:grid;place-items:center;height:100vh;background:#0b0a16;color:#e6e6ff;font-family:system-ui,sans-serif;"><div style="text-align:center;padding:20px;"><h2 style="margin:0 0 10px;">Dominum failed to load</h2><p style="margin:0;opacity:.85;">${message}</p><p style="margin:8px 0 0;opacity:.7;font-size:12px;">Tried: ${indexUrl}</p></div></body></html>`;
+      }
+
+      try {
+        const indexHtml = await fetchHtml(indexUrl);
+        const indexDoc = new DOMParser().parseFromString(indexHtml, 'text/html');
+
+        patchDocForCdn(indexDoc);
+        injectNetworkPatch(indexDoc);
+
+        const overrideScript = indexDoc.createElement('script');
+        overrideScript.textContent = `
+          (function () {
+            const repoBase = ${JSON.stringify(repoBase)};
+            const toRepoUrl = (raw) => {
+              if (!raw) return raw;
+              if (/^(data:|blob:|https?:|javascript:|mailto:|tel:)/i.test(raw)) return raw;
+              if (raw.startsWith('//')) return window.location.protocol + raw;
+              if (raw.startsWith('/')) return new URL(raw.slice(1), repoBase).href;
+              return new URL(raw, repoBase).href;
+            };
+
+            async function injectPageIntoFrame(frame, pageUrl) {
+              const response = await fetch(toRepoUrl(pageUrl), { cache: 'no-store' });
+              if (!response.ok) throw new Error('HTTP ' + response.status + ' while fetching ' + pageUrl);
+
+              const htmlText = await response.text();
+              const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+              let baseTag = doc.querySelector('base');
+              if (!baseTag) {
+                baseTag = doc.createElement('base');
+                doc.head.insertBefore(baseTag, doc.head.firstChild);
+              }
+              baseTag.setAttribute('href', repoBase);
+
+              doc.querySelectorAll('[src], [href], form[action]').forEach((el) => {
+                ['src', 'href', 'action'].forEach((attr) => {
+                  if (!el.hasAttribute(attr)) return;
+                  const v = el.getAttribute(attr);
+                  if (v && v.startsWith('/')) el.setAttribute(attr, toRepoUrl(v));
+                });
+              });
+
+              const patchScript = doc.createElement('script');
+              patchScript.textContent = ` + JSON.stringify(`
+                (function () {
+                  const repoBase = ${JSON.stringify(repoBase)};
+                  const toRepoUrl = (raw) => {
+                    if (!raw) return raw;
+                    if (/^(data:|blob:|https?:|javascript:|mailto:|tel:)/i.test(raw)) return raw;
+                    if (raw.startsWith('//')) return window.location.protocol + raw;
+                    if (raw.startsWith('/')) return new URL(raw.slice(1), repoBase).href;
+                    return raw;
+                  };
+
+                  const originalFetch = window.fetch.bind(window);
+                  window.fetch = function(input, init) {
+                    if (typeof input === 'string') return originalFetch(toRepoUrl(input), init);
+                    if (input && input.url) return originalFetch(new Request(toRepoUrl(input.url), input), init);
+                    return originalFetch(input, init);
+                  };
+
+                  const originalOpen = XMLHttpRequest.prototype.open;
+                  XMLHttpRequest.prototype.open = function(method, url) {
+                    const args = Array.prototype.slice.call(arguments);
+                    if (typeof url === 'string') args[1] = toRepoUrl(url);
+                    return originalOpen.apply(this, args);
+                  };
+                })();
+              `) + `;
+              doc.head.appendChild(patchScript);
+
+              frame.srcdoc = '<!doctype html>\\n' + doc.documentElement.outerHTML;
+            }
+
+            window.loadPage = async function (page, element) {
+              if (element) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+              }
+
+              const frame = document.getElementById('content-frame');
+              frame.classList.remove('loaded');
+
+              setTimeout(async () => {
+                try {
+                  await injectPageIntoFrame(frame, 'src/assets/pages/' + page + '.html');
+                  frame.classList.add('loaded');
+                  if (typeof loadTheme === 'function') loadTheme();
+                } catch (e) {
+                  frame.srcdoc = '<!doctype html><html><body style="font-family:sans-serif;padding:16px;">Failed to load page: ' + page + '<br>' + (e && e.message ? e.message : 'Unknown error') + '</body></html>';
+                }
+              }, 80);
+            };
+
+            const contentFrame = document.getElementById('content-frame');
+            if (contentFrame) {
+              contentFrame.removeAttribute('src');
+              contentFrame.src = 'about:blank';
+              const active = document.querySelector('.nav-item.active') || document.querySelector('.nav-item');
+              window.loadPage('home', active);
+            }
+          })();
+        `;
+        indexDoc.body.appendChild(overrideScript);
+
+        syncParentBrandingFromDoc(indexDoc);
+        frame.srcdoc = '<!doctype html>\n' + indexDoc.documentElement.outerHTML;
+
+        setInterval(() => {
+          try {
+            const childDoc = frame.contentDocument;
+            if (childDoc) syncParentBrandingFromDoc(childDoc);
+          } catch (e) {}
+        }, 400);
+      } catch (error) {
+        showFail(error && error.message ? error.message : 'Unknown error.');
+      }
+    })();
+  ]]></script>
+</svg>
