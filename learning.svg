@@ -1,40 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-  <foreignObject x="0" y="0" width="100%" height="100%">
-    <body xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:0;width:100vw;height:100vh;overflow:hidden;background:#0b0a16;">
-      <iframe id="dominum-frame" title="Dominum" style="width:100%;height:100%;border:0;background:#0b0a16;"></iframe>
-    </body>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+  <foreignObject width="100%" height="100%">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <title>Loading...</title>
+        <style>
+          body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0a16; }
+          iframe { width: 100%; height: 100%; border: none; background: #0b0a16; }
+        </style>
+      </head>
+      <body>
+        <iframe id="dominum-frame"></iframe>
+      </body>
+    </html>
   </foreignObject>
 
   <script type="application/ecmascript"><![CDATA[
-    (async function () {
+    (async function() {
       const frame = document.getElementById('dominum-frame');
       const svgUrl = new URL(window.location.href);
       const repoBase = svgUrl.href.substring(0, svgUrl.href.lastIndexOf('/') + 1);
       const indexUrl = repoBase + 'index.html';
 
-      function fail(message) {
-        frame.srcdoc = `<html><body style="background:#0b0a16;color:#fff;display:grid;place-items:center;height:100vh;font-family:sans-serif;"><div><h2>Load Error</h2><p>${message}</p></div></body></html>`;
+      async function loadAsBlob(url, targetFrame) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error("Fetch failed");
+          let html = await response.text();
+
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          if (url.includes('index.html')) {
+            const newTitle = doc.querySelector('title')?.innerText;
+            if (newTitle) document.title = newTitle;
+
+            const icon = doc.querySelector('link[rel*="icon"]')?.href;
+            if (icon) {
+              let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+              link.rel = 'shortcut icon';
+              link.href = icon;
+              document.head.appendChild(link);
+            }
+          }
+
+          const interceptor = `
+            <script>
+              document.addEventListener('click', async (e) => {
+                const a = e.target.closest('a');
+                if (a && a.href && a.href.startsWith('${repoBase}') && !a.target) {
+                  e.preventDefault();
+                  window.location.hash = a.href.replace('${repoBase}', '');
+                  window.parent.postMessage({type: 'NAVIGATE', url: a.href}, '*');
+                }
+              });
+            <\/script>
+          `;
+
+          const baseTag = `<base href="${repoBase}">`;
+          html = html.replace('<head>', '<head>' + baseTag + interceptor);
+
+          const blob = new Blob([html], { type: 'text/html' });
+          targetFrame.src = URL.createObjectURL(blob);
+        } catch (e) {
+          targetFrame.srcdoc = "<h2 style='color:white;text-align:center;margin-top:20%;'>Error loading content.</h2>";
+        }
       }
 
-      try {
-        const response = await fetch(indexUrl);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        let htmlText = await response.text();
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'NAVIGATE') {
+          loadAsBlob(event.data.url, frame);
+        }
+      });
 
-        const baseTag = `<base href="${repoBase}">`;
-        htmlText = htmlText.replace('<head>', '<head>' + baseTag);
-
-        const blob = new Blob([htmlText], { type: 'text/html' });
-        const blobUrl = URL.createObjectURL(blob);
-        
-        frame.src = blobUrl;
-
-        frame.onload = () => URL.revokeObjectURL(blobUrl);
-
-      } catch (error) {
-        fail(error.message);
-      }
+      // Initial Load
+      loadAsBlob(indexUrl, frame);
     })();
   ]]></script>
 </svg>
