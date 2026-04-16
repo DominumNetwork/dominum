@@ -9,33 +9,31 @@
     (async function () {
       const frame = document.getElementById('dominum-frame');
       const svgUrl = new URL(window.location.href);
-      const repoBase = new URL('./', svgUrl).href;
-      const indexUrl = new URL('index.html', repoBase).href;
+      const repoBase = svgUrl.href.substring(0, svgUrl.href.lastIndexOf('/') + 1);
+      const indexUrl = repoBase + 'index.html';
 
       function fail(message) {
-        frame.srcdoc = `<!doctype html><html><body style="margin:0;display:grid;place-items:center;height:100vh;background:#0b0a16;color:#e6e6ff;font-family:system-ui,sans-serif;"><div style="text-align:center;padding:20px;"><h2 style="margin:0 0 10px;">Dominum failed to load</h2><p style="margin:0;opacity:.85;">${message}</p><p style="margin:8px 0 0;opacity:.7;font-size:12px;">Tried: ${indexUrl}</p></div></body></html>`;
+        frame.srcdoc = `<html><body style="background:#0b0a16;color:#fff;display:grid;place-items:center;height:100vh;font-family:sans-serif;"><div><h2>Load Error</h2><p>${message}</p></div></body></html>`;
       }
 
       try {
-        const response = await fetch(indexUrl, { cache: 'no-store' });
-        if (!response.ok) {
-          fail(`HTTP ${response.status} while fetching index.html.`);
-          return;
-        }
+        const response = await fetch(indexUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        let htmlText = await response.text();
 
-        const htmlText = await response.text();
-        const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+        const baseTag = `<base href="${repoBase}">`;
+        htmlText = htmlText.replace('<head>', '<head>' + baseTag);
 
-        let baseTag = doc.querySelector('base');
-        if (!baseTag) {
-          baseTag = doc.createElement('base');
-          doc.head.insertBefore(baseTag, doc.head.firstChild);
-        }
-        baseTag.setAttribute('href', repoBase);
+        const blob = new Blob([htmlText], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        
+        frame.src = blobUrl;
 
-        frame.srcdoc = '<!doctype html>\n' + doc.documentElement.outerHTML;
+        frame.onload = () => URL.revokeObjectURL(blobUrl);
+
       } catch (error) {
-        fail(error && error.message ? error.message : 'Unknown error.');
+        fail(error.message);
       }
     })();
   ]]></script>
