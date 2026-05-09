@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum 404 page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for 404.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum 404" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;404 - Dominum&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css&quot;&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0b0a16;
+    --accent: #7a5cff;
+    --blue: #00bfff;
+    --text: #e6e6ff;
+    --surface: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .container {
+    z-index: 1;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 60px 80px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: floatIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  h1 {
+    font-size: 7em;
+    color: var(--accent);
+    margin: 0;
+    text-shadow: 0 0 30px rgba(122, 92, 255, 0.4);
+    letter-spacing: 5px;
+  }
+  h2 {
+    color: var(--text);
+    font-size: 1.8em;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  p {
+    margin-top: 15px;
+    font-size: 1em;
+    color: var(--text);
+    opacity: 0.7;
+    letter-spacing: 1px;
+  }
+  .buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  button {
+    padding: 12px 28px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1em;
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  button:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.4);
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;particles-js&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;container&quot;&gt;
+  &lt;h1&gt;404&lt;/h1&gt;
+  &lt;h2&gt;Page Not Found&lt;/h2&gt;
+  &lt;p&gt;you aint a hacker little cro...&lt;/p&gt;
+  &lt;p&gt;if you were using the proxy, just press reload.&lt;/p&gt;
+  &lt;div class=&quot;buttons&quot;&gt;
+    &lt;button onclick=&quot;location.reload()&quot;&gt;&lt;i class=&quot;fa-solid fa-rotate-right&quot;&gt;&lt;/i&gt; Reload&lt;/button&gt;
+    &lt;button onclick=&quot;openHomePage()&quot;&gt;&lt;i class=&quot;fa-solid fa-house&quot;&gt;&lt;/i&gt; Return Home&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(function() {
+  const particlesEnabled = localStorage.getItem(&#x27;dominum-particles&#x27;) !== &#x27;false&#x27;;
+  const particlesContainer = document.getElementById(&#x27;particles-js&#x27;);
+  if (particlesEnabled) {
+    particlesContainer.style.display = &#x27;block&#x27;;
+    particlesJS(&quot;particles-js&quot;, {
+      &quot;particles&quot;: {
+        &quot;number&quot;: { &quot;value&quot;: 60 },
+        &quot;color&quot;: { &quot;value&quot;: [&quot;#7a5cff&quot;, &quot;#00bfff&quot;] },
+        &quot;shape&quot;: { &quot;type&quot;: &quot;circle&quot; },
+        &quot;opacity&quot;: { &quot;value&quot;: 0.5 },
+        &quot;size&quot;: { &quot;value&quot;: 2 },
+        &quot;line_linked&quot;: { &quot;enable&quot;: true, &quot;distance&quot;: 130, &quot;color&quot;: &quot;#7a5cff&quot;, &quot;opacity&quot;: 0.2, &quot;width&quot;: 1 },
+        &quot;move&quot;: { &quot;enable&quot;: true, &quot;speed&quot;: 1.2, &quot;direction&quot;: &quot;none&quot;, &quot;out_mode&quot;: &quot;out&quot; }
+      },
+      &quot;interactivity&quot;: {
+        &quot;events&quot;: { &quot;onhover&quot;: { &quot;enable&quot;: true, &quot;mode&quot;: &quot;repulse&quot; }, &quot;onclick&quot;: { &quot;enable&quot;: false } },
+        &quot;modes&quot;: { &quot;repulse&quot;: { &quot;distance&quot;: 100 } }
+      },
+      &quot;retina_detect&quot;: true
+    });
+  } else {
+    particlesContainer.style.display = &#x27;none&#x27;;
+  }
+})();
+&lt;/script&gt;
+&lt;script&gt;
+const root = document.documentElement;
+const themes = {
+  default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,&quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;},
+  cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;},
+  sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,&quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;},
+  neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;},
+  darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,&quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;},
+  dnv2:{&quot;--bg&quot;:&quot;#050007&quot;,&quot;--accent&quot;:&quot;#ff00de&quot;,&quot;--blue&quot;:&quot;#00fff7&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.15)&quot;},
+  matrix:{&quot;--bg&quot;:&quot;#001100&quot;,&quot;--accent&quot;:&quot;#00ff00&quot;,&quot;--blue&quot;:&quot;#33ff33&quot;,&quot;--text&quot;:&quot;#99ff99&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.15)&quot;}
+};
+function applyTheme(theme){
+  Object.entries(theme).forEach(([k,v])=&gt;root.style.setProperty(k,v));
+}
+(function(){
+  const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+  if(name === &quot;custom&quot;){
+    const custom = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+    applyTheme(custom);
+  } else applyTheme(themes[name]);
+})();
+function openHomePage() {
+  if (window.parent &amp;&amp; window.parent.document.getElementById(&quot;content-frame&quot;)) {
+    window.parent.document.getElementById(&quot;content-frame&quot;).src = &quot;src/assets/pages/home.html&quot;;
+  } else {
+    window.location.href = &quot;.src/assets/pages/home.html&quot;;
+  }
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </foreignObject>
+</svg>

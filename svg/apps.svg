@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum apps page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for apps.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum apps" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+&lt;title&gt;Dominum Apps&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css&quot; /&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0b0a16;
+    --accent: #7a5cff;
+    --blue: #00bfff;
+    --text: #e6e6ff;
+    --surface: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+  }
+  * { box-sizing: border-box; outline: none; }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    margin: 0;
+    padding: 2rem;
+    overflow-x: hidden;
+  }
+  .controls-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 2.5rem;
+    padding: 20px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    animation: slideDown 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .control-input {
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .control-input:hover { border-color: rgba(255, 255, 255, 0.2); }
+  .control-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(122, 92, 255, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+  }
+  #searchBar { flex: 1 1 250px; }
+  #container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .zone-item {
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    opacity: 0; 
+    animation: popIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .zone-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(122, 92, 255, 0.2);
+    border-color: var(--accent);
+    z-index: 2;
+  }
+  .img-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .zone-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .zone-item:hover img { transform: scale(1.15); }
+  .zone-item button {
+    padding: 1rem 0.8rem;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.3s ease;
+  }
+  .zone-item:hover button { color: var(--accent); }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;controls-wrapper&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;searchBar&quot; class=&quot;control-input&quot; placeholder=&quot;Search apps...&quot;&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const container = document.getElementById(&#x27;container&#x27;);
+const searchBar = document.getElementById(&#x27;searchBar&#x27;);
+
+const apps = [
+  { &quot;title&quot;: &quot;Soundcloud&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/soundcloud.png&quot;, &quot;url&quot;: &quot;https://open.spotify.com/&quot; },
+  { &quot;title&quot;: &quot;Invidious&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/invidious.png&quot;, &quot;url&quot;: &quot;https://www.inv.nadeko.net/&quot; },
+  { &quot;title&quot;: &quot;Temp mail&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/tempmail.png&quot;, &quot;url&quot;: &quot;https://temp-mail.io/&quot; },
+  { &quot;title&quot;: &quot;Roblox&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/Calc-Flood@main/pedos.png&quot;, &quot;url&quot;: &quot;https://easyfun.gg/embed/roblox.html&quot; },
+  { &quot;title&quot;: &quot;Reddit&quot;, &quot;image&quot;: &quot;https://www.logo.wine/a/logo/Reddit/Reddit-Logomark-White-Dark-Background-Logo.wine.svg&quot;, &quot;url&quot;: &quot;https://reddit.com/&quot; },
+  { &quot;title&quot;: &quot;Snapchat&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/snapchat.png&quot;, &quot;url&quot;: &quot;https://snapchat.com/&quot; },
+  { &quot;title&quot;: &quot;Instagram&quot;, &quot;image&quot;: &quot;https://raw.githubusercontent.com/Darkdragonzxs/dominum/refs/heads/main/assets/images/apps/instagram.png&quot;, &quot;url&quot;: &quot;https://instagram.com/&quot; },
+  { &quot;title&quot;: &quot;Disc0rd&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/discord.png&quot;, &quot;url&quot;: &quot;https://discord.com/&quot; },
+  { &quot;title&quot;: &quot;TikTok&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/tiktok.png&quot;, &quot;url&quot;: &quot;https://tiktok.com/&quot; },
+  { &quot;title&quot;: &quot;Twitch&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/twitch.png&quot;, &quot;url&quot;: &quot;https://twitch.tv/&quot; },
+  { &quot;title&quot;: &quot;VidSrc&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/vidsrc.png&quot;, &quot;url&quot;: &quot;https://vidsrcme.ru/&quot; },
+  { &quot;title&quot;: &quot;IMDb&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/imdb.jpeg&quot;, &quot;url&quot;: &quot;https://www.imdb.com/&quot; },
+  { &quot;title&quot;: &quot;Vortex Chat&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/vtx-chat.png&quot;, &quot;url&quot;: &quot;https://vtx.chat/embed/dominum&quot; },
+  { &quot;title&quot;: &quot;MovieSlay&quot;, &quot;image&quot;: &quot;https://cdn.jsdelivr.net/gh/Darkdragonzxs/dominum@main/assets/images/apps/movieslay.png&quot;, &quot;url&quot;: &quot;https://movieslay.com/&quot; }
+];
+
+function displayApps(list) {
+  container.innerHTML = &#x27;&#x27;;
+  if (list.length === 0) {
+    container.innerHTML = &#x27;&lt;div style=&quot;width:100%; text-align:center; padding: 2rem; color: var(--text); opacity: 0.7;&quot;&gt;No apps found.&lt;/div&gt;&#x27;;
+    return;
+  }
+  list.forEach((app, index) =&gt; {
+    const item = document.createElement(&#x27;div&#x27;);
+    item.className = &#x27;zone-item&#x27;;
+    
+    const delay = Math.min(index * 0.03, 1.5);
+    item.style.animationDelay = `${delay}s`;
+
+    const imgWrapper = document.createElement(&#x27;div&#x27;);
+    imgWrapper.className = &#x27;img-wrapper&#x27;;
+
+    const img = document.createElement(&#x27;img&#x27;);
+    img.src = app.image;
+    img.alt = app.title;
+
+    const btn = document.createElement(&#x27;button&#x27;);
+    btn.textContent = app.title;
+    
+    item.onclick = () =&gt; window.location.href = `/s/embed.html#${app.url}`;
+    btn.onclick = (e) =&gt; { e.stopPropagation(); window.location.href = `/s/embed.html#${app.url}`; };
+
+    imgWrapper.appendChild(img);
+    item.appendChild(imgWrapper);
+    item.appendChild(btn);
+    container.appendChild(item);
+  });
+}
+
+displayApps(apps);
+
+searchBar.addEventListener(&#x27;input&#x27;, () =&gt; {
+  const query = searchBar.value.toLowerCase();
+  const filtered = apps.filter(app =&gt; app.title.toLowerCase().includes(query));
+  displayApps(filtered);
+});
+&lt;/script&gt;
+
+&lt;script&gt;
+const root = document.documentElement;
+const themes = {
+  default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,&quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;},
+  cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;},
+  sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,&quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;},
+  neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;},
+  darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,&quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;},
+  dnv2:{&quot;--bg&quot;:&quot;#050007&quot;,&quot;--accent&quot;:&quot;#ff00de&quot;,&quot;--blue&quot;:&quot;#00fff7&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.15)&quot;},
+  matrix:{&quot;--bg&quot;:&quot;#001100&quot;,&quot;--accent&quot;:&quot;#00ff00&quot;,&quot;--blue&quot;:&quot;#33ff33&quot;,&quot;--text&quot;:&quot;#99ff99&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.15)&quot;}
+};
+
+function applyTheme(theme){
+  Object.entries(theme).forEach(([k,v])=&gt;root.style.setProperty(k,v));
+}
+
+(function(){
+  const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+  if(name === &quot;custom&quot;){
+    const custom = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+    applyTheme(custom);
+  } else applyTheme(themes[name]);
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"></iframe>
+  </foreignObject>
+</svg>

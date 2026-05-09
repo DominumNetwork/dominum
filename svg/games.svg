@@ -1,0 +1,947 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum games page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for games.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum games" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+&lt;link rel=&quot;icon&quot; href=&quot;https://cdn.jsdelivr.net/gh/DominumNetwork/Dominum@main/src/assets/images/transparent-dominum.png&quot;&gt;
+&lt;title&gt;Dominum Games&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css&quot; /&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0b0a16;
+    --accent: #7a5cff;
+    --blue: #00bfff;
+    --text: #e6e6ff;
+    --surface: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+  }
+
+  * { box-sizing: border-box; outline: none; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    margin: 0;
+    padding: 2rem;
+    overflow-x: hidden;
+  }
+
+  .controls-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 2.5rem;
+    padding: 20px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    animation: slideDown 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .control-input {
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .control-input:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .control-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(122, 92, 255, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  #searchBar { flex: 1 1 250px; }
+  
+  select.control-input {
+    cursor: pointer;
+    flex: 0 1 auto;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%), linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+    background-position: calc(100% - 18px) center, calc(100% - 12px) center;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+  }
+  
+  select.control-input option {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  #container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .zone-item {
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    opacity: 0; 
+    animation: popIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .zone-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(122, 92, 255, 0.2);
+    border-color: var(--accent);
+    z-index: 2;
+  }
+
+  .img-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.3);
+  }
+
+  .zone-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .zone-item:hover img { transform: scale(1.15); }
+
+  .zone-item button {
+    padding: 1rem 0.8rem;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.3s ease;
+  }
+
+  .zone-item:hover button { color: var(--accent); }
+
+  #modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  #gameModal {
+    width: 100%;
+    max-width: 1200px;
+    height: 85vh;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    transform: scale(0.95);
+    animation: modalPop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes modalPop { to { transform: scale(1); } }
+
+  #fullscreenHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  #gameTitle {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .header-controls { display: flex; gap: 12px; }
+
+  .header-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.4);
+  }
+
+  #zoneFullscreenFrame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #000;
+  }
+
+  .alert-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .alert-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transform: translateY(30px);
+    animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes slideUp { to { transform: translateY(0); } }
+
+  .alert-modal h3 {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .alert-modal p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 2rem;
+  }
+
+  .discord-link {
+    display: inline-block;
+    background: rgba(88, 101, 242, 0.2);
+    border: 1px solid #5865F2;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .discord-link:hover {
+    background: #5865F2;
+    box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .primary-btn {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .primary-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.4);
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;controls-wrapper&quot;&gt;
+  &lt;select id=&quot;providerSelect&quot; class=&quot;control-input&quot; onchange=&quot;handleProviderChange()&quot;&gt;
+    &lt;option value=&quot;gn-math&quot;&gt;GN-Math&lt;/option&gt;
+    &lt;option value=&quot;truffled&quot;&gt;Truffled.lol&lt;/option&gt;
+    &lt;option value=&quot;petezah&quot;&gt;PeteZah&lt;/option&gt;
+    &lt;option value=&quot;elite&quot;&gt;Elite Gamez&lt;/option&gt;
+    &lt;option value=&quot;sea-bean&quot;&gt;Sea Bean&lt;/option&gt;
+    &lt;option value=&quot;ugs&quot;&gt;UGS (Page may lag)&lt;/option&gt;
+    &lt;option value=&quot;blox&quot;&gt;Bloxcraft UBG&lt;/option&gt;
+    &lt;option value=&quot;seraph&quot;&gt;Seraph&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;select id=&quot;truffledProxySelect&quot; class=&quot;control-input&quot; style=&quot;display: none;&quot; onchange=&quot;loadGames()&quot;&gt;
+    &lt;option value=&quot;https://truffled.lol&quot;&gt;truffled.lol (Default)&lt;/option&gt;
+    &lt;option value=&quot;https://classlink.com.de&quot;&gt;classlink.com.de&lt;/option&gt;
+    &lt;option value=&quot;https://pamson.pl.sophiemaslowski.com&quot;&gt;pamson.pl.sophiemaslowski.com&lt;/option&gt;
+    &lt;option value=&quot;https://lightspeed-sucks.9ibee.com&quot;&gt;lightspeed-sucks.9ibee.com&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;select id=&quot;categorySelect&quot; class=&quot;control-input&quot; style=&quot;display: none;&quot; onchange=&quot;applyFilters()&quot;&gt;
+    &lt;option value=&quot;&quot;&gt;All Categories&lt;/option&gt;
+    &lt;option value=&quot;action&quot;&gt;Action&lt;/option&gt;
+    &lt;option value=&quot;racing&quot;&gt;Racing&lt;/option&gt;
+    &lt;option value=&quot;strategy&quot;&gt;Strategy&lt;/option&gt;
+    &lt;option value=&quot;sports&quot;&gt;Sports&lt;/option&gt;
+    &lt;option value=&quot;skill&quot;&gt;Skill&lt;/option&gt;
+    &lt;option value=&quot;shooting&quot;&gt;Shooting&lt;/option&gt;
+    &lt;option value=&quot;2 player&quot;&gt;2 Player&lt;/option&gt;
+    &lt;option value=&quot;io&quot;&gt;Io&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;input type=&quot;text&quot; id=&quot;searchBar&quot; class=&quot;control-input&quot; placeholder=&quot;Search games...&quot; oninput=&quot;applyFilters()&quot;&gt;
+  
+  &lt;select id=&quot;sortSelect&quot; class=&quot;control-input&quot; onchange=&quot;applyFilters()&quot;&gt;
+  &lt;/select&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+
+&lt;div id=&quot;modalOverlay&quot;&gt;
+  &lt;div id=&quot;gameModal&quot;&gt;
+    &lt;div id=&quot;fullscreenHeader&quot;&gt;
+      &lt;h2 id=&quot;gameTitle&quot;&gt;Game Title&lt;/h2&gt;
+      &lt;div class=&quot;header-controls&quot;&gt;
+        &lt;button id=&quot;blankBtn&quot; class=&quot;header-btn&quot; title=&quot;Open in about:blank tab&quot;&gt;&lt;i class=&quot;fa-solid fa-up-right-from-square&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;button id=&quot;downloadBtn&quot; class=&quot;header-btn&quot; title=&quot;Download Game&quot;&gt;&lt;i class=&quot;fas fa-download&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;button id=&quot;fullscreenBtn&quot; class=&quot;header-btn&quot; title=&quot;Fullscreen&quot;&gt;&lt;i class=&quot;fas fa-expand&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;button id=&quot;closeFullscreen&quot; class=&quot;header-btn&quot; title=&quot;Close&quot;&gt;&lt;i class=&quot;fas fa-times&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;iframe id=&quot;zoneFullscreenFrame&quot;&gt;&lt;/iframe&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;noticeModal&quot; class=&quot;alert-backdrop&quot;&gt;
+  &lt;div class=&quot;alert-modal&quot;&gt;
+    &lt;h3&gt;!Notice!&lt;/h3&gt;
+    &lt;p&gt;I do not own these links; they belong to the truffled community. Please don&#x27;t get pissed off, if you want a link removed, dm me on discord (&lt;strong&gt;dominus.elitus&lt;/strong&gt;). Y&#x27;all should support fr support them tho :)&lt;/p&gt;
+    &lt;a href=&quot;https://discord.gg/vVqY36mzvj&quot; target=&quot;_blank&quot; class=&quot;discord-link&quot;&gt;&lt;i class=&quot;fab fa-discord&quot;&gt;&lt;/i&gt; Truffled Discord&lt;/a&gt;
+    &lt;button id=&quot;noticeContinueBtn&quot; class=&quot;primary-btn&quot;&gt;Continue&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;blockedModal&quot; class=&quot;alert-backdrop&quot;&gt;
+  &lt;div class=&quot;alert-modal&quot;&gt;
+    &lt;h3 style=&quot;color: #ff4444;&quot;&gt;&lt;i class=&quot;fas fa-ban&quot;&gt;&lt;/i&gt; Link Blocked!&lt;/h3&gt;
+    &lt;p&gt;This truffled link appears to be blocked by your network. Please try selecting another one from the dropdown!&lt;/p&gt;
+    &lt;button onclick=&quot;document.getElementById(&#x27;blockedModal&#x27;).style.display=&#x27;none&#x27;&quot; class=&quot;primary-btn&quot;&gt;Got it&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const container = document.getElementById(&#x27;container&#x27;);
+const searchBar = document.getElementById(&#x27;searchBar&#x27;);
+const sortSelect = document.getElementById(&#x27;sortSelect&#x27;);
+const categorySelect = document.getElementById(&#x27;categorySelect&#x27;);
+const providerSelect = document.getElementById(&#x27;providerSelect&#x27;);
+const truffledProxySelect = document.getElementById(&#x27;truffledProxySelect&#x27;);
+
+const overlay = document.getElementById(&#x27;modalOverlay&#x27;);
+const iframe = document.getElementById(&#x27;zoneFullscreenFrame&#x27;);
+const closeBtn = document.getElementById(&#x27;closeFullscreen&#x27;);
+const fullscreenBtn = document.getElementById(&#x27;fullscreenBtn&#x27;);
+const downloadBtn = document.getElementById(&#x27;downloadBtn&#x27;);
+const gameTitle = document.getElementById(&#x27;gameTitle&#x27;);
+
+let allGames = [];
+let currentGame = null; 
+
+function getFallbackImage(name) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&amp;background=0b0a16&amp;color=7a5cff&amp;size=256&amp;font-size=0.33&amp;bold=true`;
+}
+
+function resolveGameUrl(url, provider) {
+  if (!url) return &#x27;&#x27;;
+  if (url.startsWith(&#x27;http&#x27;)) return url;
+
+  const cleanPath = url.replace(/^\//, &#x27;&#x27;);
+
+  if (provider === &#x27;seraph&#x27;) {
+    return &quot;https://cdn.jsdelivr.net/gh/a456pur/seraph@main/&quot; + cleanPath;
+  }
+  
+  if (provider === &#x27;blox&#x27;) {
+    return &quot;https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/&quot; + cleanPath;
+  }
+
+  return &quot;https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/&quot; + cleanPath;
+}
+
+function handleProviderChange() {
+  const provider = providerSelect.value;
+  const currentSort = sortSelect.value;
+  
+  sortSelect.innerHTML = &#x27;&#x27;;
+  if (provider === &#x27;gn-math&#x27;) {
+    sortSelect.innerHTML += &#x27;&lt;option value=&quot;latest&quot;&gt;Latest to Oldest&lt;/option&gt;&#x27;;
+    sortSelect.innerHTML += &#x27;&lt;option value=&quot;oldest&quot;&gt;Oldest to Latest&lt;/option&gt;&#x27;;
+  }
+  sortSelect.innerHTML += &#x27;&lt;option value=&quot;a-z&quot;&gt;A-Z&lt;/option&gt;&#x27;;
+  sortSelect.innerHTML += &#x27;&lt;option value=&quot;z-a&quot;&gt;Z-A&lt;/option&gt;&#x27;;
+
+  if (currentSort) {
+    sortSelect.value = currentSort;
+  } else {
+    sortSelect.value = &#x27;a-z&#x27;;
+  }
+
+  if (provider === &#x27;petezah&#x27;) {
+    categorySelect.style.display = &#x27;block&#x27;;
+  } else {
+    categorySelect.style.display = &#x27;none&#x27;;
+    categorySelect.value = &#x27;&#x27;;
+  }
+
+  if (provider === &#x27;truffled&#x27;) {
+    if (!localStorage.getItem(&#x27;truffledNoticeSeen&#x27;)) {
+      document.getElementById(&#x27;noticeModal&#x27;).style.display = &#x27;flex&#x27;;
+      return; 
+    }
+    truffledProxySelect.style.display = &#x27;block&#x27;;
+  } else {
+    truffledProxySelect.style.display = &#x27;none&#x27;;
+  }
+  
+  loadGames();
+}
+
+document.getElementById(&#x27;noticeContinueBtn&#x27;).onclick = () =&gt; {
+  localStorage.setItem(&#x27;truffledNoticeSeen&#x27;, &#x27;true&#x27;);
+  document.getElementById(&#x27;noticeModal&#x27;).style.display = &#x27;none&#x27;;
+  truffledProxySelect.style.display = &#x27;block&#x27;;
+  loadGames();
+};
+
+async function loadGames() {
+  container.innerHTML = &#x27;&lt;div style=&quot;width:100%; text-align:center; padding: 2rem; color: var(--blue); font-size: 1.2rem;&quot;&gt;&lt;i class=&quot;fas fa-circle-notch fa-spin&quot;&gt;&lt;/i&gt; Fetching games...&lt;/div&gt;&#x27;;
+  allGames = [];
+  const provider = providerSelect.value;
+
+  try {
+    if (provider === &#x27;blox&#x27;) {
+      const response = await fetch(&#x27;https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io/games/games.json&#x27;);
+      const data = await response.json();
+      
+      const bloxGames = data.map((g, index) =&gt; {
+        let cleanedUrl = g.url.replace(&#x27;/app-viewer/?view=/&#x27;, &#x27;/&#x27;);
+
+        if (!cleanedUrl.endsWith(&#x27;index.html&#x27;)) {
+            cleanedUrl = cleanedUrl.replace(/\/?$/, &#x27;/&#x27;) + &#x27;index.html&#x27;;
+        }
+    
+        return {
+          provider: &#x27;blox&#x27;,
+          name: g.name,
+          cover: g.img || getFallbackImage(g.name),
+          url: resolveGameUrl(cleanedUrl, &#x27;blox&#x27;),
+          isAbsolute: true,
+          addedOrder: index
+        };
+      });
+      
+      allGames = [...allGames, ...bloxGames];
+    } else if (provider === &#x27;gn-math&#x27;) {
+      const response = await fetch(&quot;https://cdn.jsdelivr.net/gh/freebuisness/assets/zones.json&quot;);
+      const rawZones = await response.json();
+      
+      allGames = rawZones.filter(g =&gt; g.id !== -1 &amp;&amp; !g.name.startsWith(&quot;[!]&quot;)).map((z, index) =&gt; {
+        let coverUrl = (z.cover || &quot;&quot;).replace(&#x27;{COVER_URL}&#x27;, &#x27;&#x27;);
+        if(coverUrl.startsWith(&#x27;/&#x27;)) coverUrl = coverUrl.substring(1);
+
+        return {
+          provider: &#x27;gn-math&#x27;,
+          name: z.name,
+          cover: &#x27;https://cdn.jsdelivr.net/gh/freebuisness/covers@main/&#x27; + coverUrl,
+          url: z.url,
+          isAbsolute: z.url.startsWith(&#x27;http&#x27;),
+          addedOrder: index
+        };
+      });
+
+    } else if (provider === &#x27;elite&#x27;) {
+      const response = await fetch(&quot;https://cdn.jsdelivr.net/gh/elite-gamez/elite-gamez.github.io@main/games.json&quot;);
+      const data = await response.json();
+
+      allGames = data.map((g, index) =&gt; {
+        let gameTitle = g.title || g.name || &quot;Unknown Game&quot;;
+        let gameUrl = g.url;
+        if (!gameUrl.startsWith(&#x27;http&#x27;)) {
+            gameUrl = &quot;https://cdn.jsdelivr.net/gh/elite-gamez/elite-gamez.github.io@main/&quot; + gameUrl;
+        }
+
+        return {
+          provider: &#x27;elite&#x27;,
+          name: gameTitle,
+          cover: g.image ? (&#x27;https://cdn.jsdelivr.net/gh/elite-gamez/elite-gamez.github.io@main/&#x27; + g.image) : getFallbackImage(gameTitle),
+          url: gameUrl,
+          isAbsolute: true,
+          addedOrder: index
+        };
+      });
+
+    } else if (provider === &#x27;sea-bean&#x27;) {
+      const response = await fetch(&quot;https://cdn.jsdelivr.net/gh/sea-bean-unblocked/sde@main/zzz.json&quot;);
+      const data = await response.json();
+
+      allGames = data.map((g, index) =&gt; {
+        let gameTitle = g.name || g.id || &quot;Unknown Game&quot;;
+        let htmlUrl = g.html || g.url || &quot;&quot;;
+        
+        if (htmlUrl.includes(&quot;{HTML_URL}&quot;)) {
+          htmlUrl = htmlUrl.replace(&quot;{HTML_URL}&quot;, &quot;https://cdn.jsdelivr.net/gh/sea-bean-unblocked/Singlemile@main/games/&quot;);
+        } else {
+          htmlUrl = resolveGameUrl(htmlUrl);
+        }
+
+        let cover = (g.cover || g.img || &quot;&quot;).replace(&quot;{COVER_URL}/&quot;, &quot;&quot;);
+        let finalCover = cover.startsWith(&quot;http&quot;) 
+            ? cover 
+            : (cover ? &#x27;https://cdn.jsdelivr.net/gh/sea-bean-unblocked/Singlemile@main/Icon/&#x27; + cover : getFallbackImage(gameTitle));
+
+        return {
+          provider: &#x27;sea-bean&#x27;,
+          name: gameTitle,
+          cover: finalCover,
+          url: htmlUrl,
+          isAbsolute: true,
+          addedOrder: index
+        };
+      });
+
+    } else if (provider === &#x27;ugs&#x27;) {
+      const repos = [
+        &quot;tharun9772/ugs-1&quot;,
+        &quot;tharun9772/ugs-2&quot;,
+        &quot;tharun9772/ugs-3&quot;
+      ];
+      let games = [];
+      let globalIndex = 0;
+
+      for (const repo of repos) {
+        try {
+          const r = await fetch(`https://api.github.com/repos/${repo}/contents/`);
+          const d = await r.json();
+
+          d.forEach(f =&gt; {
+            if (f.type === &quot;file&quot; &amp;&amp; f.name.startsWith(&quot;cl&quot;) &amp;&amp; f.name.endsWith(&quot;.html&quot;)) {
+              let cleanName = f.name.replace(/^cl/, &quot;&quot;).replace(&quot;.html&quot;, &quot;&quot;);
+              cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+              
+              games.push({
+                provider: &#x27;ugs&#x27;,
+                name: cleanName,
+                cover: &quot;https://cdn.jsdelivr.net/gh/tharun9772/game-assets@main/5968517.png&quot;,
+                url: `https://cdn.jsdelivr.net/gh/${repo}@main/${f.name}`,
+                isAbsolute: true,
+                addedOrder: globalIndex++
+              });
+            }
+          });
+        } catch (e) {
+          console.warn(&quot;UGS fetch failed for:&quot;, repo);
+        }
+      }
+      allGames = games;
+
+    } else if (provider === &#x27;truffled&#x27;) {
+      const proxyBase = truffledProxySelect.value.replace(/\/$/, &quot;&quot;);
+
+      try {
+        await fetch(proxyBase + &#x27;/png/logo.png&#x27;, { mode: &#x27;no-cors&#x27;, cache: &#x27;no-store&#x27; });
+      } catch (err) {
+        document.getElementById(&#x27;blockedModal&#x27;).style.display = &#x27;flex&#x27;;
+        container.innerHTML = &#x27;&lt;div style=&quot;width:100%; text-align:center; padding: 2rem; color: #ff4444;&quot;&gt;Proxy blocked. Please select another from the dropdown.&lt;/div&gt;&#x27;;
+        return;
+      }
+
+      const response = await fetch(&quot;https://cdn.jsdelivr.net/gh/aukak/truffled@main/public/js/json/g.json&quot;);
+      const data = await response.json();
+      
+      allGames = (data.games || []).map((g, index) =&gt; {
+        let rawUrl = g.url; 
+        let gameUrl = g.url;
+        let thumb = g.thumbnail;
+        
+        if (!gameUrl.startsWith(&#x27;http&#x27;)) {
+            gameUrl = proxyBase + (gameUrl.startsWith(&#x27;/&#x27;) ? &#x27;&#x27; : &#x27;/&#x27;) + gameUrl;
+        }
+        if (!thumb.startsWith(&#x27;http&#x27;)) {
+            thumb = proxyBase + (thumb.startsWith(&#x27;/&#x27;) ? &#x27;&#x27; : &#x27;/&#x27;) + thumb;
+        }
+
+        return {
+          provider: &#x27;truffled&#x27;,
+          name: g.name,
+          cover: thumb,
+          url: gameUrl,
+          rawUrl: rawUrl, 
+          isAbsolute: g.url.startsWith(&#x27;http&#x27;),
+          frameType: g.frameType || &#x27;iframe&#x27;,
+          addedOrder: index 
+        };
+      });
+
+    } else if (provider === &#x27;seraph&#x27;) {
+        const response = await fetch(&#x27;https://cdn.jsdelivr.net/gh/DominumNetwork/dominum@main/src/assets/libraries/seraph/games.json&#x27;);
+        const data = await response.json();
+
+        allGames = data.map((g, index) =&gt; {
+            const gamePath = g.url.endsWith(&#x27;index.html&#x27;) ? g.url : g.url.replace(/\/?$/, &#x27;/index.html&#x27;);
+
+            return {
+                provider: &#x27;seraph&#x27;,
+                name: g.name,
+                cover: g.img ? g.img : getFallbackImage(g.name),
+                url: resolveGameUrl(gamePath, &#x27;seraph&#x27;),
+                isAbsolute: true,
+                addedOrder: index
+            };
+        });
+    } else if (provider === &#x27;petezah&#x27;) {
+      const response = await fetch(&quot;https://cdn.jsdelivr.net/gh/PeteZah-G/singlefile-json@main/search.json&quot;);
+      const data = await response.json();
+
+      allGames = (data.games || []).map((g, index) =&gt; {
+        let finalUrl = g.url;
+        if (finalUrl &amp;&amp; !finalUrl.endsWith(&#x27;index.html&#x27;) &amp;&amp; !finalUrl.match(/\.\w+$/)) {
+            finalUrl = finalUrl.replace(/\/$/, &#x27;&#x27;) + &#x27;/index.html&#x27;;
+        }
+
+        return {
+          provider: &#x27;petezah&#x27;,
+          name: g.label,
+          cover: g.imageUrl || getFallbackImage(g.label),
+          url: finalUrl,
+          isAbsolute: finalUrl.startsWith(&#x27;http&#x27;),
+          addedOrder: index,
+          categories: g.categories || []
+        };
+      });
+    }
+
+    applyFilters();
+
+  } catch (e) {
+    console.error(e);
+    container.innerHTML = &#x27;&lt;div style=&quot;width:100%; text-align:center; padding: 2rem; color: #ff4444;&quot;&gt;Failed to load games. Check console for details.&lt;/div&gt;&#x27;;
+  }
+}
+
+function applyFilters() {
+  const query = searchBar.value.toLowerCase();
+  const sortMethod = sortSelect.value;
+  const categoryFilter = categorySelect.value.toLowerCase();
+
+  let filtered = allGames.filter(g =&gt; {
+    const matchesQuery = g.name.toLowerCase().includes(query);
+    const matchesCategory = !categoryFilter || (g.categories &amp;&amp; g.categories.includes(categoryFilter));
+    return matchesQuery &amp;&amp; matchesCategory;
+  });
+
+  filtered.sort((a, b) =&gt; {
+    if (sortMethod === &#x27;a-z&#x27;) return a.name.localeCompare(b.name);
+    if (sortMethod === &#x27;z-a&#x27;) return b.name.localeCompare(a.name);
+    if (sortMethod === &#x27;latest&#x27;) return b.addedOrder - a.addedOrder;
+    if (sortMethod === &#x27;oldest&#x27;) return a.addedOrder - b.addedOrder;
+    return 0;
+  });
+
+  displayGames(filtered);
+}
+
+function displayGames(games) {
+  container.innerHTML = &#x27;&#x27;;
+  if (games.length === 0) {
+    container.innerHTML = &#x27;&lt;div style=&quot;width:100%; text-align:center; padding: 2rem; color: var(--text); opacity: 0.7;&quot;&gt;No games found.&lt;/div&gt;&#x27;;
+    return;
+  }
+
+  games.forEach((game, index) =&gt; {
+    const item = document.createElement(&#x27;div&#x27;);
+    item.className = &#x27;zone-item&#x27;;
+    
+    const delay = Math.min(index * 0.03, 1.5);
+    item.style.animationDelay = `${delay}s`;
+
+    const imgWrapper = document.createElement(&#x27;div&#x27;);
+    imgWrapper.className = &#x27;img-wrapper&#x27;;
+
+    const img = document.createElement(&#x27;img&#x27;);
+    img.dataset.src = game.cover;
+    img.alt = game.name;
+    img.loading = &#x27;lazy&#x27;;
+
+    const btn = document.createElement(&#x27;button&#x27;);
+    btn.textContent = game.name;
+    
+    item.onclick = () =&gt; openGame(game);
+    btn.onclick = (e) =&gt; { e.stopPropagation(); openGame(game); };
+
+    imgWrapper.appendChild(img);
+    item.appendChild(imgWrapper);
+    item.appendChild(btn);
+    container.appendChild(item);
+  });
+
+  const imgs = document.querySelectorAll(&#x27;img[data-src]&#x27;);
+  const observer = new IntersectionObserver((entries, obs) =&gt; {
+    entries.forEach(e =&gt; {
+      if (e.isIntersecting) {
+        const img = e.target;
+        img.src = img.dataset.src;
+        obs.unobserve(img);
+      }
+    });
+  }, { rootMargin: &#x27;100px&#x27;, threshold: 0.1 });
+  imgs.forEach(i =&gt; observer.observe(i));
+}
+
+async function openGame(game) {
+  currentGame = game;
+  overlay.style.display = &#x27;flex&#x27;;
+  gameTitle.textContent = game.name;
+
+  if (game.provider === &#x27;blox&#x27;) {
+    downloadBtn.style.display = &#x27;none&#x27;;
+  } else {
+    downloadBtn.style.display = &#x27;flex&#x27;;
+  }
+
+  let fullUrl = game.url;
+  if (game.provider === &#x27;gn-math&#x27; &amp;&amp; !game.isAbsolute) {
+    fullUrl = &#x27;https://cdn.jsdelivr.net/gh/freebuisness/html@main/&#x27; + game.url.replace(&#x27;{HTML_URL}&#x27;, &#x27;&#x27;);
+  }
+
+  const needsBlobFix = [&#x27;blox&#x27;, &#x27;elite&#x27;, &#x27;sea-bean&#x27;, &#x27;ugs&#x27;, &#x27;gn-math&#x27;, &#x27;seraph&#x27;];
+
+  if (needsBlobFix.includes(game.provider) || game.provider === &#x27;petezah&#x27;) {
+    try {
+      const response = await fetch(fullUrl);
+      let htmlContent = await response.text();
+      
+      if (game.provider === &#x27;petezah&#x27;) {
+        const baseUrl = fullUrl.replace(/\/[^\/]*$/, &#x27;/&#x27;);
+        if (!htmlContent.match(/&lt;head[^&gt;]*&gt;/i)) {
+          htmlContent = htmlContent.replace(/&lt;html[^&gt;]*&gt;/i, &#x27;$&amp;&lt;head&gt;&lt;base href=&quot;&#x27; + baseUrl + &#x27;&quot;&gt;&lt;/head&gt;&#x27;);
+        } else {
+          htmlContent = htmlContent.replace(/&lt;head[^&gt;]*&gt;/i, &#x27;$&amp;&lt;base href=&quot;&#x27; + baseUrl + &#x27;&quot;&gt;&#x27;);
+        }
+      }
+
+      const blob = new Blob([htmlContent], { type: &#x27;text/html&#x27; });
+      const blobUrl = URL.createObjectURL(blob);
+      iframe.src = blobUrl;
+      
+      iframe.onload = () =&gt; URL.revokeObjectURL(blobUrl);
+    } catch (e) {
+      console.error(&quot;Fetch failed, falling back to direct URL:&quot;, e);
+      iframe.src = fullUrl;
+    }
+    return;
+  }
+
+  if (game.provider === &#x27;truffled&#x27;) {
+    if (game.frameType === &#x27;unity&#x27;) {
+      const proxyBase = truffledProxySelect.value.replace(/\/$/, &quot;&quot;);
+      iframe.src = `${proxyBase}/unityframe.html?url=${encodeURIComponent(game.rawUrl)}`;
+    } else {
+      iframe.src = game.url; 
+    }
+    return;
+  }
+
+  iframe.src = fullUrl;
+}
+
+downloadBtn.onclick = async () =&gt; {
+  if (!currentGame) return;
+
+  let fileContent = &quot;&quot;;
+  let fullUrl = currentGame.url;
+
+  if (currentGame.provider === &#x27;gn-math&#x27; &amp;&amp; !currentGame.isAbsolute) {
+      fullUrl = &#x27;https://cdn.jsdelivr.net/gh/freebuisness/html@main/&#x27; + currentGame.url.replace(&#x27;{HTML_URL}&#x27;, &#x27;&#x27;);
+  }
+
+  try {
+    const response = await fetch(fullUrl);
+    if (!response.ok) throw new Error(&quot;CORS or Network Error&quot;);
+    fileContent = await response.text();
+  } catch (error) {
+    fileContent = `&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;${currentGame.name}&lt;/title&gt;&lt;style&gt;body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; } iframe { width: 100%; height: 100%; border: none; }&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;iframe src=&quot;${fullUrl}&quot; allowfullscreen=&quot;true&quot;&gt;&lt;/iframe&gt;&lt;/body&gt;&lt;/html&gt;`;
+  }
+
+  const blob = new Blob([fileContent], { type: &#x27;text/html&#x27; });
+  const downloadUrl = URL.createObjectURL(blob);
+  const a = document.createElement(&#x27;a&#x27;);
+  a.href = downloadUrl;
+  a.download = `${currentGame.name.replace(/[^a-z0-9]/gi, &#x27;_&#x27;).toLowerCase()}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(downloadUrl);
+};
+
+closeBtn.onclick = () =&gt; {
+  overlay.style.display = &#x27;none&#x27;;
+  iframe.src = &#x27;&#x27;;
+  currentGame = null;
+};
+
+overlay.onclick = (e) =&gt; {
+  if (e.target === overlay) closeBtn.click();
+}
+
+fullscreenBtn.onclick = () =&gt; {
+  iframe.requestFullscreen().catch(() =&gt; alert(&#x27;Fullscreen mode is not supported or blocked.&#x27;));
+};
+
+handleProviderChange();
+
+const blankBtn = document.getElementById(&#x27;blankBtn&#x27;);
+
+blankBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+    const currentUrl = gameFrame.src;
+    
+    if (!currentUrl) return;
+
+    const blankWin = window.open(&#x27;about:blank&#x27;, &#x27;_blank&#x27;);
+    
+    if (!blankWin) {
+        alert(&quot;Please allow pop-ups to open games in a blank tab.&quot;);
+        return;
+    }
+
+    const doc = blankWin.document;
+    doc.open();
+    doc.write(`
+        &lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;en&quot;&gt;
+        &lt;head&gt;
+            &lt;title&gt;Google Drive&lt;/title&gt; &lt;link rel=&quot;icon&quot; href=&quot;https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png&quot;&gt; &lt;style&gt;
+                body, html { 
+                    margin: 0; 
+                    padding: 0; 
+                    width: 100vw; 
+                    height: 100vh; 
+                    overflow: hidden; 
+                    background-color: #000; 
+                }
+                iframe { 
+                    width: 100%; 
+                    height: 100%; 
+                    border: none; 
+                }
+            &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;iframe src=&quot;${currentUrl}&quot;&gt;&lt;/iframe&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    `);
+    doc.close();
+});
+&lt;/script&gt;
+
+&lt;script&gt;
+const root = document.documentElement;
+const themes = {
+  default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,&quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;},
+  cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;},
+  sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,&quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;},
+  neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;},
+  darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,&quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;},
+  dnv2:{&quot;--bg&quot;:&quot;#050007&quot;,&quot;--accent&quot;:&quot;#ff00de&quot;,&quot;--blue&quot;:&quot;#00fff7&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.15)&quot;},
+  matrix:{&quot;--bg&quot;:&quot;#001100&quot;,&quot;--accent&quot;:&quot;#00ff00&quot;,&quot;--blue&quot;:&quot;#33ff33&quot;,&quot;--text&quot;:&quot;#99ff99&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.15)&quot;}
+};
+
+function applyTheme(theme){
+  Object.entries(theme).forEach(([k,v])=&gt;root.style.setProperty(k,v));
+}
+
+(function(){
+  const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+  if(name === &quot;custom&quot;){
+    const custom = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+    applyTheme(custom);
+  } else applyTheme(themes[name]);
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </foreignObject>
+</svg>
