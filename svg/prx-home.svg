@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum prx home page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for prx home.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum prx home" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0d0d10;
+    --accent: #7a5cff;
+    --text: #e6e6ff;
+    --input-bg: rgba(27,27,34,0.85);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: &#x27;Inter&#x27;, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  #particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .logo {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: var(--accent);
+    text-shadow: 0 0 12px rgba(122,92,255,0.6);
+  }
+
+  .search-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+  }
+
+  .search-container input {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 30px 0 0 30px;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: var(--input-bg);
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .search-container input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .search-container button {
+    padding: 0 16px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .search-container button:hover {
+    transform: scale(1.05);
+    background: #9a7eff;
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div id=&quot;particles-js&quot;&gt;&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+  &lt;div class=&quot;logo&quot;&gt;Dominum&lt;/div&gt;
+
+  &lt;div class=&quot;search-container&quot;&gt;
+    &lt;input type=&quot;text&quot; id=&quot;searchInput&quot; placeholder=&quot;Search the web...&quot;&gt;
+    &lt;button id=&quot;searchBtn&quot;&gt;🔍&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/config.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/baremux/index.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/scram/scramjet.all.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  const { ScramjetController } = $scramjetLoadController();
+  
+  const scramjet = new ScramjetController({
+    files: {
+      wasm: &quot;/scram/wasm.wasm&quot;,
+      all: &quot;/scram/scramjet.all.js&quot;,
+      sync: &quot;/scram/scramjet.sync.js&quot;
+    }
+  });
+  
+  scramjet.init();
+  navigator.serviceWorker.register(&quot;/sw.js&quot;);
+  
+  const connection = new BareMux.BareMuxConnection(&quot;/baremux/worker.js&quot;);
+  
+  async function initTransport() {
+      if ((await connection.getTransport()) !== &quot;/libcurl/index.mjs&quot;) {
+          await connection.setTransport(&quot;/libcurl/index.mjs&quot;, [{ websocket: &quot;wss://wisp.mercurywork.shop/&quot; }]);
+      }
+  }
+  initTransport();
+&lt;/script&gt;
+
+&lt;script&gt;
+  particlesJS(&quot;particles-js&quot;, {
+    &quot;particles&quot;: { &quot;number&quot;: { &quot;value&quot;: 80, &quot;density&quot;: { &quot;enable&quot;: true, &quot;value_area&quot;: 800 } }, &quot;color&quot;: { &quot;value&quot;: &quot;#7a5cff&quot; }, &quot;shape&quot;: { &quot;type&quot;: &quot;circle&quot; }, &quot;opacity&quot;: { &quot;value&quot;: 0.6, &quot;random&quot;: true }, &quot;size&quot;: { &quot;value&quot;: 3, &quot;random&quot;: true }, &quot;line_linked&quot;: { &quot;enable&quot;: true, &quot;distance&quot;: 120, &quot;color&quot;: &quot;#7a5cff&quot;, &quot;opacity&quot;: 0.4, &quot;width&quot;: 1 }, &quot;move&quot;: { &quot;enable&quot;: true, &quot;speed&quot;: 2, &quot;direction&quot;: &quot;none&quot;, &quot;random&quot;: false, &quot;straight&quot;: false, &quot;out_mode&quot;: &quot;out&quot; } },
+    &quot;interactivity&quot;: { &quot;detect_on&quot;: &quot;canvas&quot;, &quot;events&quot;: { &quot;onhover&quot;: { &quot;enable&quot;: true, &quot;mode&quot;: &quot;grab&quot; }, &quot;onclick&quot;: { &quot;enable&quot;: true, &quot;mode&quot;: &quot;push&quot; }, &quot;resize&quot;: true }, &quot;modes&quot;: { &quot;grab&quot;: { &quot;distance&quot;: 140, &quot;line_linked&quot;: { &quot;opacity&quot;: 0.6 } }, &quot;push&quot;: { &quot;particles_nb&quot;: 4 } } },
+    &quot;retina_detect&quot;: true
+  });
+
+  const searchInput = document.getElementById(&#x27;searchInput&#x27;);
+  const searchBtn = document.getElementById(&#x27;searchBtn&#x27;);
+
+  function formatUrl(input) {
+      try { return new URL(input).toString(); } catch (err) {}
+      try {
+          const url = new URL(`http://${input}`);
+          if (url.hostname.includes(&quot;.&quot;)) return url.toString();
+      } catch (err) {}
+      return `https://search.brave.com/search?q=${encodeURIComponent(input)}`;
+  }
+
+  async function performSearch(query) {
+      if (!query) return;
+      const formattedUrl = formatUrl(query);
+
+      await navigator.serviceWorker.ready;
+      
+      if (!navigator.serviceWorker.controller) {
+          window.location.reload();
+          return;
+      }
+
+      let existingFrame = document.getElementById(&quot;sj-frame&quot;);
+      if (existingFrame) existingFrame.remove();
+
+      const frameObj = scramjet.createFrame();
+      const frameElement = frameObj.frame;
+      frameElement.id = &quot;sj-frame&quot;;
+      
+      frameElement.style.border = &quot;none&quot;;
+      frameElement.style.position = &quot;absolute&quot;;
+      frameElement.style.top = &quot;0&quot;;
+      frameElement.style.left = &quot;0&quot;;
+      frameElement.style.width = &quot;100%&quot;;
+      frameElement.style.height = &quot;100%&quot;;
+      frameElement.style.zIndex = &quot;999&quot;;
+      frameElement.style.backgroundColor = &quot;#000&quot;;
+
+      document.body.appendChild(frameElement);
+      frameObj.go(formattedUrl);
+  }
+
+  searchBtn.addEventListener(&#x27;click&#x27;, () =&gt; performSearch(searchInput.value.trim()));
+  searchInput.addEventListener(&#x27;keydown&#x27;, e =&gt; {
+      if (e.key === &#x27;Enter&#x27;) performSearch(searchInput.value.trim());
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const targetUrl = params.get(&#x27;url&#x27;);
+  if (targetUrl) {
+      performSearch(decodeURIComponent(targetUrl));
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"></iframe>
+  </foreignObject>
+</svg>

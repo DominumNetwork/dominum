@@ -1,0 +1,1132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum ampler launcher page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for ampler launcher.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum ampler launcher" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Ampler Launcher&lt;/title&gt;
+    
+    &lt;base href=&quot;https://fastly.jsdelivr.net/gh/irv77/AmplerLauncher/&quot;&gt;
+
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width: 1100px)&quot; href=&quot;css/screensize.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-height: 550px)&quot; href=&quot;css/screensize.css&quot;&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;assets/images/logo.png&quot; type=&quot;image/x-icon&quot;&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+    
+    &lt;meta content=&quot;Ampler Launcher&quot; property=&quot;og:title&quot;&gt;
+    &lt;meta content=&quot;A minecraft themed launcher for Eaglercraft!&quot; property=&quot;og:description&quot;&gt;
+    &lt;meta content=&quot;https://irv77.github.io/AmplerLauncher/&quot; property=&quot;og:url&quot;&gt;
+    &lt;meta content=&quot;assets/images/logo.png&quot; property=&quot;og:image&quot;&gt;
+    &lt;meta content=&quot;#786d81&quot; data-react-helmet=&quot;true&quot; name=&quot;theme-color&quot;&gt;
+
+    &lt;script&gt;
+        function launchGame(path) {
+            const fullUrl = &quot;https://fastly.jsdelivr.net/gh/irv77/AmplerLauncher/&quot; + path + &quot;index.html&quot;;
+            
+            fetch(fullUrl)
+                .then(response =&gt; response.text())
+                .then(html =&gt; {
+                    document.open();
+                    document.write(&#x27;&lt;base href=&quot;https://fastly.jsdelivr.net/gh/irv77/AmplerLauncher/&#x27; + path + &#x27;&quot;&gt;&#x27;);
+                    document.write(html);
+                    document.close();
+                })
+                .catch(err =&gt; {
+                    console.error(&quot;Failed to load game:&quot;, err);
+                    window.location.href = fullUrl; 
+                });
+        }
+
+        (function() {
+            function interceptLinks() {
+                const playBtn = document.getElementById(&#x27;playbutton&#x27;);
+                if (playBtn) {
+                    playBtn.onclick = function(e) {
+                        e.preventDefault();
+                        const currentPath = playBtn.getAttribute(&#x27;href&#x27;); 
+                        launchGame(currentPath);
+                    };
+                }
+            }
+            document.addEventListener(&#x27;DOMContentLoaded&#x27;, interceptLinks);
+        })();
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id=&quot;notescreen&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;naerror&quot; class=&quot;error&quot;&gt;
+        &lt;div&gt;
+            &lt;p style=&quot;margin-left: 1vw;&quot; class=&quot;bolded&quot;&gt;SORRY!&lt;/p&gt;
+            &lt;p style=&quot;color: goldenrod;&quot; id=&quot;errortext&quot;&gt;This feature hasn&#x27;t been made yet.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;screenerror&quot; class=&quot;error&quot;&gt;
+        &lt;div&gt;
+            &lt;p style=&quot;margin-left: 1vw;&quot; class=&quot;bolded&quot;&gt;ERROR!&lt;/p&gt;
+            &lt;p&gt;Currently this screen resolution is buggy.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;sidebar&quot; id=&quot;sidebar&quot;&gt;
+        &lt;div id=&quot;gtabs1&quot; class=&quot;sidebarOptions&quot; style=&quot;gap: 1vw;&quot; onclick=&quot;location.href=&#x27;https://discord.gg/xuu8TnSY4b&#x27;&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/m-discord.png&quot;&gt;&lt;div class=&quot;gTabsText&quot;&gt;&lt;p&gt;Discord&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div onclick=&quot;webedition()&quot; id=&quot;gtabs2&quot; class=&quot;sidebarOptions selected&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/i-web.png&quot;&gt;
+            &lt;div class=&quot;gTabsText&quot;&gt;
+                &lt;p class=&quot;eaglercraftText&quot;&gt; EAGLERCRAFT : &lt;/p&gt;
+                &lt;p&gt;Web Edition &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div onclick=&quot;moddededition()&quot; id=&quot;gtabs3&quot; class=&quot;sidebarOptions&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/i-modded.png&quot;&gt;
+            &lt;div class=&quot;gTabsText&quot;&gt;
+                &lt;p class=&quot;eaglercraftText&quot;&gt; EAGLERCRAFT : &lt;/p&gt;
+                &lt;p&gt;Modded Editions &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div onclick=&quot;eaglercontrols()&quot; id=&quot;gtabs4&quot; class=&quot;sidebarOptions&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/i-controls.png&quot;&gt;
+            &lt;div class=&quot;gTabsText&quot;&gt;
+                &lt;p class=&quot;eaglercraftText&quot;&gt; EAGLERCRAFT : &lt;/p&gt;
+                &lt;p&gt;Mobile/Controller &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;gtabs5&quot; class=&quot;sidebarOptions sidebarBottom&quot; onclick=&quot;errorNA(&#x27;credits&#x27;)&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/m-credits.png&quot;&gt;&lt;div class=&quot;gTabsText&quot;&gt;&lt;p&gt; Credits&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;gtabs6&quot; class=&quot;sidebarOptions sidebarBottom&quot; onclick=&quot;errorNA(&#x27;settings&#x27;)&quot;&gt;
+            &lt;img src=&quot;assets/images/sidebar/m-settings.png&quot;&gt;&lt;div class=&quot;gTabsText&quot;&gt;&lt;p&gt; Settings&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;launcherVersion&quot;&gt;&lt;p&gt;v1.4.00&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mainPage&quot;&gt;
+        &lt;div class=&quot;gameHeader&quot;&gt;
+            &lt;p id=&quot;gameedition&quot; class=&quot;currentGame bolded&quot;&gt;EAGLERCRAFT WEB EDITION&lt;/p&gt;
+                &lt;ul class=&quot;gameTabs&quot;&gt;
+                    &lt;li id=&quot;header1&quot; class=&quot;headerButtons selected&quot; onclick=&quot;playheader()&quot;&gt;Play&lt;/li&gt;
+                    &lt;li id=&quot;header2&quot; style=&quot;display: none;&quot; class=&quot;headerButtons&quot; onclick=&quot;modsheader()&quot;&gt;Mods&lt;/li&gt;
+                    &lt;li id=&quot;header3&quot; class=&quot;headerButtons&quot; onclick=&quot;faqsheader()&quot;&gt;FAQ&lt;/li&gt;
+                    &lt;li id=&quot;header4&quot; class=&quot;headerButtons&quot; onclick=&quot;installationheader()&quot;&gt;Installations&lt;/li&gt;
+                    &lt;li id=&quot;header5&quot; class=&quot;headerButtons&quot; onclick=&quot;errorNA(&#x27;skins&#x27;)&quot;&gt;Skins&lt;/li&gt;
+                    &lt;li id=&quot;header6&quot; class=&quot;headerButtons&quot; onclick=&quot;patchnotesheader()&quot;&gt;Patch Notes&lt;/li&gt;
+                &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;mods&quot;&gt;
+            &lt;img class=&quot;modketplace-title&quot; src=&quot;assets/images/modketplace-title.png&quot; alt=&quot;modketplace&quot;&gt;
+            &lt;p class=&quot;bolded modssubtitle&quot;&gt;Community mods for the EaglerForge Installation.&lt;/p&gt;
+            &lt;div id=&quot;modsbox&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;faq&quot;&gt;
+            &lt;p class=&quot;bolded faqtitle&quot;&gt;Frequently Asked Questions&lt;/p&gt;
+            &lt;p&gt;Here are some frequently asked questions about Ampler Launcher.&lt;/p&gt;
+            &lt;div id=&quot;faqbox&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;installations&quot;&gt;&lt;div id=&quot;installationsbox&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div id=&quot;game-bg&quot; style=&quot;background-image: url(&#x27;assets/images/web-edition.jpg&#x27;);&quot;&gt;
+            &lt;img id=&quot;game-title&quot; src=&quot;assets/images/web-title.png&quot; alt=&quot;eaglercraft&quot;&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;patchNotes&quot;&gt;
+            &lt;div style=&quot;padding: 2vh 3vw 7vh;&quot;&gt;
+                &lt;p class=&quot;bolded patchnotes-title&quot;&gt;Versions&lt;/p&gt;
+                &lt;div class=&quot;versionscontainer&quot;&gt;
+                    &lt;input class=&quot;versionBox&quot; type=&quot;checkbox&quot; onchange=&quot;sortnote(&#x27;game&#x27;)&quot; checked&gt;&lt;p&gt;Game Releases&lt;/p&gt;&lt;input class=&quot;versionBox&quot; type=&quot;checkbox&quot; onchange=&quot;sortnote(&#x27;site&#x27;)&quot; checked&gt;&lt;p&gt;Site Releases&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;hr&gt;
+                &lt;div id=&quot;patchnotesbox&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;gameSelection&quot;&gt;
+                &lt;div class=&quot;dropdownSelector&quot; onclick=&quot;dropdowntoggle()&quot;&gt;
+                    &lt;div style=&quot;display: flex; gap: 1vw;&quot;&gt;
+                        &lt;div class=&quot;centeredIcon&quot;&gt;
+                            &lt;img id=&quot;gameicon&quot; src=&quot;assets/images/mc-icons/grass.png&quot; style=&quot;width: 2.5vw;&quot; /&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;versionText&quot;&gt;
+                            &lt;p id=&quot;gametitle&quot; class=&quot;bolded&quot;&gt;Latest release&lt;/p&gt;
+                            &lt;p id=&quot;gameversion&quot;&gt;1.12.2-u2&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div id=&quot;dropdownuparrow&quot; class=&quot;centeredIcon&quot;&gt;
+                            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot;
+                                 viewBox=&quot;0 0 20 20&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;
+                                 stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;dropdownIcon&quot;&gt;
+                                &lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot; /&gt;
+                                &lt;path d=&quot;M6 9l6 6l6 -6&quot; /&gt;
+                            &lt;/svg&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;div id=&quot;dropdn&quot; class=&quot;dropdownMenu&quot; style=&quot;visibility: hidden;&quot;&gt;&lt;/div&gt;
+            &lt;a id=&quot;playbutton&quot; href=&quot;mc/1.12.2/&quot;&gt;&lt;div id=&quot;mainbutton&quot; class=&quot;playButton&quot;&gt;&lt;/div&gt;&lt;/a&gt;
+            &lt;div class=&quot;username centeredIcon bolded&quot;&gt;&lt;p id=&quot;username&quot;&gt;Generic User&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+// Not Added Feature
+function errorNA(text) {
+    clearTimeout()
+    const errText = document.getElementById(&#x27;errortext&#x27;);
+    const naError = document.getElementById(&#x27;naerror&#x27;);
+    if(errText) errText.innerHTML = &quot;The &quot; + text + &quot; feature hasn&#x27;t been made yet.&quot;
+    if(naError) {
+        naError.style.display = &#x27;block&#x27;;
+        setTimeout(function(){
+            naError.classList.add(&#x27;zoom-out&#x27;);
+        }, 3000);
+        setTimeout(function(){
+            naError.classList.remove(&#x27;zoom-out&#x27;);
+            naError.style.display = &#x27;none&#x27;;
+            if(errText) errText.innerHTML = &quot;This feature hasn&#x27;t been made yet.&quot;
+        }, 3200);
+    }
+}
+
+// Last Played Game Option
+let selectedGame1 = localStorage.getItem(&quot;basegame&quot;);
+let selectedGame2 = localStorage.getItem(&quot;moddedgame&quot;);
+let selectedGame3 = localStorage.getItem(&quot;assisted&quot;);
+let modslauncher
+if (localStorage.getItem(&quot;modslauncher&quot;)) {modslauncher = JSON.parse(localStorage.getItem(&quot;modslauncher&quot;))};
+if (!localStorage.getItem(&quot;launcherpresets&quot;)) {
+    localStorage.setItem(&quot;customlaunchers&quot;, &quot;[]&quot;);
+    localStorage.setItem(&quot;customlaunchersnumber&quot;, 0);
+    localStorage.setItem(&quot;launcherpresets&quot;, true);
+    localStorage.setItem(&quot;launchnewtab&quot;, false);
+};
+let customlaunchersnumber = localStorage.getItem(&quot;customlaunchersnumber&quot;).padStart(2, &quot;0&quot;);
+if (customlaunchersnumber &gt; 99) {
+    console.log(&quot;%cWell.. You found an easter egg. You broke the launcher. Sure I can easily fix it. But this is a rare bug. Report if you found this bug, then I will. -IRV77&quot;, &quot;color: red; font-weight: bold; background-color: rgba(0,0,0,0.5); padding: 1vw;&quot;);
+};
+
+function generateprofile(game) {
+    let selectedGame = &quot;&quot;;
+    let running = false;
+    if (!selectedGame1) {
+        fetch(&quot;./assets/json/base.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+            selectedGame1 = JSON.stringify(data[0]); localStorage.setItem(&quot;basegame&quot;, selectedGame1);
+        });
+    };
+    if (game === 1 &amp;&amp; selectedGame1) {selectedGame = JSON.parse(selectedGame1);  running = true;}; 
+    if (!selectedGame2) {
+        fetch(&quot;./assets/json/modded.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+            selectedGame2 = JSON.stringify(data[0]); localStorage.setItem(&quot;moddedgame&quot;, selectedGame2);
+        });
+    };
+    if (game === 2 &amp;&amp; selectedGame2) {selectedGame = JSON.parse(selectedGame2);  running = true;}; 
+    if (!selectedGame3) {
+        fetch(&quot;./assets/json/assisted.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+            selectedGame3 = JSON.stringify(data[0]); localStorage.setItem(&quot;assisted&quot;, selectedGame3);
+        });
+    };
+    if (game === 3 &amp;&amp; selectedGame3) {selectedGame = JSON.parse(selectedGame3);  running = true;}; 
+    if (running === true) {
+        const gameTitleEl = document.getElementById(&#x27;gametitle&#x27;);
+        if(gameTitleEl) {
+            gameTitleEl.innerHTML = selectedGame.title;
+            if (selectedGame.custom) {gameTitleEl.innerHTML = selectedGame.title.slice(4)};
+        }
+        if(document.getElementById(&#x27;gameversion&#x27;)) document.getElementById(&#x27;gameversion&#x27;).innerHTML = selectedGame.version;
+        if(document.getElementById(&#x27;gameicon&#x27;)) document.getElementById(&#x27;gameicon&#x27;).src = selectedGame.icon;
+        if(document.getElementById(&#x27;playbutton&#x27;)) document.getElementById(&#x27;playbutton&#x27;).href = selectedGame.link;
+    }
+    if (!modslauncher) {
+        localStorage.setItem(&quot;modslauncher&quot;, &quot;&quot;);
+        modslauncher = [];
+    }
+};
+
+// Generate Game Options
+const dropdown = document.getElementById(&quot;dropdn&quot;);
+let margincount = 0;
+function generategames(path) {
+    margincount = 0;
+    if (localStorage.getItem(&quot;customlaunchers&quot;)) {
+        let gamepath;
+        if (path === &quot;./assets/json/base.json&quot;) {gamepath = &quot;basegame&quot;};
+        if (path === &quot;./assets/json/modded.json&quot;) {gamepath = &quot;moddedgame&quot;};
+        if (path === &quot;./assets/json/assisted.json&quot;) {gamepath = &quot;assisted&quot;};
+
+        JSON.parse(localStorage.getItem(&quot;customlaunchers&quot;)).forEach((launcher) =&gt; {
+            let game = JSON.parse(localStorage.getItem(&quot;c&quot; + launcher));
+            if (game.custom != gamepath) {return};
+            generatelauncheroptions(path, game, &quot;&quot;);
+        });
+    };
+    fetch(path).then((response) =&gt; response.json()).then((data) =&gt; {
+        let gamepath;
+        if (path === &quot;./assets/json/base.json&quot;) {
+            if (!localStorage.getItem(&quot;basegame&quot;)) {localStorage.setItem(&quot;basegame&quot;, JSON.stringify(data[0]))};
+            gamepath = JSON.parse(localStorage.getItem(&quot;basegame&quot;));
+        };
+        if (path === &quot;./assets/json/modded.json&quot;) {
+            if (!localStorage.getItem(&quot;moddedgame&quot;)) {localStorage.setItem(&quot;moddedgame&quot;, JSON.stringify(data[0]))};
+            gamepath = JSON.parse(localStorage.getItem(&quot;moddedgame&quot;));
+        };
+        if (path === &quot;./assets/json/assisted.json&quot;) {
+            if (!localStorage.getItem(&quot;assisted&quot;)) {localStorage.setItem(&quot;assisted&quot;, JSON.stringify(data[0]))};
+            gamepath = JSON.parse(localStorage.getItem(&quot;assisted&quot;));
+        };
+        data.reverse()
+        data.forEach((game) =&gt; {
+            generatelauncheroptions(path, game, gamepath);
+        });
+    });
+};
+
+function generatelauncheroptions(path, game, gamepath) {
+        if (localStorage.getItem(&quot;launcherpresets&quot;) === &quot;false&quot; &amp;&amp; !game.custom) {localStorage.setItem(game.title, false); if (game.title === gamepath.title) {localStorage.setItem(game.title, true)}};
+        if (!localStorage.getItem(game.title) &amp;&amp; game.active === false) {localStorage.setItem(game.title, game.active); return};
+        if (localStorage.getItem(game.title) === &quot;false&quot;) {return};
+
+        const gameoption = document.createElement(&quot;div&quot;);
+        gameoption.className = &quot;dropdownOptions&quot;;
+        gameoption.style.bottom = margincount + &quot;vw&quot;;
+        gameoption.addEventListener(&quot;click&quot;, () =&gt; {
+            const gameTitleEl = document.getElementById(&#x27;gametitle&#x27;);
+            if(gameTitleEl) {
+                gameTitleEl.innerHTML = game.title;
+                if (game.custom) {gameTitleEl.innerHTML = game.title.slice(4)};
+            }
+            if(document.getElementById(&#x27;gameversion&#x27;)) document.getElementById(&#x27;gameversion&#x27;).innerHTML = game.version;
+            if(document.getElementById(&#x27;gameicon&#x27;)) document.getElementById(&#x27;gameicon&#x27;).src = game.icon;
+            if(document.getElementById(&#x27;playbutton&#x27;)) document.getElementById(&#x27;playbutton&#x27;).href = game.link;
+            if (path === &quot;./assets/json/base.json&quot;) {selectedGame1 = JSON.stringify(game); localStorage.setItem(&quot;basegame&quot;, selectedGame1)};
+            if (path === &quot;./assets/json/modded.json&quot;) {selectedGame2 = JSON.stringify(game); localStorage.setItem(&quot;moddedgame&quot;, selectedGame2)};
+            if (path === &quot;./assets/json/assisted.json&quot;) {selectedGame3 = JSON.stringify(game); localStorage.setItem(&quot;assisted&quot;, selectedGame3)};
+            dropdowntoggle();
+        });
+        
+        const gameoptioninner = document.createElement(&quot;div&quot;);
+        gameoptioninner.className = &quot;dropdownOption&quot;;
+        const gameoptionicon = document.createElement(&quot;img&quot;);
+        gameoptionicon.src = game.icon;
+        
+        const gameoptiontext = document.createElement(&quot;div&quot;);
+        gameoptiontext.className = &quot;dropdownOptionText&quot;;
+        const gameoptiontitle = document.createElement(&quot;p&quot;);
+        gameoptiontitle.className = &quot;bolded&quot;;
+        gameoptiontitle.innerHTML = game.title;
+        if (game.custom) {gameoptiontitle.innerHTML = game.title.slice(4)};
+        const gameoptionversion = document.createElement(&quot;p&quot;);
+        gameoptionversion.innerHTML = game.version;
+        
+        gameoptiontext.appendChild(gameoptiontitle);
+        gameoptiontext.appendChild(gameoptionversion);
+        gameoptioninner.appendChild(gameoptionicon);
+        gameoptioninner.appendChild(gameoptiontext);
+        gameoption.appendChild(gameoptioninner);
+        if(dropdown) dropdown.appendChild(gameoption);
+        margincount = margincount + 5;
+};
+
+const mods = document.getElementById(&quot;modsbox&quot;);
+function generatemods() {
+    fetch(&quot;./assets/json/mods.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+        data.forEach((mod) =&gt; {
+            const modoption = document.createElement(&quot;div&quot;);
+            modoption.className = &quot;modoption&quot;;
+            modoption.addEventListener(&quot;click&quot;, () =&gt; {
+                if (localStorage.getItem(mod.title) === &#x27;true&#x27;) {
+                    mod.active = false; 
+                    localStorage.setItem(mod.title, mod.active); 
+                    modoption.classList.remove(&quot;selected&quot;); 
+                    modslauncher = modslauncher.filter(obj =&gt; obj !== mod.link); 
+                    localStorage.setItem(&quot;modslauncher&quot;, JSON.stringify(modslauncher.filter(obj =&gt; obj !== mod.link))); 
+                    console.log(&quot;Off&quot;)
+                }
+                else {
+                    mod.active = true; 
+                    localStorage.setItem(mod.title, mod.active); 
+                    modoption.classList.add(&quot;selected&quot;); 
+                    modslauncher.push(mod.link); 
+                    localStorage.setItem(&quot;modslauncher&quot;, JSON.stringify(modslauncher)); 
+                    console.log(&quot;On&quot;)} 
+            });
+            if (localStorage.getItem(mod.title) === &#x27;true&#x27;) {
+                modoption.classList.add(&quot;selected&quot;);
+            }
+            const modoptionimg = document.createElement(&quot;img&quot;);
+            modoptionimg.src = mod.icon;
+
+            const moddetails = document.createElement(&quot;div&quot;);
+            moddetails.className = &quot;moddetails&quot;;
+            const moddetailtitle = document.createElement(&quot;p&quot;);
+            moddetailtitle.className = &quot;bolded modtitle&quot;;
+            moddetailtitle.innerHTML = mod.title;
+            const moddetailauthor = document.createElement(&quot;p&quot;);
+            moddetailauthor.className = &quot;modauthor&quot;;
+            moddetailauthor.innerHTML = mod.author;
+            const moddetaildesc = document.createElement(&quot;p&quot;);
+            moddetaildesc.innerHTML = mod.description;
+
+            moddetails.appendChild(moddetailtitle);
+            moddetails.appendChild(moddetailauthor);
+            moddetails.appendChild(moddetaildesc);
+            modoption.appendChild(modoptionimg);
+            modoption.appendChild(moddetails);
+            if(mods) mods.appendChild(modoption);
+        }
+        )
+    })
+};
+
+function newinstallation(data) {
+    if(!externalmenu) return;
+    const installationscreenheader = document.createElement(&quot;div&quot;);
+    installationscreenheader.className = &quot;bolded notescreenheader&quot;;
+    installationscreenheader.innerHTML = `&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; onclick=&quot;closenotescreen()&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot; /&gt;&lt;path d=&quot;M18 6l-12 12&quot; /&gt;&lt;path d=&quot;M6 6l12 12&quot; /&gt;&lt;/svg&gt;`
+    const installationscreenheadertitle = document.createElement(&quot;p&quot;);
+    installationscreenheadertitle.innerHTML = &quot;Create New Installation&quot;;
+    const installationscreenhr = document.createElement(&quot;hr&quot;);
+    const installationscreendetails = document.createElement(&quot;div&quot;);
+    installationscreendetails.className = &quot;newinstallationdetails&quot;;
+    const installationscreenicons = document.createElement(&quot;div&quot;);
+    installationscreenicons.className = &quot;newinstallationicons&quot;;
+    fetch(&quot;./assets/json/icons.json&quot;).then((response) =&gt; response.json()).then((newicons) =&gt; {
+        newicons.forEach((newicon) =&gt; {
+            const newiconimg = document.createElement(&quot;img&quot;);
+            newiconimg.src = newicon;
+            newiconimg.className = &quot;icon&quot;;
+            newiconimg.addEventListener(&quot;click&quot;, () =&gt; {
+                if (document.querySelector(&quot;.icon.selected&quot;)) {document.querySelector(&quot;.icon.selected&quot;).classList.remove(&quot;selected&quot;)};
+                installationscreenicons.setAttribute(&quot;data-icon&quot;, newicon);
+                newiconimg.classList.add(&quot;selected&quot;);
+            });
+            installationscreenicons.appendChild(newiconimg);
+        });
+        installationscreenicons.setAttribute(&quot;data-icon&quot;, newicons[0]);
+        installationscreenicons.firstChild.classList.add(&quot;selected&quot;);
+    });
+
+    const installationscreennametitle = document.createElement(&quot;p&quot;);
+    installationscreennametitle.className = &quot;bolded newinstallationheader&quot;;
+    installationscreennametitle.innerHTML = &quot;NAME&quot;;
+    const installationscreenname = document.createElement(&quot;input&quot;);
+    installationscreenname.autocomplete = &quot;off&quot;;
+    installationscreenname.type = &quot;text&quot;;
+    installationscreenname.placeholder = &quot;New Installation&quot;;
+    installationscreenname.id = &quot;installationscreenname&quot;;
+
+    const installationscreenversion = document.createElement(&quot;p&quot;);
+    installationscreenversion.className = &quot;bolded newinstallationheader&quot;;
+    installationscreenversion.innerHTML = &quot;VERSION&quot;;
+    const installationscreendropdown = document.createElement(&quot;select&quot;);
+    installationscreendropdown.id = &quot;installationscreendropdown&quot;;
+    fetch(data).then((response) =&gt; response.json()).then((installs) =&gt; {
+        installs.forEach((install) =&gt; {
+            const installname = document.createElement(&quot;option&quot;);
+            installname.innerHTML = install.title + &quot;-&quot; +install.version;
+            installname.value = install.link;
+
+            installationscreendropdown.appendChild(installname);
+        });
+    });
+
+    const installationscreenfooter = document.createElement(&quot;div&quot;);
+    installationscreenfooter.className = &quot;newinstallationfooter&quot;;
+    const installationscreenfooterhr = document.createElement(&quot;hr&quot;);
+    const installationscreenfooterbuttons = document.createElement(&quot;div&quot;);
+    installationscreenfooterbuttons.className = &quot;newinstallationfooterbuttons&quot;;
+    installationscreenfooterbuttons.innerHTML = `&lt;div id=&quot;newinstallationcancel&quot; class=&quot;classicbutton&quot; onclick=&quot;closenotescreen();&quot;&gt;&lt;p class=&quot;bolded&quot;&gt;Cancel&lt;/p&gt;&lt;/div&gt;&lt;div id=&quot;newinstallationsave&quot; class=&quot;greenbutton classicbutton&quot; onclick=&quot;newinstallationsave();&quot;&gt;&lt;p class=&quot;bolded&quot;&gt;Save&lt;/p&gt;&lt;/div&gt;`;
+
+    installationscreenheader.prepend(installationscreenheadertitle);
+    installationscreenfooter.appendChild(installationscreenfooterhr);
+    installationscreenfooter.appendChild(installationscreenfooterbuttons);
+    installationscreendetails.appendChild(installationscreenicons);
+    installationscreendetails.appendChild(installationscreennametitle);
+    installationscreendetails.appendChild(installationscreenname);
+    installationscreendetails.appendChild(installationscreenversion);
+    installationscreendetails.appendChild(installationscreendropdown);
+    externalmenu.appendChild(installationscreenheader);
+    externalmenu.appendChild(installationscreenhr);
+    externalmenu.appendChild(installationscreendetails);
+    externalmenu.appendChild(installationscreenfooter);
+    externalmenu.style.display = &quot;flex&quot;;
+};
+
+function newinstallationsave(notsaving) {
+    let customlaunchname = document.getElementById(&quot;installationscreenname&quot;)?.value || &quot;New Installation&quot;;
+    let gamepath;
+    if (localStorage.getItem(&quot;startupprofile&quot;) == 1) {gamepath = &quot;basegame&quot;};
+    if (localStorage.getItem(&quot;startupprofile&quot;) == 2) {gamepath = &quot;moddedgame&quot;};
+    if (localStorage.getItem(&quot;startupprofile&quot;) == 3) {gamepath = &quot;assisted&quot;};
+    let selDropdown = document.getElementById(&quot;installationscreendropdown&quot;);
+    let iconData = document.querySelector(&quot;.newinstallationicons&quot;);
+    let customlaunch = {
+        &quot;title&quot;: customlaunchersnumber + &quot;cl&quot; + customlaunchname,
+        &quot;version&quot;: selDropdown ? selDropdown.selectedOptions[0].innerText : &quot;&quot;,
+        &quot;icon&quot;: iconData ? iconData.getAttribute(&quot;data-icon&quot;) : &quot;&quot;,
+        &quot;link&quot;: selDropdown ? selDropdown.value : &quot;&quot;,
+        &quot;active&quot;: true,
+        &quot;custom&quot;: gamepath
+    };
+    let customlaunchers = JSON.parse(localStorage.getItem(&quot;customlaunchers&quot;));
+    customlaunchers.push(customlaunch.title);
+    customlaunchersnumber++
+    localStorage.setItem(&quot;customlaunchers&quot;, JSON.stringify(customlaunchers));
+    localStorage.setItem(&quot;customlaunchersnumber&quot;, customlaunchersnumber);
+    localStorage.setItem(&quot;c&quot; + customlaunch.title, JSON.stringify(customlaunch));
+    generatelauncher(customlaunch, launcher);
+    if (!notsaving &amp;&amp; installations) {
+        while (installations.firstChild) {installations.removeChild(installations.firstChild)};
+        generatelaunchers(launcher);
+    };
+    closenotescreen();
+};
+
+function installationedit(data, title) {
+    if(!externalmenu) return;
+    const installationscreenheader = document.createElement(&quot;div&quot;);
+    installationscreenheader.className = &quot;bolded notescreenheader&quot;;
+    installationscreenheader.innerHTML = `&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; onclick=&quot;closenotescreen()&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot; /&gt;&lt;path d=&quot;M18 6l-12 12&quot; /&gt;&lt;path d=&quot;M6 6l12 12&quot; /&gt;&lt;/svg&gt;`
+    const installationscreenheadertitle = document.createElement(&quot;p&quot;);
+    installationscreenheadertitle.innerHTML = &quot;Edit Installation&quot;;
+    const installationscreenhr = document.createElement(&quot;hr&quot;);
+    const installationscreendetails = document.createElement(&quot;div&quot;);
+    installationscreendetails.className = &quot;newinstallationdetails&quot;;
+    const installationscreenicons = document.createElement(&quot;div&quot;);
+    installationscreenicons.className = &quot;newinstallationicons&quot;;
+    fetch(&quot;./assets/json/icons.json&quot;).then((response) =&gt; response.json()).then((newicons) =&gt; {
+        newicons.forEach((newicon) =&gt; {
+            const newiconimg = document.createElement(&quot;img&quot;);
+            newiconimg.src = newicon;
+            newiconimg.className = &quot;icon&quot;;
+            newiconimg.addEventListener(&quot;click&quot;, () =&gt; {
+                if (document.querySelector(&quot;.icon.selected&quot;)) {document.querySelector(&quot;.icon.selected&quot;).classList.remove(&quot;selected&quot;)};
+                installationscreenicons.setAttribute(&quot;data-icon&quot;, newicon);
+                newiconimg.classList.add(&quot;selected&quot;);
+            });
+            installationscreenicons.appendChild(newiconimg);
+        });
+        installationscreenicons.setAttribute(&quot;data-icon&quot;, JSON.parse(localStorage.getItem(&quot;c&quot; + title)).icon);
+        installationscreenicons.querySelector(&quot;[src=&#x27;&quot;+ JSON.parse(localStorage.getItem(&quot;c&quot; + title)).icon +&quot;&#x27;]&quot;).classList.add(&quot;selected&quot;);
+    });
+
+    const installationscreennametitle = document.createElement(&quot;p&quot;);
+    installationscreennametitle.className = &quot;bolded newinstallationheader&quot;;
+    installationscreennametitle.innerHTML = &quot;NAME&quot;;
+    const installationscreenname = document.createElement(&quot;input&quot;);
+    installationscreenname.value = title.slice(4);
+    installationscreenname.autocomplete = &quot;off&quot;;
+    installationscreenname.type = &quot;text&quot;;
+    installationscreenname.placeholder = &quot;New Installation&quot;;
+    installationscreenname.id = &quot;installationscreenname&quot;;
+
+    const installationscreenversion = document.createElement(&quot;p&quot;);
+    installationscreenversion.className = &quot;bolded newinstallationheader&quot;;
+    installationscreenversion.innerHTML = &quot;VERSION&quot;;
+    const installationscreendropdown = document.createElement(&quot;select&quot;);
+    installationscreendropdown.id = &quot;installationscreendropdown&quot;;
+    fetch(data).then((response) =&gt; response.json()).then((installs) =&gt; {
+        installs.forEach((install) =&gt; {
+            const installname = document.createElement(&quot;option&quot;);
+            installname.innerHTML = install.title + &quot;-&quot; +install.version;
+            installname.value = install.link;
+
+            installationscreendropdown.appendChild(installname);
+        });
+    }).then(() =&gt; {
+        installationscreendropdown.value = JSON.parse(localStorage.getItem(&quot;c&quot; + title)).link;
+    });
+
+    const installationscreenfooter = document.createElement(&quot;div&quot;);
+    installationscreenfooter.className = &quot;newinstallationfooter&quot;;
+    const installationscreenfooterhr = document.createElement(&quot;hr&quot;);
+    const installationscreenfooterbuttons = document.createElement(&quot;div&quot;);
+    installationscreenfooterbuttons.className = &quot;newinstallationfooterbuttons&quot;;
+    installationscreenfooterbuttons.innerHTML = `&lt;div id=&quot;newinstallationcancel&quot; class=&quot;classicbutton&quot; onclick=&quot;closenotescreen();&quot;&gt;&lt;p class=&quot;bolded&quot;&gt;Cancel&lt;/p&gt;&lt;/div&gt;&lt;div id=&quot;newinstallationsave&quot; class=&quot;greenbutton classicbutton&quot; onclick=&quot;localStorage.removeItem(&#x27;c` + title + `&#x27;); localStorage.removeItem(&#x27;` + title + `&#x27;); localStorage.setItem(&#x27;customlaunchers&#x27;, JSON.stringify(JSON.parse(localStorage.getItem(&#x27;customlaunchers&#x27;)).filter(item =&gt; item !== &#x27;` + title + `&#x27;))); newinstallationsave(false);&quot;&gt;&lt;p class=&quot;bolded&quot;&gt;Save&lt;/p&gt;&lt;/div&gt;`;
+
+    installationscreenheader.prepend(installationscreenheadertitle);
+    installationscreenfooter.appendChild(installationscreenfooterhr);
+    installationscreenfooter.appendChild(installationscreenfooterbuttons);
+    installationscreendetails.appendChild(installationscreenicons);
+    installationscreendetails.appendChild(installationscreennametitle);
+    installationscreendetails.appendChild(installationscreenname);
+    installationscreendetails.appendChild(installationscreenversion);
+    installationscreendetails.appendChild(installationscreendropdown);
+    externalmenu.appendChild(installationscreenheader);
+    externalmenu.appendChild(installationscreenhr);
+    externalmenu.appendChild(installationscreendetails);
+    externalmenu.appendChild(installationscreenfooter);
+    externalmenu.style.display = &quot;flex&quot;;
+};
+
+function installationdelete(title) {
+    if(document.querySelector(&#x27;.confrimationmenuscreen&#x27;)) document.querySelector(&#x27;.confrimationmenuscreen&#x27;).classList.add(&quot;deleteinstallation&quot;);
+    if(document.getElementById(&#x27;confirmationmenu&#x27;)) document.getElementById(&#x27;confirmationmenu&#x27;).style.display = &#x27;flex&#x27;;
+    if(document.querySelector(&quot;.warningtitle&quot;)) document.querySelector(&quot;.warningtitle&quot;).innerHTML = &quot;Are you sure you want to delete?&quot;;
+    if(document.querySelector(&quot;.warningdesc&quot;)) document.querySelector(&quot;.warningdesc&quot;).innerHTML = title.slice(4);
+    if(document.querySelector(&quot;.warningbutton&quot;)) document.querySelector(&quot;.warningbutton&quot;).setAttribute(&quot;onclick&quot;, &quot;installationdeleteconfirm(&#x27;&quot; + title + &quot;&#x27;)&quot;);
+};
+
+function installationdeleteconfirm(title) {
+    localStorage.removeItem(&quot;c&quot; + title);
+    localStorage.removeItem(title);
+    localStorage.setItem(&quot;customlaunchers&quot;, JSON.stringify(JSON.parse(localStorage.getItem(&quot;customlaunchers&quot;)).filter(item =&gt; item !== title)));
+    if(installations) {
+        while (installations.firstChild) {installations.removeChild(installations.firstChild)};
+    }
+    generatelaunchers(launcher);
+    if(document.getElementById(&#x27;confirmationmenu&#x27;)) document.getElementById(&#x27;confirmationmenu&#x27;).style.display = &quot;none&quot;;
+};
+
+const installations = document.getElementById(&quot;installationsbox&quot;);
+function generatelaunchers(path) {
+    if(document.getElementById(&quot;newinstallationbutton&quot;)) document.getElementById(&quot;newinstallationbutton&quot;).setAttribute(&quot;onclick&quot;, &quot;newinstallation(&#x27;&quot; + path + &quot;&#x27;)&quot;);
+    const gamedividertop = document.createElement(&quot;hr&quot;);
+    if(installations) installations.appendChild(gamedividertop);
+    if (localStorage.getItem(&quot;launcherpresets&quot;) == &quot;true&quot;) {
+        fetch(path).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            generatelauncher(game, path);
+        })}).then(() =&gt; {generatecustomlaunchers(path)});
+    };
+    if (localStorage.getItem(&quot;launcherpresets&quot;) == &quot;false&quot;) {
+        let gamepath;
+        if (path === &quot;./assets/json/base.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;basegame&quot;))};
+        if (path === &quot;./assets/json/modded.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;moddedgame&quot;))};
+        if (path === &quot;./assets/json/assisted.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;assisted&quot;))};
+        generatelauncher(gamepath, path);
+        generatecustomlaunchers(path);
+    };
+};
+
+function generatecustomlaunchers(path) {
+    if (localStorage.getItem(&quot;customlaunchers&quot;)) {
+        let gamepath;
+        if (path === &quot;./assets/json/base.json&quot;) {gamepath = &quot;basegame&quot;};
+        if (path === &quot;./assets/json/modded.json&quot;) {gamepath = &quot;moddedgame&quot;};
+        if (path === &quot;./assets/json/assisted.json&quot;) {gamepath = &quot;assisted&quot;};
+
+        JSON.parse(localStorage.getItem(&quot;customlaunchers&quot;)).forEach((launcher) =&gt; {
+            let game = JSON.parse(localStorage.getItem(&quot;c&quot; + launcher));
+            if (game.custom != gamepath) {return};
+            generatelauncher(game, path);
+        });
+    };
+};
+
+function generatelauncher(game, path) {
+    let gamepath;
+    if (path === &quot;./assets/json/base.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;basegame&quot;))};
+    if (path === &quot;./assets/json/modded.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;moddedgame&quot;))};
+    if (path === &quot;./assets/json/assisted.json&quot;) {gamepath = JSON.parse(localStorage.getItem(&quot;assisted&quot;))};
+
+    const gameoption = document.createElement(&quot;div&quot;);
+    gameoption.className = &quot;installationOptions&quot;;
+    const gameoptioninner = document.createElement(&quot;div&quot;);
+    gameoptioninner.className = &quot;installationOption&quot;;
+
+    const gameinput = document.createElement(&quot;input&quot;);
+    gameinput.className = &quot;installationBox&quot;;
+    gameinput.type = &quot;checkbox&quot;;
+    gameinput.addEventListener(&quot;change&quot;, () =&gt; {
+        if (game.title === gamepath.title) {return};
+        if (gameinput.checked) {game.active = true; localStorage.setItem(game.title, game.active); console.log(&quot;On&quot;)} 
+        else {game.active = false; localStorage.setItem(game.title, game.active); console.log(&quot;Off&quot;)} 
+    });
+    if (!localStorage.getItem(game.title)) {localStorage.setItem(game.title, game.active)};
+    if (localStorage.getItem(game.title) === &#x27;true&#x27;) {gameinput.checked = &quot;checked&quot;};
+
+    const gameoptionicon = document.createElement(&quot;img&quot;);
+    gameoptionicon.src = game.icon;
+            
+    const gameoptiontext = document.createElement(&quot;div&quot;);
+    gameoptiontext.className = &quot;installationOptionText&quot;;
+    const gameoptiontitle = document.createElement(&quot;p&quot;);
+    gameoptiontitle.className = &quot;bolded&quot;;
+    gameoptiontitle.innerHTML = game.title;
+    if (game.custom) {
+        gameoptiontitle.innerHTML = game.title.slice(4);
+        const custombuttons = document.createElement(&quot;div&quot;);
+        custombuttons.className = &quot;editbuttons&quot;;
+        const editbutton = document.createElement(&quot;div&quot;);
+        editbutton.className = &quot;classicbutton&quot;;
+        editbutton.onclick = function(){installationedit(path, game.title)};
+        const editbuttontext = document.createElement(&quot;p&quot;);
+        editbuttontext.className = &quot;bolded&quot;;
+        editbuttontext.innerHTML = &quot;Edit&quot;;
+        const deletebutton = document.createElement(&quot;div&quot;);
+        deletebutton.className = &quot;redbutton classicbutton&quot;;
+        deletebutton.onclick = function(){installationdelete(game.title)};
+        const deletebuttontext = document.createElement(&quot;p&quot;);
+        deletebuttontext.className = &quot;bolded&quot;;
+        deletebuttontext.innerHTML = &quot;Delete&quot;;
+        
+        editbutton.appendChild(editbuttontext);
+        deletebutton.appendChild(deletebuttontext);
+        custombuttons.appendChild(editbutton);
+        custombuttons.appendChild(deletebutton);
+        gameoption.appendChild(custombuttons);
+    };
+    const gameoptionversion = document.createElement(&quot;p&quot;);
+    gameoptionversion.innerHTML = game.version;
+    const gamedivider = document.createElement(&quot;hr&quot;);
+
+    gameoptiontext.appendChild(gameoptiontitle);
+    gameoptiontext.appendChild(gameoptionversion);
+    gameoptioninner.appendChild(gameinput);
+    gameoptioninner.appendChild(gameoptionicon);
+    gameoptioninner.appendChild(gameoptiontext);
+    gameoption.prepend(gameoptioninner);
+    if(installations) {
+        installations.appendChild(gameoption);
+        installations.appendChild(gamedivider);
+    }
+}
+
+const faqs = document.getElementById(&quot;faqbox&quot;);
+function generatefaqs() {
+    fetch(&quot;./assets/json/faqs.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+        data.forEach((game) =&gt; {
+            const faqoption = document.createElement(&quot;div&quot;);
+            faqoption.className = &quot;faqoption&quot;;
+
+            const faqquestion = document.createElement(&quot;div&quot;);
+            faqquestion.className = &quot;bolded faqtext&quot;;
+            const faqquestionsymbol = document.createElement(&quot;p&quot;);
+            faqquestionsymbol.className = &quot;faqsymbol&quot;;
+            faqquestionsymbol.innerHTML = &quot;Q&quot;;
+            const faqquestiontext = document.createElement(&quot;p&quot;);
+            faqquestiontext.innerHTML = game.question;
+
+            const faqanswer = document.createElement(&quot;div&quot;);
+            faqanswer.className = &quot;faqtext&quot;;
+            const faqanswersymbol = document.createElement(&quot;p&quot;);
+            faqanswersymbol.className = &quot;bolded faqsymbol&quot;;
+            faqanswersymbol.innerHTML = &quot;A&quot;;
+            const faqanswertext = document.createElement(&quot;p&quot;);
+            faqanswertext.innerHTML = game.answer;
+
+            faqquestion.appendChild(faqquestionsymbol);
+            faqquestion.appendChild(faqquestiontext);
+            faqanswer.appendChild(faqanswersymbol);
+            faqanswer.appendChild(faqanswertext);
+            faqoption.appendChild(faqquestion);
+            faqoption.appendChild(faqanswer);
+            if(faqs) faqs.appendChild(faqoption);
+        }
+        )
+    })
+};
+
+const notes = document.getElementById(&quot;patchnotesbox&quot;);
+const externalmenu = document.getElementById(&quot;externalmenu&quot;);
+function generatenotes() {
+    fetch(&quot;./assets/json/patchnotes.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+        data.forEach((note) =&gt; {
+            const patchnote = document.createElement(&quot;div&quot;);
+            patchnote.className = &quot;patchnote&quot;;
+            patchnote.setAttribute(&#x27;data-note-type&#x27;, note.type);
+            patchnote.addEventListener(&quot;click&quot;, () =&gt; {
+                if(!externalmenu) return;
+                const notescreenheader = document.createElement(&quot;div&quot;);
+                notescreenheader.className = &quot;bolded notescreenheader&quot;;
+                notescreenheader.innerHTML = `&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; onclick=&quot;closenotescreen()&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot; /&gt;&lt;path d=&quot;M18 6l-12 12&quot; /&gt;&lt;path d=&quot;M6 6l12 12&quot; /&gt;&lt;/svg&gt;`
+                const notescreenheadertitle = document.createElement(&quot;p&quot;);
+                notescreenheadertitle.innerHTML = &quot;Patch Notes &quot; + note.title + &quot; &quot; + note.version;
+                const notescreenhr = document.createElement(&quot;hr&quot;);
+
+                const notescreendetails = document.createElement(&quot;div&quot;);
+                notescreendetails.className = &quot;notescreendetails&quot;;
+                const notescreendate = document.createElement(&quot;p&quot;);
+                notescreendate.className = &quot;date&quot;;
+                notescreendate.innerHTML = note.date;
+                const notescreendescription = document.createElement(&quot;p&quot;);
+                notescreendescription.className = &quot;bolded notescreenheader&quot;;
+                notescreendescription.innerHTML = note.description;
+
+                const notescreenlist = document.createElement(&quot;ul&quot;);
+                note.notes.forEach((item) =&gt; {
+                    const noteitem = document.createElement(&quot;li&quot;);
+                    noteitem.innerHTML = item;
+                    notescreenlist.appendChild(noteitem);
+                });
+
+                notescreenheader.prepend(notescreenheadertitle);
+                notescreendetails.appendChild(notescreendate);
+                notescreendetails.appendChild(notescreendescription);
+                notescreendetails.appendChild(notescreenlist);
+                externalmenu.appendChild(notescreenheader);
+                externalmenu.appendChild(notescreenhr);
+                externalmenu.appendChild(notescreendetails);
+                externalmenu.style.display = &quot;flex&quot;;
+            });
+
+            const patchnoteimg = document.createElement(&quot;img&quot;);
+            patchnoteimg.src = &quot;./assets/images/&quot; + note.icon;
+
+            const patchnotedetails = document.createElement(&quot;div&quot;);
+            patchnotedetails.className = &quot;bolded patchnotedetails&quot;;
+            const notedetailtitle = document.createElement(&quot;p&quot;);
+            notedetailtitle.innerHTML = note.title;
+            const notedetailversion = document.createElement(&quot;p&quot;);
+            notedetailversion.innerHTML = note.version;
+
+            patchnotedetails.appendChild(notedetailtitle);
+            patchnotedetails.appendChild(notedetailversion);
+            patchnote.appendChild(patchnoteimg);
+            patchnote.appendChild(patchnotedetails);
+            if(notes) notes.appendChild(patchnote);
+        });
+        if (gamenote == false) { document.querySelectorAll(&#x27;[data-note-type=&quot;game&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;none&#x27;})};
+        if (sitenote == false) { document.querySelectorAll(&#x27;[data-note-type=&quot;site&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;none&#x27;})};
+    });
+};
+
+function generaterecentnote() {
+    fetch(&quot;./assets/json/patchnotes.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+        const note = data[0];
+            if(!externalmenu) return;
+            const notescreenheader = document.createElement(&quot;div&quot;);
+            notescreenheader.className = &quot;bolded notescreenheader&quot;;
+            notescreenheader.innerHTML = `&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; onclick=&quot;closenotescreen()&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot; /&gt;&lt;path d=&quot;M18 6l-12 12&quot; /&gt;&lt;path d=&quot;M6 6l12 12&quot; /&gt;&lt;/svg&gt;`
+            const notescreenheadertitle = document.createElement(&quot;p&quot;);
+            notescreenheadertitle.innerHTML = &quot;Patch Notes &quot; + note.title + &quot; &quot; + note.version;
+            const notescreenhr = document.createElement(&quot;hr&quot;);
+
+            const notescreendetails = document.createElement(&quot;div&quot;);
+            notescreendetails.className = &quot;notescreendetails&quot;;
+            const notescreendate = document.createElement(&quot;p&quot;);
+            notescreendate.className = &quot;date&quot;;
+            notescreendate.innerHTML = note.date;
+            const notescreendescription = document.createElement(&quot;p&quot;);
+            notescreendescription.className = &quot;bolded notescreenheader&quot;;
+            notescreendescription.innerHTML = note.description;
+
+            const notescreenlist = document.createElement(&quot;ul&quot;);
+            note.notes.forEach((item) =&gt; {
+                const noteitem = document.createElement(&quot;li&quot;);
+                noteitem.innerHTML = item;
+                notescreenlist.appendChild(noteitem);
+            });
+
+            notescreenheader.prepend(notescreenheadertitle);
+            notescreendetails.appendChild(notescreendate);
+            notescreendetails.appendChild(notescreendescription);
+            notescreendetails.appendChild(notescreenlist);
+            externalmenu.appendChild(notescreenheader);
+            externalmenu.appendChild(notescreenhr);
+            externalmenu.appendChild(notescreendetails);
+            externalmenu.style.display = &quot;flex&quot;;
+    })
+};
+
+// Patchnote Functions
+
+let gamenote = sitenote = true;
+function sortnote(type) {
+    if (type === &quot;site&quot;) {
+        if (gamenote == true) { document.querySelectorAll(&#x27;[data-note-type=&quot;game&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;none&#x27;;}); gamenote = false;}
+        else if (gamenote == false) { document.querySelectorAll(&#x27;[data-note-type=&quot;game&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;flex&#x27;;}); gamenote = true;}
+    };
+    if (type === &quot;game&quot;) {
+        if (sitenote == true) { document.querySelectorAll(&#x27;[data-note-type=&quot;site&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;none&#x27;;}); sitenote = false; }
+        else if (sitenote == false) { document.querySelectorAll(&#x27;[data-note-type=&quot;site&quot;]&#x27;).forEach(element =&gt; {element.style.display = &#x27;flex&#x27;;}); sitenote = true; }
+    };
+}
+
+function closenotescreen() {
+    if(externalmenu) {
+        externalmenu.style.display = &quot;none&quot;;
+        while (externalmenu.firstChild) {externalmenu.removeChild(externalmenu.firstChild)};
+    }
+}
+
+// Game Edition Selected
+let launcher = &quot;./assets/json/base.json&quot;;
+if (!localStorage.getItem(&quot;startupprofile&quot;)) {
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;1&quot;);
+}
+
+if (localStorage.getItem(&quot;startupprofile&quot;) === &quot;1&quot;) {webedition()};
+if (localStorage.getItem(&quot;startupprofile&quot;) === &quot;2&quot;) {moddededition()};
+if (localStorage.getItem(&quot;startupprofile&quot;) === &quot;3&quot;) {eaglercontrols()};
+if (localStorage.getItem(&quot;startupprofile&quot;) === &quot;4&quot;) {creditsmenu()};
+if (localStorage.getItem(&quot;startupprofile&quot;) === &quot;5&quot;) {settingsmenu()};
+
+function webedition(){
+    launcher = &quot;./assets/json/base.json&quot;;
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;1&quot;);
+    resetTabSelected();
+    generateprofile(1);
+    generatelaunchers(launcher);
+    if(document.getElementById(&#x27;game-bg&#x27;)) document.getElementById(&#x27;game-bg&#x27;).style.backgroundImage = &#x27;url(./assets/images/web-edition.jpg)&#x27;;
+    if(document.getElementById(&#x27;game-title&#x27;)) document.getElementById(&#x27;game-title&#x27;).src = &#x27;./assets/images/web-title.png&#x27;;
+    if(document.getElementById(&#x27;gameedition&#x27;)) document.getElementById(&#x27;gameedition&#x27;).innerHTML = &#x27;EAGLERCRAFT WEB EDITION&#x27;;
+    
+    [&#x27;header2&#x27;, &#x27;header7&#x27;, &#x27;header8&#x27;, &#x27;header9&#x27;, &#x27;header10&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &#x27;none&#x27;;
+    });
+    
+    if(document.getElementById(&#x27;gtabs2&#x27;)) document.getElementById(&#x27;gtabs2&#x27;).classList.add(&#x27;selected&#x27;);
+    playheader();
+}
+function moddededition(){
+    launcher = &quot;./assets/json/modded.json&quot;;
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;2&quot;);
+    resetTabSelected();
+    generateprofile(2);
+    generatelaunchers(launcher);
+    if(document.getElementById(&#x27;game-bg&#x27;)) document.getElementById(&#x27;game-bg&#x27;).style.backgroundImage = &#x27;url(./assets/images/modded-edition.jpg)&#x27;;
+    if(document.getElementById(&#x27;game-title&#x27;)) document.getElementById(&#x27;game-title&#x27;).src = &#x27;./assets/images/modded-title.png&#x27;;
+    if(document.getElementById(&#x27;gameedition&#x27;)) document.getElementById(&#x27;gameedition&#x27;).innerHTML = &#x27;EAGLERCRAFT MODDED&#x27;;
+    
+    [&#x27;header5&#x27;, &#x27;header7&#x27;, &#x27;header8&#x27;, &#x27;header9&#x27;, &#x27;header10&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &#x27;none&#x27;;
+    });
+
+    if(document.getElementById(&#x27;gtabs3&#x27;)) document.getElementById(&#x27;gtabs3&#x27;).classList.add(&#x27;selected&#x27;);
+    playheader();
+}
+function eaglercontrols(){
+    launcher = &quot;./assets/json/assisted.json&quot;;
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;3&quot;);
+    resetTabSelected();
+    generateprofile(3);
+    generatelaunchers(launcher);
+    if(document.getElementById(&#x27;game-bg&#x27;)) document.getElementById(&#x27;game-bg&#x27;).style.backgroundImage = &#x27;url(./assets/images/controls-edition.jpg)&#x27;;
+    if(document.getElementById(&#x27;game-title&#x27;)) document.getElementById(&#x27;game-title&#x27;).src = &#x27;./assets/images/controls-title.png&#x27;;
+    if(document.getElementById(&#x27;gameedition&#x27;)) document.getElementById(&#x27;gameedition&#x27;).innerHTML = &#x27;EAGLERCRAFT MOBILE/CONTROLLER&#x27;;
+    
+    [&#x27;header2&#x27;, &#x27;header5&#x27;, &#x27;header7&#x27;, &#x27;header8&#x27;, &#x27;header9&#x27;, &#x27;header10&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &#x27;none&#x27;;
+    });
+
+    if(document.getElementById(&#x27;gtabs4&#x27;)) document.getElementById(&#x27;gtabs4&#x27;).classList.add(&#x27;selected&#x27;);
+    playheader();
+}
+function creditsmenu(){
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;4&quot;);
+    resetTabSelected();
+    if(document.getElementById(&#x27;gameedition&#x27;)) document.getElementById(&#x27;gameedition&#x27;).innerHTML = &#x27;CREDITS/CONTRIBUTORS&#x27;;
+    
+    [&#x27;header1&#x27;, &#x27;header2&#x27;, &#x27;header3&#x27;, &#x27;header4&#x27;, &#x27;header5&#x27;, &#x27;header6&#x27;, &#x27;header9&#x27;, &#x27;header10&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &#x27;none&#x27;;
+    });
+
+    if(document.getElementById(&#x27;gtabs5&#x27;)) document.getElementById(&#x27;gtabs5&#x27;).classList.add(&#x27;selected&#x27;);
+    contributorsheader();
+}
+function settingsmenu(){
+    localStorage.setItem(&quot;startupprofile&quot;, &quot;5&quot;);
+    resetTabSelected();
+    if(document.getElementById(&#x27;gameedition&#x27;)) document.getElementById(&#x27;gameedition&#x27;).innerHTML = &#x27;SETTINGS&#x27;;
+    
+    [&#x27;header1&#x27;, &#x27;header2&#x27;, &#x27;header3&#x27;, &#x27;header4&#x27;, &#x27;header5&#x27;, &#x27;header6&#x27;, &#x27;header7&#x27;, &#x27;header8&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &#x27;none&#x27;;
+    });
+
+    if(document.getElementById(&#x27;gtabs6&#x27;)) document.getElementById(&#x27;gtabs6&#x27;).classList.add(&#x27;selected&#x27;);
+    generalsettingsheader();
+}
+
+// Header Options
+function playheader(){
+    resetHeaderSelected();
+    generategames(launcher);
+    if(document.getElementById(&#x27;game-bg&#x27;)) document.getElementById(&#x27;game-bg&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;gameSelection&#x27;)) document.getElementById(&#x27;gameSelection&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header1&#x27;)) document.getElementById(&#x27;header1&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function modsheader(){
+    resetHeaderSelected();
+    generatemods();
+    if(document.getElementById(&#x27;mods&#x27;)) document.getElementById(&#x27;mods&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header2&#x27;)) document.getElementById(&#x27;header2&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function faqsheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;faq&#x27;)) document.getElementById(&#x27;faq&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header3&#x27;)) document.getElementById(&#x27;header3&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function installationheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;installations&#x27;)) document.getElementById(&#x27;installations&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header4&#x27;)) document.getElementById(&#x27;header4&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function patchnotesheader(){
+    resetHeaderSelected();
+    generatenotes();
+    if(document.getElementById(&#x27;patchNotes&#x27;)) document.getElementById(&#x27;patchNotes&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header6&#x27;)) document.getElementById(&#x27;header6&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function contributorsheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;contributors&#x27;)) document.getElementById(&#x27;contributors&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header7&#x27;)) document.getElementById(&#x27;header7&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function creditsheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;credits&#x27;)) document.getElementById(&#x27;credits&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;header8&#x27;)) document.getElementById(&#x27;header8&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function generalsettingsheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;settings&#x27;)) document.getElementById(&#x27;settings&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;generalsettings&#x27;)) document.getElementById(&#x27;generalsettings&#x27;).style.display = &quot;block&quot;;
+    if(document.getElementById(&#x27;header9&#x27;)) document.getElementById(&#x27;header9&#x27;).classList.add(&#x27;selected&#x27;);
+}
+function aboutsettingsheader(){
+    resetHeaderSelected();
+    if(document.getElementById(&#x27;settings&#x27;)) document.getElementById(&#x27;settings&#x27;).style.display = &quot;flex&quot;;
+    if(document.getElementById(&#x27;aboutsettings&#x27;)) document.getElementById(&#x27;aboutsettings&#x27;).style.display = &quot;block&quot;;
+    if(document.getElementById(&#x27;header10&#x27;)) document.getElementById(&#x27;header10&#x27;).classList.add(&#x27;selected&#x27;);
+}
+
+// Dropdown game options toggle
+function dropdowntoggle(){
+    if (dropdown &amp;&amp; dropdown.style.visibility === &#x27;hidden&#x27;) {
+        dropdown.style.visibility = &#x27;visible&#x27;;
+        if(document.getElementById(&#x27;dropdownuparrow&#x27;)) document.getElementById(&#x27;dropdownuparrow&#x27;).innerHTML = &#x27;&lt;svg  xmlns=&quot;http://www.w3.org/2000/svg&quot;  width=&quot;24&quot;  height=&quot;24&quot;  viewBox=&quot;0 0 20 20&quot;  fill=&quot;none&quot;  stroke=&quot;currentColor&quot;  stroke-width=&quot;2&quot;  stroke-linecap=&quot;round&quot;  stroke-linejoin=&quot;round&quot;  class=&quot;dropdownIcon&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;/&gt;&lt;path d=&quot;M6 15l6 -6l6 6&quot; /&gt;&lt;/svg&gt;&#x27;;
+    } else if (dropdown) {
+        dropdown.style.visibility = &#x27;hidden&#x27;; 
+        if(document.getElementById(&#x27;dropdownuparrow&#x27;)) document.getElementById(&#x27;dropdownuparrow&#x27;).innerHTML = &#x27;&lt;svg  xmlns=&quot;http://www.w3.org/2000/svg&quot;  width=&quot;24&quot;  height=&quot;24&quot;  viewBox=&quot;0 0 20 20&quot;  fill=&quot;none&quot;  stroke=&quot;currentColor&quot;  stroke-width=&quot;2&quot;  stroke-linecap=&quot;round&quot;  stroke-linejoin=&quot;round&quot;  class=&quot;dropdownIcon&quot;&gt;&lt;path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;/&gt;&lt;path d=&quot;M6 9l6 6l6 -6&quot; /&gt;&lt;/svg&gt;&#x27;;
+    }
+}
+
+// Resets certain UI aspects
+function resetTabSelected() {
+    if(dropdown) while (dropdown.firstChild) {dropdown.removeChild(dropdown.firstChild)};
+    if(installations) while (installations.firstChild) {installations.removeChild(installations.firstChild)};
+    for (var i = 1; i &lt; 7; i++) { 
+        let gtabs = document.getElementById(&#x27;gtabs&#x27; + i);
+        if(gtabs) gtabs.classList.remove(&#x27;selected&#x27;);
+    };
+    for (var i = 1; i &lt; 11; i++) { 
+        let headers = document.getElementById(&#x27;header&#x27; + i);
+        if(headers) headers.style.display = &quot;block&quot;;
+    };
+    if(document.getElementById(&#x27;settings&#x27;)) document.getElementById(&#x27;settings&#x27;).style.display = &quot;none&quot;;
+}
+
+function resetHeaderSelected() {
+    if(dropdown) while (dropdown.firstChild) {dropdown.removeChild(dropdown.firstChild)};
+    if(mods) while (mods.firstChild) {mods.removeChild(mods.firstChild)};
+    if(notes) while (notes.firstChild) {notes.removeChild(notes.firstChild)};
+    for (var i = 1; i &lt; 11; i++) { 
+        let headers = document.getElementById(&#x27;header&#x27; + i);
+        if(headers) headers.classList.remove(&#x27;selected&#x27;); 
+    };
+    
+    [&#x27;game-bg&#x27;, &#x27;gameSelection&#x27;, &#x27;mods&#x27;, &#x27;faq&#x27;, &#x27;installations&#x27;, &#x27;patchNotes&#x27;, &#x27;credits&#x27;, &#x27;contributors&#x27;, &#x27;generalsettings&#x27;, &#x27;aboutsettings&#x27;].forEach(id =&gt; {
+        let el = document.getElementById(id); if (el) el.style.display = &quot;none&quot;;
+    });
+}
+
+// Prevents touchscreen move
+window.addEventListener(&quot;scroll&quot;, preventMotion, false);
+window.addEventListener(&quot;touchmove&quot;, preventMotion, false);
+
+function preventMotion(event)
+{
+    window.scrollTo(0, 0);
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+// Basic Settings
+const newtabcheckbox = document.getElementById(&quot;launchnewtab&quot;);
+const presetscheckbox = document.getElementById(&quot;launcherpresets&quot;);
+if (localStorage.getItem(&quot;launcherpresets&quot;)) {
+    if (localStorage.getItem(&quot;launcherpresets&quot;) == &#x27;true&#x27;) {
+        if(presetscheckbox) presetscheckbox.checked = true;
+    };
+    if (localStorage.getItem(&quot;launchnewtab&quot;) == &#x27;true&#x27;) {
+        if(newtabcheckbox) newtabcheckbox.checked = true;
+        if(document.getElementById(&#x27;playbutton&#x27;)) document.getElementById(&#x27;playbutton&#x27;).target = &quot;_blank&quot;};
+};
+function launchnewtab() {
+    if (newtabcheckbox &amp;&amp; newtabcheckbox.checked) {
+        localStorage.setItem(&quot;launchnewtab&quot;, true); 
+        if(document.getElementById(&#x27;playbutton&#x27;)) document.getElementById(&#x27;playbutton&#x27;).target = &quot;_blank&quot;; 
+        return;
+    } else {
+        localStorage.setItem(&quot;launchnewtab&quot;, false); 
+        if(document.getElementById(&#x27;playbutton&#x27;)) document.getElementById(&#x27;playbutton&#x27;).target = &quot;&quot;;
+    };
+};
+
+function presetlaunchers() {
+    if (presetscheckbox &amp;&amp; presetscheckbox.checked) {
+        localStorage.setItem(&quot;launcherpresets&quot;, true);
+        fetch(&quot;./assets/json/base.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.active == true) {localStorage.setItem(game.title, true)};
+        })});
+        fetch(&quot;./assets/json/modded.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.active == true) {localStorage.setItem(game.title, true)};
+        })});
+        fetch(&quot;./assets/json/assisted.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.active == true) {localStorage.setItem(game.title, true)};
+        })});
+        return
+    }
+    else {
+        localStorage.setItem(&quot;launcherpresets&quot;, false);
+        fetch(&quot;./assets/json/base.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.title === JSON.parse(localStorage.getItem(&quot;basegame&quot;)).title) {return};
+            localStorage.setItem(game.title, false);
+        })});
+        fetch(&quot;./assets/json/modded.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.title === JSON.parse(localStorage.getItem(&quot;moddedgame&quot;)).title) {return};
+            localStorage.setItem(game.title, false);
+        })});
+        fetch(&quot;./assets/json/assisted.json&quot;).then((response) =&gt; response.json()).then((data) =&gt; {data.forEach((game) =&gt; {
+            if (game.title === JSON.parse(localStorage.getItem(&quot;assisted&quot;)).title) {return};
+            localStorage.setItem(game.title, false);
+        })});
+    };
+};
+
+// Username Generator
+let username = document.getElementById(&#x27;username&#x27;);
+let userchosen = false;
+if (userchosen === false &amp;&amp; !localStorage.getItem(&quot;username&quot;)) {
+    fetch(&quot;https://genr8rs.com/api/Content/Fun/XboxNameGenerator?genr8rsUserId=1748114452.233968321c14391c2&amp;_sGameGenre=any&quot;).then((response) =&gt; response.json()).then((data) =&gt; {
+        if (!data) {return};
+        if(username) username.innerHTML = data._sResult;
+        if(document.getElementById(&quot;usernameinput&quot;)) document.getElementById(&quot;usernameinput&quot;).value = data._sResult;
+        localStorage.setItem(&quot;username&quot;, data._sResult);
+        userchosen = true;
+    })
+}
+else {
+    if(username) username.innerHTML = localStorage.getItem(&quot;username&quot;);
+    if(document.getElementById(&quot;usernameinput&quot;)) document.getElementById(&quot;usernameinput&quot;).value = localStorage.getItem(&quot;username&quot;);
+};
+
+function usernamechange() {
+    if(document.getElementById(&quot;usernameinput&quot;)) {
+        localStorage.setItem(&quot;username&quot;, document.getElementById(&quot;usernameinput&quot;).value);
+    }
+    if(username) username.innerHTML = localStorage.getItem(&quot;username&quot;);
+};
+
+// Clear Local Storage
+
+function clearlocalstorage() {
+    if(document.querySelector(&#x27;.confrimationmenuscreen&#x27;)) document.querySelector(&#x27;.confrimationmenuscreen&#x27;).classList.remove(&quot;deleteinstallation&quot;);
+    if(document.getElementById(&#x27;confirmationmenu&#x27;)) document.getElementById(&#x27;confirmationmenu&#x27;).style.display = &#x27;flex&#x27;;
+    if(document.querySelector(&quot;.warningtitle&quot;)) document.querySelector(&quot;.warningtitle&quot;).innerHTML = &quot;Clear Local Storage&quot;;
+    if(document.querySelector(&quot;.warningdesc&quot;)) document.querySelector(&quot;.warningdesc&quot;).innerHTML = &quot;This will delete all of your local storage data of the website. This will reset saved settings and installations. Continue?&quot;;
+    if(document.querySelector(&quot;.warningbutton&quot;)) document.querySelector(&quot;.warningbutton&quot;).setAttribute(&quot;onclick&quot;, &quot;clearlocalstorageconfirm()&quot;);
+};
+function confirmationcancel() {
+    if(document.getElementById(&#x27;confirmationmenu&#x27;)) document.getElementById(&#x27;confirmationmenu&#x27;).style.display = &quot;none&quot;;
+};
+function clearlocalstorageconfirm() {
+    if(document.getElementById(&#x27;confirmationmenu&#x27;)) document.getElementById(&#x27;confirmationmenu&#x27;).style.display = &quot;none&quot;;
+    localStorage.clear();
+    location.reload();
+};
+
+generatefaqs();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </foreignObject>
+</svg>

@@ -1,0 +1,296 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum search page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for search.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum search" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Dominum Browser&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css&quot;&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0d0d10;
+    --tab-bg: #18181c;
+    --accent: #7a5cff;
+    --text: #e6e6ff;
+  }
+
+  body {
+    margin: 0;
+    font-family: &#x27;Inter&#x27;, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* Tabs Bar */
+  .tabs {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    background: var(--tab-bg);
+    border-bottom: 1px solid #1f1f25;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .tab {
+    background: #1f1f25;
+    padding: 4px 12px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 1;
+    animation: tabIn 0.3s ease forwards;
+  }
+
+  .tab.active {
+    background: #2b2b35;
+  }
+
+  .tab:hover {
+    background: #25252f;
+  }
+
+  .tab span {
+    font-size: 0.85em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+  }
+
+  .tab.removing {
+    animation: tabOut 0.25s ease forwards;
+  }
+
+  .tab-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background: var(--tab-bg);
+    padding-right: 6px;
+  }
+
+  .tab-controls i {
+    color: var(--accent);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .tab-controls i:hover {
+    background: #24242d;
+    transform: scale(1.2);
+  }
+
+  @keyframes tabIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes tabOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.7); }
+  }
+
+  .toolbar {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    padding: 0 10px;
+    gap: 8px;
+    border-bottom: 1px solid #1f1f25;
+  }
+
+  .toolbar button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.05em;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .toolbar button:hover {
+    transform: scale(1.2);
+    color: var(--accent);
+  }
+
+  .omnibox {
+    flex: 1;
+    background: #1b1b22;
+    border: 1px solid #2b2b35;
+    border-radius: 20px;
+    padding: 8px 14px;
+    color: var(--text);
+    font-size: 0.9em;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .omnibox:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  iframe.loaded {
+    opacity: 1;
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;tabs&quot; id=&quot;tabs&quot;&gt;
+  &lt;div class=&quot;tab active&quot;&gt;&lt;i class=&quot;fa-solid fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;New Tab&lt;/span&gt;&lt;/div&gt;
+  &lt;div class=&quot;tab-controls&quot;&gt;
+    &lt;i class=&quot;fa-solid fa-plus&quot; id=&quot;newTab&quot;&gt;&lt;/i&gt;
+    &lt;i class=&quot;fa-solid fa-xmark&quot; id=&quot;closeTab&quot;&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toolbar&quot;&gt;
+  &lt;button id=&quot;back&quot;&gt;&lt;i class=&quot;fa-solid fa-arrow-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;button id=&quot;forward&quot;&gt;&lt;i class=&quot;fa-solid fa-arrow-right&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;button id=&quot;reload&quot;&gt;&lt;i class=&quot;fa-solid fa-rotate-right&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;input class=&quot;omnibox&quot; id=&quot;omnibox&quot; type=&quot;text&quot; placeholder=&quot;Search or enter URL&quot;&gt;
+&lt;/div&gt;
+
+&lt;iframe id=&quot;viewer&quot; src=&quot;/src/assets/pages/prx/home.html&quot;&gt;&lt;/iframe&gt;
+
+&lt;script&gt;
+const iframe = document.getElementById(&#x27;viewer&#x27;);
+const omnibox = document.getElementById(&#x27;omnibox&#x27;);
+const reloadBtn = document.getElementById(&#x27;reload&#x27;);
+const tabsContainer = document.getElementById(&#x27;tabs&#x27;);
+const newTabBtn = document.getElementById(&#x27;newTab&#x27;);
+const closeTabBtn = document.getElementById(&#x27;closeTab&#x27;);
+
+document.getElementById(&#x27;back&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; iframe.contentWindow.history.back());
+document.getElementById(&#x27;forward&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; iframe.contentWindow.history.forward());
+
+function updateTabWidths() {
+  const tabs = [...document.querySelectorAll(&#x27;.tab&#x27;)];
+  const totalWidth = tabsContainer.offsetWidth - 90;
+  const count = tabs.length;
+  const tabWidth = Math.max(80, Math.min(240, totalWidth / count));
+  tabs.forEach(tab =&gt; tab.style.flex = `0 1 ${tabWidth}px`);
+}
+
+function loadURL(input) {
+  let url = input.trim();
+  if (!url) return;
+  
+  iframe.classList.remove(&#x27;loaded&#x27;);
+  
+  iframe.src = `/src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
+}
+
+omnibox.addEventListener(&#x27;keydown&#x27;, e =&gt; {
+  if (e.key === &#x27;Enter&#x27;) loadURL(omnibox.value);
+});
+
+iframe.addEventListener(&#x27;load&#x27;, () =&gt; iframe.classList.add(&#x27;loaded&#x27;));
+reloadBtn.addEventListener(&#x27;click&#x27;, () =&gt; iframe.contentWindow.location.reload());
+
+newTabBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+  const tabCount = document.querySelectorAll(&#x27;.tab&#x27;).length;
+  if (tabCount &gt;= 10) return;
+
+  const tab = document.createElement(&#x27;div&#x27;);
+  tab.className = &#x27;tab&#x27;;
+  tab.innerHTML = `&lt;i class=&quot;fa-solid fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;New Tab&lt;/span&gt;`;
+  tabsContainer.insertBefore(tab, document.querySelector(&#x27;.tab-controls&#x27;));
+  activateTab(tab);
+  updateTabWidths();
+});
+
+tabsContainer.addEventListener(&#x27;click&#x27;, e =&gt; {
+  const tab = e.target.closest(&#x27;.tab&#x27;);
+  if (tab &amp;&amp; !tab.classList.contains(&#x27;active&#x27;)) {
+    activateTab(tab);
+  }
+});
+
+closeTabBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+  const active = document.querySelector(&#x27;.tab.active&#x27;);
+  if (!active) return;
+  active.classList.add(&#x27;removing&#x27;);
+  setTimeout(() =&gt; {
+    active.remove();
+    const remaining = document.querySelectorAll(&#x27;.tab&#x27;);
+    if (!remaining.length) newTabBtn.click();
+    else remaining[remaining.length - 1].classList.add(&#x27;active&#x27;);
+    updateTabWidths();
+  }, 200);
+});
+
+function activateTab(tab) {
+  document.querySelectorAll(&#x27;.tab&#x27;).forEach(t =&gt; t.classList.remove(&#x27;active&#x27;));
+  tab.classList.add(&#x27;active&#x27;);
+  iframe.src = &#x27;/src/assets/pages/prx/home.html&#x27;;
+  omnibox.value = &#x27;&#x27;;
+}
+
+window.addEventListener(&#x27;resize&#x27;, updateTabWidths);
+updateTabWidths();
+&lt;/script&gt;
+&lt;script&gt;
+const root = document.documentElement;
+const themes = {
+  default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,
+           &quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,255,255,0.03)&quot;},
+  cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,
+         &quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(0,255,0,0.03)&quot;},
+  sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,
+          &quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,110,100,0.03)&quot;},
+  neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,
+        &quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,0,255,0.03)&quot;},
+  darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,
+           &quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,0,0,0.03)&quot;},
+  dnv2:{&quot;--bg&quot;: &quot;#050007&quot;,&quot;--accent&quot;: &quot;#ff00de&quot;,&quot;--blue&quot;: &quot;#00fff7&quot;,&quot;--text&quot;: &quot;#ffffff&quot;,
+         &quot;--surface&quot;: &quot;rgba(255, 0, 255, 0.05)&quot;,&quot;--border&quot;: &quot;rgba(255, 0, 255, 0.15)&quot;,&quot;--card-bg&quot;: &quot;rgba(15, 0, 30, 0.7)&quot;},
+  matrix: {&quot;--bg&quot;: &quot;#001100&quot;,&quot;--accent&quot;: &quot;#00ff00&quot;,&quot;--blue&quot;: &quot;#33ff33&quot;,&quot;--text&quot;: &quot;#99ff99&quot;,
+         &quot;--surface&quot;: &quot;rgba(0, 255, 0, 0.05)&quot;,&quot;--border&quot;: &quot;rgba(0, 255, 0, 0.15)&quot;,&quot;--card-bg&quot;: &quot;rgba(0, 50, 0, 0.7)&quot;}
+};
+
+function applyTheme(theme){
+  Object.entries(theme).forEach(([k,v])=&gt;root.style.setProperty(k,v));
+}
+
+(function(){
+  const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+  if(name === &quot;custom&quot;){
+    const custom = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+    applyTheme(custom);
+  } else applyTheme(themes[name]);
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"></iframe>
+  </foreignObject>
+</svg>

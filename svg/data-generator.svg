@@ -1,0 +1,367 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum data generator page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for data generator.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum data generator" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Data URL Generator - Dominum&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css&quot;&gt;
+&lt;style&gt;
+  :root {
+    --bg: #0b0a16;
+    --accent: #7a5cff;
+    --blue: #00bfff;
+    --text: #e6e6ff;
+    --surface: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    width: 100vw;
+  }
+  #particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  h1 {
+    color: var(--text);
+    font-size: 3em;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(122, 92, 255, 0.3);
+    animation: fadeDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  p.subtitle {
+    color: var(--text);
+    font-size: 1em;
+    opacity: 0.7;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    animation: fadeDown 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .generator-container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+  }
+  label {
+    font-size: 1.1em;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-left: 5px;
+  }
+  .data-textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--text);
+    font-family: &#x27;Consolas&#x27;, &#x27;Monaco&#x27;, &#x27;Courier New&#x27;, monospace;
+    font-size: 0.95em;
+    resize: vertical;
+    min-height: 180px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .data-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(122, 92, 255, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .data-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+  }
+  .btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .primary-btn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 14px 35px;
+    border-radius: 12px;
+    font-family: &#x27;Orbitron&#x27;, sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .primary-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.4);
+  }
+  .output-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+  }
+  .output-container .data-textarea {
+    padding-right: 70px;
+  }
+  .copy-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .copy-button:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  #copyMessage {
+    color: var(--accent);
+    font-size: 0.95em;
+    height: 1.2em;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    margin-top: 5px;
+    text-align: center;
+  }
+  .shortcuts {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    animation: slideUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+  }
+  .shortcut {
+    padding: 14px 28px;
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1em;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .shortcut:hover {
+    background: rgba(122, 92, 255, 0.1);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.3);
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div id=&quot;particles-js&quot;&gt;&lt;/div&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+  &lt;h1&gt;HTML to Data URL&lt;/h1&gt;
+  &lt;p class=&quot;subtitle&quot;&gt;Convert any HTML code into a Base64-encoded Data URL instantly.&lt;/p&gt;
+
+  &lt;div class=&quot;generator-container&quot;&gt;
+    &lt;div class=&quot;input-group&quot;&gt;
+      &lt;label for=&quot;htmlInput&quot;&gt;HTML Input&lt;/label&gt;
+      &lt;textarea id=&quot;htmlInput&quot; class=&quot;data-textarea&quot; rows=&quot;10&quot; placeholder=&quot;&lt;html&gt;&amp;#10;  &lt;head&gt;&amp;#10;    &lt;title&gt;My Page&lt;/title&gt;&amp;#10;  &lt;/head&gt;&amp;#10;  &lt;body&gt;&amp;#10;    &lt;h1&gt;Hello, World!&lt;/h1&gt;&amp;#10;  &lt;/body&gt;&amp;#10;&lt;/html&gt;&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;btn-wrapper&quot;&gt;
+      &lt;button id=&quot;generateBtn&quot; class=&quot;primary-btn&quot;&gt;&lt;i class=&quot;fa-solid fa-bolt&quot;&gt;&lt;/i&gt; Generate&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;input-group&quot;&gt;
+      &lt;label for=&quot;dataUrlOutput&quot;&gt;Data URL Output&lt;/label&gt;
+      &lt;div class=&quot;output-container&quot;&gt;
+        &lt;textarea id=&quot;dataUrlOutput&quot; class=&quot;data-textarea&quot; rows=&quot;6&quot; placeholder=&quot;Your data URL will appear here...&quot; readonly&gt;&lt;/textarea&gt;
+        &lt;button id=&quot;copyBtn&quot; class=&quot;copy-button&quot; title=&quot;Copy to Clipboard&quot;&gt;
+          &lt;i class=&quot;fa-solid fa-copy&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;span id=&quot;copyMessage&quot;&gt;Copied!&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;shortcuts&quot;&gt;
+    &lt;a onclick=&quot;openHomePage()&quot; class=&quot;shortcut&quot;&gt;&lt;i class=&quot;fa-solid fa-house&quot;&gt;&lt;/i&gt; Back to Home&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(function() {
+  const particlesEnabled = localStorage.getItem(&#x27;dominum-particles&#x27;) !== &#x27;false&#x27;;
+  const particlesContainer = document.getElementById(&#x27;particles-js&#x27;);
+
+  if (particlesEnabled) {
+    particlesContainer.style.display = &#x27;block&#x27;;
+    particlesJS(&quot;particles-js&quot;, {
+      &quot;particles&quot;: {
+        &quot;number&quot;: { &quot;value&quot;: 60 },
+        &quot;color&quot;: { &quot;value&quot;: [&quot;#7a5cff&quot;, &quot;#00bfff&quot;] },
+        &quot;shape&quot;: { &quot;type&quot;: &quot;circle&quot; },
+        &quot;opacity&quot;: { &quot;value&quot;: 0.5 },
+        &quot;size&quot;: { &quot;value&quot;: 2 },
+        &quot;line_linked&quot;: { &quot;enable&quot;: true, &quot;distance&quot;: 130, &quot;color&quot;: &quot;#7a5cff&quot;, &quot;opacity&quot;: 0.2, &quot;width&quot;: 1 },
+        &quot;move&quot;: { &quot;enable&quot;: true, &quot;speed&quot;: 1.2, &quot;direction&quot;: &quot;none&quot;, &quot;out_mode&quot;: &quot;out&quot; }
+      },
+      &quot;interactivity&quot;: {
+        &quot;events&quot;: { &quot;onhover&quot;: { &quot;enable&quot;: true, &quot;mode&quot;: &quot;repulse&quot; }, &quot;onclick&quot;: { &quot;enable&quot;: false } },
+        &quot;modes&quot;: { &quot;repulse&quot;: { &quot;distance&quot;: 100 } }
+      },
+      &quot;retina_detect&quot;: true
+    });
+  } else {
+    particlesContainer.style.display = &#x27;none&#x27;;
+  }
+})();
+&lt;/script&gt;
+&lt;script&gt;
+const root = document.documentElement;
+const themes = {
+  default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,&quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;},
+  cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;},
+  sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,&quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;},
+  neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;},
+  darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,&quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;},
+  dnv2:{&quot;--bg&quot;: &quot;#050007&quot;,&quot;--accent&quot;: &quot;#ff00de&quot;,&quot;--blue&quot;: &quot;#00fff7&quot;,&quot;--text&quot;: &quot;#ffffff&quot;,&quot;--surface&quot;: &quot;rgba(255, 0, 255, 0.05)&quot;,&quot;--border&quot;: &quot;rgba(255, 0, 255, 0.15)&quot;},
+  matrix: {&quot;--bg&quot;: &quot;#001100&quot;,&quot;--accent&quot;: &quot;#00ff00&quot;,&quot;--blue&quot;: &quot;#33ff33&quot;,&quot;--text&quot;: &quot;#99ff99&quot;,&quot;--surface&quot;: &quot;rgba(0, 255, 0, 0.05)&quot;,&quot;--border&quot;: &quot;rgba(0, 255, 0, 0.15)&quot;}
+};
+
+function applyTheme(theme){
+  Object.entries(theme).forEach(([k,v])=&gt;root.style.setProperty(k,v));
+}
+
+(function(){
+  const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+  if(name === &quot;custom&quot;){
+    const custom = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+    applyTheme(custom);
+  } else applyTheme(themes[name]);
+})();
+&lt;/script&gt;
+&lt;script&gt;
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  const generateBtn = document.getElementById(&#x27;generateBtn&#x27;);
+  const copyBtn = document.getElementById(&#x27;copyBtn&#x27;);
+  const htmlInput = document.getElementById(&#x27;htmlInput&#x27;);
+  const dataUrlOutput = document.getElementById(&#x27;dataUrlOutput&#x27;);
+  const copyMessage = document.getElementById(&#x27;copyMessage&#x27;);
+
+  generateBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+    const htmlContent = htmlInput.value;
+    if (!htmlContent) {
+      dataUrlOutput.value = &quot;Error: Input is empty.&quot;;
+      return;
+    }
+    try {
+      const encodedHtml = btoa(unescape(encodeURIComponent(htmlContent)));
+      const dataUrl = `data:text/html;base64,${encodedHtml}`;
+      dataUrlOutput.value = dataUrl;
+    } catch (e) {
+      dataUrlOutput.value = `Error: Could not encode content. ${e.message}`;
+    }
+  });
+
+  copyBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+    const outputValue = dataUrlOutput.value;
+    if (!outputValue || outputValue.startsWith(&quot;Error:&quot;)) {
+      showCopyMessage(&quot;Nothing to copy!&quot;, true);
+      return;
+    }
+    navigator.clipboard.writeText(outputValue).then(() =&gt; {
+      showCopyMessage(&quot;Copied to clipboard!&quot;, false);
+    }).catch(err =&gt; {
+      showCopyMessage(&quot;Failed to copy.&quot;, true);
+    });
+  });
+  
+  function showCopyMessage(message, isError) {
+      copyMessage.textContent = message;
+      copyMessage.style.color = isError ? &#x27;#ff6b6b&#x27; : &#x27;var(--accent)&#x27;;
+      copyMessage.style.opacity = 1;
+      setTimeout(() =&gt; { copyMessage.style.opacity = 0; }, 2000);
+  }
+});
+
+function openHomePage() {
+  if (window.parent &amp;&amp; window.parent.document.getElementById(&quot;content-frame&quot;)) {
+    window.parent.document.getElementById(&quot;content-frame&quot;).src = &quot;/src/assets/pages/home.html&quot;;
+  } else {
+    window.location.href = &quot;/src/assets/pages/home.html&quot;;
+  }
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"></iframe>
+  </foreignObject>
+</svg>

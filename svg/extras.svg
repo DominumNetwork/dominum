@@ -1,0 +1,477 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Dominum extras page</title>
+  <desc id="desc">SVG wrapper embedding the full HTML document for extras.</desc>
+  <foreignObject x="0" y="0" width="1920" height="1080">
+    <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum extras" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Extras - Dominum&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css&quot;&gt;
+&lt;style&gt;
+  :root {
+    --bg:#0b0a16;--accent:#7a5cff;--blue:#00bfff;--text:#e6e6ff;
+    --surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--card-bg:rgba(255,255,255,0.03);
+  }
+  body {
+    margin:0;padding:40px;background:var(--bg);color:var(--text);
+    font-family:&#x27;Orbitron&#x27;,sans-serif;display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-start;height:100vh;overflow-y:auto;
+    position:relative;z-index:1;
+  }
+  h1 {font-size:2.2em;margin-bottom:30px;text-transform:uppercase;color:var(--accent);}
+  
+  .extras-buttons {display:flex;gap:20px;flex-wrap:wrap;justify-content:center;z-index:2;}
+  
+  .extras-btn {
+    background:var(--surface);border:2px solid var(--border);color:var(--text);
+    padding:15px 30px;border-radius:10px;cursor:pointer;font-size:1em;
+    text-transform:uppercase;letter-spacing:1px;transition:all .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position:relative;z-index:3;
+  }
+  
+  .extras-btn:hover {
+    background:var(--accent);
+    color:#fff;
+    transform:translateY(-4px);
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.4);
+    border-color: var(--accent);
+  }
+
+  .modal {
+    display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;
+    background:rgba(10,10,20,.8);backdrop-filter:blur(8px);justify-content:center;align-items:center;
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  
+  .modal.active{display:flex; opacity: 1;}
+  
+  .modal-content {
+    background:var(--card-bg);border:2px solid var(--border);border-radius:15px;
+    padding:25px;width:80%;max-width:700px;max-height:80%;overflow-y:auto;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:slideUp .4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index:1001;position:relative;
+  }
+  
+  .modal-header {
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;
+    border-bottom: 1px solid var(--border); padding-bottom: 10px;
+  }
+  
+  .modal-header h2{color:var(--accent);font-size:1.5em; margin:0;}
+  
+  .close-btn{cursor:pointer;font-size:1.5em;color:var(--text);transition:color .3s ease, transform 0.2s ease;}
+  .close-btn:hover{color:var(--accent); transform: scale(1.2);}
+  
+  .card {
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:15px;display:flex;align-items:flex-start;gap:15px;margin-bottom:15px;
+    transition:transform .3s ease,border-color .3s ease, box-shadow .3s ease;cursor:pointer;
+  }
+  
+  .card:hover{
+    border-color:var(--accent);
+    transform:translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .card img{width:60px;height:60px;border-radius:50%;object-fit:cover; border: 2px solid transparent; transition: border-color 0.3s ease;}
+  .card:hover img{border-color: var(--accent);}
+  
+  .card-content{flex:1;}
+  .card h3{margin:0;font-size:1.1em;color:var(--accent); transition: color 0.3s ease;}
+  .card p.role{font-size:.9em;color:var(--blue);margin-bottom:5px;}
+  .card p.desc{font-size:.85em;color:var(--text);opacity:.9; line-height: 1.4;}
+  
+  .link-btns{display:flex;gap:15px;margin-top:20px;justify-content:center;}
+  .link-btn{
+    background:var(--surface);border:1px solid var(--accent);color:#fff;padding:10px 20px;border-radius:8px;
+    cursor:pointer;font-family:&#x27;Orbitron&#x27;,sans-serif;text-transform:uppercase;transition:all .3s ease;
+  }
+  .link-btn:hover{background:var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 92, 255, 0.3);}
+  
+  @keyframes slideUp{from{opacity:0;transform:translateY(20px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
+  
+  #particles-js {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+    pointer-events:none;
+  }
+  
+  #vortex-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #vortex-links .card {
+    text-align: center;
+    cursor: pointer;
+    justify-content: center;
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;particles-js&quot;&gt;&lt;/div&gt;
+&lt;h1&gt;Extras&lt;/h1&gt;
+&lt;div class=&quot;extras-buttons&quot;&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;openModal(&#x27;credits-modal&#x27;)&quot;&gt;&lt;i class=&quot;fa-solid fa-star&quot;&gt;&lt;/i&gt; Credits&lt;/button&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;openModal(&#x27;partners-modal&#x27;)&quot;&gt;&lt;i class=&quot;fa-solid fa-handshake&quot;&gt;&lt;/i&gt; Partners&lt;/button&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;openModal(&#x27;vortex-modal&#x27;)&quot;&gt;&lt;i class=&quot;fa-solid fa-comments&quot;&gt;&lt;/i&gt; Vortex Chat&lt;/button&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;openEaglerLauncher()&quot;&gt;&lt;i class=&quot;fa-solid fa-rocket&quot;&gt;&lt;/i&gt; Eagler Launcher&lt;/button&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;alert(&#x27;This page is kind of useless, so once I make more ports I will open this back up :3&#x27;)&quot;&gt;&lt;i class=&quot;fa-solid fa-gamepad&quot;&gt;&lt;/i&gt; Game Ports&lt;/button&gt;
+  &lt;button class=&quot;extras-btn&quot; onclick=&quot;openDataGen()&quot;&gt;&lt;i class=&quot;fa-solid fa-code&quot;&gt;&lt;/i&gt; Data URL Gen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal&quot; id=&quot;credits-modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;Credits&lt;/h2&gt;
+      &lt;span class=&quot;close-btn&quot; onclick=&quot;closeModal(&#x27;credits-modal&#x27;)&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;credits-container&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal&quot; id=&quot;partners-modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;Partners&lt;/h2&gt;
+      &lt;span class=&quot;close-btn&quot; onclick=&quot;closeModal(&#x27;partners-modal&#x27;)&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;partners-container&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal&quot; id=&quot;profile-modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot; style=&quot;max-width: 500px;&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2 id=&quot;profile-name&quot;&gt;&lt;/h2&gt;
+      &lt;span class=&quot;close-btn&quot; onclick=&quot;closeModal(&#x27;profile-modal&#x27;)&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display:flex;gap:20px;align-items:center;&quot;&gt;
+      &lt;img id=&quot;profile-img&quot; src=&quot;&quot; alt=&quot;Profile&quot; style=&quot;width:90px;height:90px;border-radius:50%;object-fit:cover; border: 2px solid var(--accent);&quot;&gt;
+      &lt;div&gt;
+        &lt;p id=&quot;profile-role&quot; style=&quot;color:var(--blue);margin:0 0 10px 0; font-weight: bold;&quot;&gt;&lt;/p&gt;
+        &lt;p id=&quot;profile-desc&quot; style=&quot;color:var(--text);opacity:.9;font-size:.95em; line-height: 1.5;&quot;&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal&quot; id=&quot;partner-link-modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot; style=&quot;max-width: 400px; text-align: center;&quot;&gt;
+    &lt;div class=&quot;modal-header&quot; style=&quot;justify-content: center; position: relative;&quot;&gt;
+      &lt;h2 id=&quot;partner-name&quot;&gt;&lt;/h2&gt;
+      &lt;span class=&quot;close-btn&quot; onclick=&quot;closeModal(&#x27;partner-link-modal&#x27;)&quot; style=&quot;position: absolute; right: 0;&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p style=&quot;margin-top:15px; color: var(--blue);&quot;&gt;Where would you like to go?&lt;/p&gt;
+    &lt;div class=&quot;link-btns&quot;&gt;
+      &lt;button id=&quot;discord-btn&quot; class=&quot;link-btn&quot;&gt;&lt;i class=&quot;fa-brands fa-discord&quot;&gt;&lt;/i&gt; Discord&lt;/button&gt;
+      &lt;button id=&quot;website-btn&quot; class=&quot;link-btn&quot;&gt;&lt;i class=&quot;fa-solid fa-globe&quot;&gt;&lt;/i&gt; Website&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal&quot; id=&quot;vortex-modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;Vortex Chat&lt;/h2&gt;
+      &lt;span class=&quot;close-btn&quot; onclick=&quot;closeModal(&#x27;vortex-modal&#x27;)&quot;&gt;&amp;times;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p style=&quot;text-align:center;margin-bottom:15px; color: var(--blue);&quot;&gt;Select a proxy link to open:&lt;/p&gt;
+    &lt;div id=&quot;vortex-links&quot;&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vortexos.net/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 1&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vtx.chat/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 2&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vortexos.global.ssl.fastly.net/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 3&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vtx.bloxcraft-ubg.workers.dev/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 4&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vortexisgoated.xn--72cg7bdd3bro6b3ab9c8btw4x.com/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 5&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://apush.lotossutra.at/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 6&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://dpsisa.chickenkiller.com/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 7&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://mail.linkylike.com/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 8&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://autoconfig.cus-mail-ph27-eby74.doyoumail.co/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 9&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vortexos.net.cdn.cloudflare.net/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 10&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://vortex-chat.ctx.cl/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 11&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://dashboard.clienturl.net/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 12&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://dashboard.fluxus.org/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 13&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://blight.404.mn/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 14&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; onclick=&quot;openEmbed(&#x27;https://auth.mcwrite.net/embed/dominum&#x27;)&quot;&gt;&lt;h3&gt;Link 15&lt;/h3&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;embed-container&quot; style=&quot;display:none; position:fixed; top:0;left:0; width:100%;height:100%; z-index:2000; background-color:#000;&quot;&gt;
+  &lt;button onclick=&quot;closeEmbed()&quot; style=&quot;
+    position:absolute; top:15px;right:20px; z-index:2001;
+    background:var(--accent); color:#fff; border:none; border-radius:8px;
+    padding:10px 20px; font-family:&#x27;Orbitron&#x27;,sans-serif; text-transform:uppercase;
+    cursor:pointer; transition:background .3s, transform 0.2s;
+  &quot; onmouseover=&quot;this.style.transform=&#x27;scale(1.05)&#x27;&quot; onmouseout=&quot;this.style.transform=&#x27;scale(1)&#x27;&quot;&gt;Close&lt;/button&gt;
+  &lt;iframe id=&quot;embed-frame&quot; src=&quot;&quot; style=&quot;width:100%;height:100%;border:none;&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  
+  const siteCredits = [
+    { name: &quot;Dominus_Elitus&quot;, role: &quot;Owner of Dominum Network&quot;, desc: &quot;Fish :D&quot;, img: &quot;../images/transparent-dominum.png&quot; },
+    { name: &quot;Bog&quot;, role: &quot;Games And Game Ports&quot;, desc: &quot;Credits to this guy for the game ports (Ultrakill, Tattletail, etc.) Also credits to NPA (National Porting Assosiation), GN-Math, and Truffled.lol.&quot;, img: &quot;../images/users/bog.gif&quot; },
+    { name: &quot;ZXS&quot;, role: &quot;Dev Management&quot;, desc: &quot;Basically made the entire site layout and made the games, apps, and proxy. Also a proxy developer, and owner of ZXS Games.&quot;, img: &quot;../images/users/zxs.png&quot; }
+  ];
+
+  const sitePartners = [
+    { name: &quot;ProGS2Z&quot;, owner: &quot;Swatt12 :/&quot;, desc: &quot;A volcano full of games.&quot;, img: &quot;../images/partners/progs2z.png&quot;, discord: &quot;https://discord.gg/CwtVutWYRj&quot;, website: &quot;https://sites.google.com/view/prohomework2z&quot; },
+    { name: &quot;Pixel-X26&quot;, owner: &quot;Pixel&quot;, desc: &quot;The unblocked website for school.&quot;, img: &quot;../images/partners/pixel-x26.png&quot;, discord: &quot;https://discord.gg/W59jgrbC&quot;, website: &quot;https://sites.google.com/view/pi-26/%E2%84%8D&quot; },
+    { name: &quot;Games Unite&quot;, owner: &quot;Mathias&quot;, desc: &quot;Uniting Others Alike.&quot;, img: &quot;../images/partners/games-unite.png&quot;, discord: &quot;https://discord.gg/5tYbGTYxQV&quot;, website: &quot;https://sites.google.com/view/djnfjewio-jwmekmeg-get5rju-rww&quot; },
+    { name: &quot;Blood&quot;, owner: &quot;Maybekbj&quot;, desc: &quot;Be apart of something amazing.&quot;, img: &quot;../images/partners/blood.png&quot;, discord: &quot;https://discord.gg/Cu2wxw8Qef&quot;, website: &quot;https://sites.google.com/gwd50.org/kingstonhomework/home&quot; },
+    { name: &quot;ZXS Games&quot;, owner: &quot;ZXS&quot;, desc: &quot;UBG like never seen before.&quot;, img: &quot;../images/partners/zxs-games.png&quot;, discord: &quot;https://discord.com/invite/mPJcQKy2s2&quot;, website: &quot;https://zxsgames.vip/&quot; },
+    { name: &quot;Galaxy Hub&quot;, owner: &quot;Alex&quot;, desc: &quot;A great unblocked site.&quot;, img: &quot;../images/partners/gal-hub.png&quot;, discord: &quot;https://discord.gg/D5RZRny7pD&quot;, website: &quot;https://hubgal.my.canva.site/&quot; },
+    { name: &quot;Botulinum&quot;, owner: &quot;Amelia_GamingZone&quot;, desc: &quot;A cool site with a nice asthetic.&quot;, img: &quot;../images/partners/botulinum.png&quot;, discord: &quot;https://discord.com/invite/XccT9zax&quot;, website: &quot;https://sites.google.com/view/botulinum-/home&quot; },
+    { name: &quot;Mojmail Ink.&quot;, owner: &quot;ProGS2Z&quot;, desc: &quot;A Company made by ProGS2Z.&quot;, img: &quot;../images/partners/mojmail.png&quot;, discord: &quot;none&quot;, website: &quot;https://sites.google.com/view/mojmail-ink/home&quot; },
+    { name: &quot;Game Blitz&quot;, owner: &quot;GameBlitz&quot;, desc: &quot;A site with tons of visits.&quot;, img: &quot;../images/partners/game-blitz.png&quot;, discord: &quot;https://linktr.ee/GameBlitz&quot;, website: &quot;https://sites.google.com/view/www-clever-com&quot; },
+    { name: &quot;M3T4L&quot;, owner: &quot;Dominus_Elitus&quot;, desc: &quot;Endless options for unblocking.&quot;, img: &quot;../images/partners/m3t4l.png&quot;, discord: &quot;https://discord.gg/nTVx9BMcYb&quot;, website: &quot;https://sites.google.com/view/acgf-studentssmarts4you435d-2/home&quot; },
+    { name: &quot;ChillZone&quot;, owner: &quot;DyingPoets&quot;, desc: &quot;The best school entertainment site.&quot;, img: &quot;../images/partners/chillzone.png&quot;, discord: &quot;https://discord.gg/DHx4VKwwkt&quot;, website: &quot;https://sites.google.com/view/eduviewing&quot; },
+    { name: &quot;Unlocked Joy&quot;, owner: &quot;Unlocked Joy&quot;, desc: &quot;Unrestricted Game Site.&quot;, img: &quot;../images/partners/unlocked-joy.png&quot;, discord: &quot;https://discord.gg/pyehknEkXj&quot;, website: &quot;https://sites.google.com/view/unlockedjoy-site/home&quot; },
+    { name: &quot;チル・カーブ (Chill Kirb Central)&quot;, owner: &quot;Øverłoaded&quot;, desc: &quot;Everything you need on a chill site.&quot;, img: &quot;../images/partners/chill-kirb.gif&quot;, discord: &quot;https://discord.gg/FuTy7Pej&quot;, website: &quot;https://sites.google.com/view/fus3-bomb/home&quot; },
+    { name: &quot;GSites Entertainment (soon)&quot;, owner: &quot;Owner Unknown&quot;, desc: &quot;Endless options for unblocking.&quot;, img: &quot;../images/partners/soon.png&quot;, discord: &quot;none&quot;, website: &quot;none&quot; },
+    { name: &quot;Coffees Arcade&quot;, owner: &quot;Coffee&quot;, desc: &quot;Your site for games, proxies, and more.&quot;, img: &quot;../images/partners/coffees-arcade.png&quot;, discord: &quot;https://discord.gg/7D6zGsGmUF&quot;, website: &quot;https://sites.google.com/view/coffe-i-eat&quot; },
+    { name: &quot;Voidcore&quot;, owner: &quot;Owner Unknown&quot;, desc: &quot;The ultimate hangout spot.&quot;, img: &quot;../images/partners/voidcore.png&quot;, discord: &quot;https://discord.gg/6ebkpjWDzz&quot;, website: &quot;https://sites.google.com/view/v0idcore/home&quot; },
+    { name: &quot;Pulsar Proxy&quot;, owner: &quot;Kilonøx (Yeti1o1)&quot;, desc: &quot;Great ui with games and apps.&quot;, img: &quot;../images/partners/pulsar.png&quot;, discord: &quot;https://discord.gg/9KKk4DNBPE&quot;, website: &quot;https://pulsar.global.ssl.fastly.net/&quot; },
+    { name: &quot;Copyright Dragon&quot;, owner: &quot;Owner Unknown&quot;, desc: &quot;Im not sure its copyrighted yet.&quot;, img: &quot;../images/partners/c-dragon.png&quot;, discord: &quot;none&quot;, website: &quot;https://sites.google.com/view/copyright-dragon-&quot; },
+    { name: &quot;Sunset Learning&quot;, owner: &quot;Sunset Learning&quot;, desc: &quot;Sunset Learning is a site with tons of games, books, apps, movies, and more.&quot;, img: &quot;../images/partners/sunset-learning.png&quot;, discord: &quot;https://discord.gg/kStXJcQ8np&quot;, website: &quot;https://sites.google.com/view/sunsetlearninn/&quot; },
+    { name: &quot;Unblocked Makers&quot;, owner: &quot;Jacorn And Maddox&quot;, desc: &quot;The best place to find tons of unblocked websites, including the one you`re on now.&quot;, img: &quot;../images/partners/unblocked-makers.png&quot;, discord: &quot;https://discord.gg/uvuNAzrhWc&quot;, website: &quot;https://ubghub.org/&quot; },
+    { name: &quot;DuckMath&quot;, owner: &quot;JaCorn And Maddox&quot;, desc: &quot;Offering 200+ games, a compeditive leaderboard, custom profiles, and more.&quot;, img: &quot;../images/partners/duckmath.gif&quot;, discord: &quot;https://discord.gg/EVNRkBfqrR&quot;, website: &quot;https://duckmath.org&quot; },
+    { name: &quot;Orbit (Shut down)&quot;, owner: &quot;OJ (Astr0Cat)&quot;, desc: &quot;Does this site even have a description anymore??&quot;, img: &quot;../images/partners/orbit.png&quot;, discord: &quot;https://discord.gg/UnG9qrfW&quot;, website: &quot;https://orbit.nekoweb.org/&quot; },
+    { name: &quot;Vortex&quot;, owner: &quot;Idk the owner but the Co-Owner is Gmanchew99&quot;, desc: &quot;Chat with your friends at school.&quot;, img: &quot;../images/partners/vortex.png&quot;, discord: &quot;https://discord.gg/vtex&quot;, website: &quot;https://vortexos.net/&quot; },
+    { name: &quot;CookingWithJay (Ultra)&quot;, owner: &quot;Jay&quot;, desc: &quot;Cooking up games for your entertainment.&quot;, img: &quot;../images/partners/cwj-ultra.png&quot;, discord: &quot;none&quot;, website: &quot;https://sites.google.com/view/cookingwitjay-ultra/&quot; },
+    { name: &quot;Bloxcraft&quot;, owner: &quot;Bloxcraft Studios&quot;, desc: &quot;An unblocked games site you can play every day.&quot;, img: &quot;../images/partners/bloxcraft.png&quot;, discord: &quot;https://discord.gg/sqPFYEsz8F&quot;, website: &quot;https://bloxcraft-ubg.pages.dev/&quot; },
+    { name: &quot;UNB History&quot;, owner: &quot;TVM (emp56)&quot;, desc: &quot;Every day is a new chance to improve and build more immersive digital experiences.&quot;, img: &quot;../images/partners/unb-history.png&quot;, discord: &quot;none&quot;, website: &quot;https://sites.google.com/stu.palmbeachschools.org/learn-play-adapt&quot; },
+    { name: &quot;Axiom Proxy&quot;, owner: &quot;Arson (imdonewithdc)&quot;, desc: &quot;An amazing webos proxy with a sleek feeling.&quot;, img: &quot;../images/partners/axiom.png&quot;, discord: &quot;https://discord.gg/A2AZb8SgCD&quot;, website: &quot;https://cars.axiomsontop.shop/&quot; },
+    { name: &quot;1Key&quot;, owner: &quot;Builder267|595k&quot;, desc: &quot;pls use 1key&quot;, img: &quot;../images/partners/1key.gif&quot;, discord: &quot;https://discord.gg/jrtpTfZu&quot;, website: &quot;https://1key.lol/&quot; }
+  ];
+
+  function renderCredits() {
+    const container = document.getElementById(&#x27;credits-container&#x27;);
+    container.innerHTML = &#x27;&#x27;;
+    siteCredits.forEach(credit =&gt; {
+      const card = document.createElement(&#x27;div&#x27;);
+      card.className = &#x27;card&#x27;;
+      card.onclick = () =&gt; openProfile(credit.name, credit.role, credit.desc, credit.img);
+      card.innerHTML = `
+        &lt;img src=&quot;${credit.img}&quot; alt=&quot;${credit.name}&quot;&gt;
+        &lt;div class=&quot;card-content&quot;&gt;
+          &lt;h3&gt;${credit.name}&lt;/h3&gt;
+          &lt;p class=&quot;role&quot;&gt;${credit.role}&lt;/p&gt;
+          &lt;p class=&quot;desc&quot;&gt;${credit.desc}&lt;/p&gt;
+        &lt;/div&gt;
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function renderPartners() {
+    const container = document.getElementById(&#x27;partners-container&#x27;);
+    container.innerHTML = &#x27;&#x27;;
+    sitePartners.forEach(partner =&gt; {
+      const card = document.createElement(&#x27;div&#x27;);
+      card.className = &#x27;card&#x27;;
+      card.onclick = () =&gt; handlePartnerClick(partner.name, partner.owner, partner.desc, partner.img, partner.discord, partner.website);
+      card.innerHTML = `
+        &lt;img src=&quot;${partner.img}&quot; alt=&quot;${partner.name}&quot;&gt;
+        &lt;div class=&quot;card-content&quot;&gt;
+          &lt;h3&gt;${partner.name}&lt;/h3&gt;
+          &lt;p class=&quot;role&quot;&gt;Owned by: ${partner.owner}&lt;/p&gt;
+          &lt;p class=&quot;desc&quot;&gt;${partner.desc}&lt;/p&gt;
+        &lt;/div&gt;
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  renderCredits();
+  renderPartners();
+
+  let currentPartner = {};
+  
+  function openModal(id) { 
+    document.getElementById(id).classList.add(&#x27;active&#x27;); 
+  }
+  
+  function closeModal(id) { 
+    document.getElementById(id).classList.remove(&#x27;active&#x27;); 
+  }
+  
+  document.querySelectorAll(&#x27;.modal&#x27;).forEach(m =&gt; m.addEventListener(&#x27;click&#x27;, e =&gt; { 
+    if(e.target === m) closeModal(m.id); 
+  }));
+  
+  function openProfile(name, role, desc, img) {
+    document.getElementById(&#x27;profile-name&#x27;).innerText = name;
+    document.getElementById(&#x27;profile-role&#x27;).innerText = role;
+    document.getElementById(&#x27;profile-desc&#x27;).innerText = desc;
+    document.getElementById(&#x27;profile-img&#x27;).src = img;
+    openModal(&#x27;profile-modal&#x27;);
+  }
+  
+  function handlePartnerClick(name, owner, desc, img, discord, website) {
+    if ((!discord || discord === &#x27;none&#x27;) &amp;&amp; website &amp;&amp; website !== &#x27;none&#x27;) {
+      window.open(website, &#x27;_blank&#x27;);
+      return;
+    }
+    if ((!website || website === &#x27;none&#x27;) &amp;&amp; discord &amp;&amp; discord !== &#x27;none&#x27;) {
+      window.open(discord, &#x27;_blank&#x27;);
+      return;
+    }
+    if ((!website || website === &#x27;none&#x27;) &amp;&amp; (!discord || discord === &#x27;none&#x27;)) {
+      alert(&quot;No links provided for this partner yet!&quot;);
+      return;
+    }
+    
+    currentPartner = { name, discord, website };
+    document.getElementById(&#x27;partner-name&#x27;).innerText = name;
+    
+    const dBtn = document.getElementById(&#x27;discord-btn&#x27;);
+    const wBtn = document.getElementById(&#x27;website-btn&#x27;);
+    
+    dBtn.style.display = (discord &amp;&amp; discord !== &#x27;none&#x27;) ? &#x27;inline-block&#x27; : &#x27;none&#x27;;
+    wBtn.style.display = (website &amp;&amp; website !== &#x27;none&#x27;) ? &#x27;inline-block&#x27; : &#x27;none&#x27;;
+    
+    openModal(&#x27;partner-link-modal&#x27;);
+  }
+  
+  document.getElementById(&#x27;discord-btn&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+    closeModal(&#x27;partner-link-modal&#x27;);
+    if(currentPartner.discord &amp;&amp; currentPartner.discord !== &#x27;none&#x27;) window.open(currentPartner.discord, &#x27;_blank&#x27;);
+  });
+  
+  document.getElementById(&#x27;website-btn&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+    closeModal(&#x27;partner-link-modal&#x27;);
+    if(currentPartner.website &amp;&amp; currentPartner.website !== &#x27;none&#x27;) window.open(currentPartner.website, &#x27;_blank&#x27;);
+  });
+
+  function openEmbed(url){
+    closeModal(&#x27;vortex-modal&#x27;);
+    const embedContainer = document.getElementById(&#x27;embed-container&#x27;);
+    const iframe = document.getElementById(&#x27;embed-frame&#x27;);
+    iframe.src = url;
+    embedContainer.style.display = &#x27;block&#x27;;
+  }
+  
+  function closeEmbed(){
+    const embedContainer = document.getElementById(&#x27;embed-container&#x27;);
+    const iframe = document.getElementById(&#x27;embed-frame&#x27;);
+    iframe.src = &#x27;&#x27;;
+    embedContainer.style.display = &#x27;none&#x27;;
+  }
+
+  (function() {
+    const particlesEnabled = localStorage.getItem(&#x27;dominum-particles&#x27;) !== &#x27;false&#x27;;
+    const particlesContainer = document.getElementById(&#x27;particles-js&#x27;);
+    if (particlesEnabled) {
+      particlesContainer.style.display = &#x27;block&#x27;;
+      particlesJS(&quot;particles-js&quot;, {
+        &quot;particles&quot;: {
+          &quot;number&quot;: { &quot;value&quot;: 60 },
+          &quot;color&quot;: { &quot;value&quot;: [&quot;#7a5cff&quot;, &quot;#00bfff&quot;] },
+          &quot;shape&quot;: { &quot;type&quot;: &quot;circle&quot; },
+          &quot;opacity&quot;: { &quot;value&quot;: 0.5 },
+          &quot;size&quot;: { &quot;value&quot;: 2 },
+          &quot;line_linked&quot;: { &quot;enable&quot;: true, &quot;distance&quot;: 130, &quot;color&quot;: &quot;#7a5cff&quot;, &quot;opacity&quot;: 0.2, &quot;width&quot;: 1 },
+          &quot;move&quot;: { &quot;enable&quot;: true, &quot;speed&quot;: 1.2, &quot;direction&quot;: &quot;none&quot;, &quot;out_mode&quot;: &quot;out&quot; }
+        },
+        &quot;interactivity&quot;: {
+          &quot;events&quot;: { &quot;onhover&quot;: { &quot;enable&quot;: true, &quot;mode&quot;: &quot;repulse&quot; }, &quot;onclick&quot;: { &quot;enable&quot;: false } },
+          &quot;modes&quot;: { &quot;repulse&quot;: { &quot;distance&quot;: 100 } }
+        },
+        &quot;retina_detect&quot;: true
+      });
+    } else {
+      particlesContainer.style.display = &#x27;none&#x27;;
+    }
+  })();
+
+  const root = document.documentElement;
+  const themes = {
+    default:{&quot;--bg&quot;:&quot;#0b0a16&quot;,&quot;--accent&quot;:&quot;#7a5cff&quot;,&quot;--blue&quot;:&quot;#00bfff&quot;,&quot;--text&quot;:&quot;#e6e6ff&quot;,&quot;--surface&quot;:&quot;rgba(255,255,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,255,255,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,255,255,0.03)&quot;},
+    cyber:{&quot;--bg&quot;:&quot;#050c1b&quot;,&quot;--accent&quot;:&quot;#39ff14&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#e0ffe0&quot;,&quot;--surface&quot;:&quot;rgba(0,255,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(0,255,0,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(0,255,0,0.03)&quot;},
+    sunset:{&quot;--bg&quot;:&quot;#1a0b0b&quot;,&quot;--accent&quot;:&quot;#ff6f61&quot;,&quot;--blue&quot;:&quot;#ffa500&quot;,&quot;--text&quot;:&quot;#fff0e6&quot;,&quot;--surface&quot;:&quot;rgba(255,110,100,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,110,100,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,110,100,0.03)&quot;},
+    neon:{&quot;--bg&quot;:&quot;#0f0020&quot;,&quot;--accent&quot;:&quot;#ff00ff&quot;,&quot;--blue&quot;:&quot;#00ffff&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,0,255,0.03)&quot;},
+    darkred:{&quot;--bg&quot;:&quot;#1b0000&quot;,&quot;--accent&quot;:&quot;#ff0000&quot;,&quot;--blue&quot;:&quot;#cc0000&quot;,&quot;--text&quot;:&quot;#ffe6e6&quot;,&quot;--surface&quot;:&quot;rgba(255,0,0,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,0,0.1)&quot;,&quot;--card-bg&quot;:&quot;rgba(255,0,0,0.03)&quot;},
+    dnv2:{&quot;--bg&quot;:&quot;#050007&quot;,&quot;--accent&quot;:&quot;#ff00de&quot;,&quot;--blue&quot;:&quot;#00fff7&quot;,&quot;--text&quot;:&quot;#ffffff&quot;,&quot;--surface&quot;:&quot;rgba(255,0,255,0.05)&quot;,&quot;--border&quot;:&quot;rgba(255,0,255,0.15)&quot;,&quot;--card-bg&quot;:&quot;rgba(15,0,30,0.7)&quot;},
+    matrix:{&quot;--bg&quot;: &quot;#001100&quot;,&quot;--accent&quot;: &quot;#00ff00&quot;,&quot;--blue&quot;: &quot;#33ff33&quot;,&quot;--text&quot;: &quot;#99ff99&quot;,&quot;--surface&quot;: &quot;rgba(0, 255, 0, 0.05)&quot;,&quot;--border&quot;: &quot;rgba(0, 255, 0, 0.15)&quot;,&quot;--card-bg&quot;: &quot;rgba(0, 50, 0, 0.7)&quot;}
+  };
+
+  function applyTheme(theme){
+    Object.entries(theme).forEach(([v,k])=&gt;root.style.setProperty(v,k));
+    try {
+      const frame = document.getElementById(&quot;content-frame&quot;);
+      if(frame) Object.entries(theme).forEach(([v,k])=&gt;frame.contentWindow.document.documentElement.style.setProperty(v,k));
+    } catch(e){}
+  }
+
+  function loadTheme(){
+    const name = localStorage.getItem(&quot;dominum-theme&quot;) || &quot;default&quot;;
+    if(name === &quot;custom&quot;){
+      const t = JSON.parse(localStorage.getItem(&quot;dominum-custom-theme&quot;) || &quot;{}&quot;);
+      applyTheme(t);
+    } else {
+      applyTheme(themes[name] || themes[&#x27;default&#x27;]);
+    }
+  }
+
+  try {
+    const themeVars = window.parent.document.documentElement.style;
+    for(let i=0; i&lt;themeVars.length; i++){
+      const p = themeVars[i];
+      document.documentElement.style.setProperty(p, themeVars.getPropertyValue(p));
+    }
+  } catch(e){}
+
+  loadTheme();
+
+  function openEaglerLauncher() {
+    const targetUrl = &quot;src/assets/pages/ampler-launcher.html&quot;;
+    const newTab = window.open(&quot;about:blank&quot;, &quot;_blank&quot;);
+    fetch(targetUrl)
+      .then(response =&gt; response.text())
+      .then(html =&gt; {
+        newTab.document.open();
+        newTab.document.write(html);
+        newTab.document.close();
+      })
+      .catch(err =&gt; {
+        console.error(&quot;Failed to load the launcher:&quot;, err);
+        newTab.location.href = targetUrl; 
+      });
+  }
+
+  function openGamePorts() {
+    if (window.parent &amp;&amp; window.parent.document.getElementById(&quot;content-frame&quot;)) {
+      window.parent.document.getElementById(&quot;content-frame&quot;).src = &quot;src/assets/pages/&quot; + path;
+    } else {
+      window.location.href = path;
+    }
+  }
+
+  function openDataGen() {
+    const page = &quot;data-generator.html&quot;;
+    if (window.parent &amp;&amp; window.parent.document.getElementById(&quot;content-frame&quot;)) {
+      window.parent.document.getElementById(&quot;content-frame&quot;).src = &quot;src/assets/pages/&quot; + page;
+    } else {
+      window.location.href = page;
+    }
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  </foreignObject>
+</svg>
