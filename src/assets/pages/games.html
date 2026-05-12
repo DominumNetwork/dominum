@@ -334,7 +334,6 @@
     <option value="elite">Elite Gamez</option>
     <option value="sea-bean">Sea Bean</option>
     <option value="ugs">UGS (Page may lag)</option>
-    <option value="blox">Bloxcraft UBG</option>
     <option value="seraph">Seraph</option>
   </select>
 
@@ -429,10 +428,6 @@ function resolveGameUrl(url, provider) {
     return "https://cdn.jsdelivr.net/gh/a456pur/seraph@main/" + cleanPath;
   }
   
-  if (provider === 'blox') {
-    return "https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/" + cleanPath;
-  }
-
   return "https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io@main/" + cleanPath;
 }
 
@@ -487,29 +482,7 @@ async function loadGames() {
   const provider = providerSelect.value;
 
   try {
-    if (provider === 'blox') {
-      const response = await fetch('https://cdn.jsdelivr.net/gh/tharun9772/tharun9772.github.io/games/games.json');
-      const data = await response.json();
-      
-      const bloxGames = data.map((g, index) => {
-        let cleanedUrl = g.url.replace('/app-viewer/?view=/', '/');
-
-        if (!cleanedUrl.endsWith('index.html')) {
-            cleanedUrl = cleanedUrl.replace(/\/?$/, '/') + 'index.html';
-        }
-    
-        return {
-          provider: 'blox',
-          name: g.name,
-          cover: g.img || getFallbackImage(g.name),
-          url: resolveGameUrl(cleanedUrl, 'blox'),
-          isAbsolute: true,
-          addedOrder: index
-        };
-      });
-      
-      allGames = [...allGames, ...bloxGames];
-    } else if (provider === 'gn-math') {
+    if (provider === 'gn-math') {
       const response = await fetch("https://cdn.jsdelivr.net/gh/freebuisness/assets/zones.json");
       const rawZones = await response.json();
       
@@ -769,19 +742,14 @@ async function openGame(game) {
   currentGame = game;
   overlay.style.display = 'flex';
   gameTitle.textContent = game.name;
-
-  if (game.provider === 'blox') {
-    downloadBtn.style.display = 'none';
-  } else {
-    downloadBtn.style.display = 'flex';
-  }
+  downloadBtn.style.display = 'flex';
 
   let fullUrl = game.url;
   if (game.provider === 'gn-math' && !game.isAbsolute) {
     fullUrl = 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/' + game.url.replace('{HTML_URL}', '');
   }
 
-  const needsBlobFix = ['blox', 'elite', 'sea-bean', 'ugs', 'gn-math', 'seraph'];
+  const needsBlobFix = ['elite', 'sea-bean', 'ugs', 'gn-math', 'seraph'];
 
   if (needsBlobFix.includes(game.provider) || game.provider === 'petezah') {
     try {
@@ -869,47 +837,57 @@ handleProviderChange();
 
 const blankBtn = document.getElementById('blankBtn');
 
-blankBtn.addEventListener('click', () => {
-    const currentUrl = gameFrame.src;
-    
-    if (!currentUrl) return;
+document.getElementById('blankBtn').onclick = async () => {
+  if (!currentGame) return;
+  
+  let url = currentGame.url;
+  if (currentGame.provider === 'gn-math' && !url.startsWith('http')) {
+    url = 'https://cdn.jsdelivr.net/gh/freebuisness/html@main/' + currentGame.url.replace('{HTML_URL}', '');
+  }
 
-    const blankWin = window.open('about:blank', '_blank');
-    
-    if (!blankWin) {
-        alert("Please allow pop-ups to open games in a blank tab.");
-        return;
+  const win = window.open('about:blank', '_blank');
+  if (!win) return alert("Pop-ups blocked!");
+
+  win.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Google Drive</title>
+        <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png">
+        <style>
+          body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
+          iframe { width:100%; height:100%; border:none; }
+        </style>
+      </head>
+      <body><iframe id="f" allowfullscreen="true"></iframe></body>
+    </html>
+  `);
+  win.document.close();
+
+  const iframe = win.document.getElementById('f');
+  const needsBlob = ['gn-math', 'petezah', 'elite', 'seraph', 'sea-bean', 'ugs'];
+
+  if (needsBlob.includes(currentGame.provider)) {
+    try {
+      const res = await fetch(url);
+      let html = await res.text();
+      
+      if (currentGame.provider === 'petezah') {
+        const base = url.substring(0, url.lastIndexOf('/') + 1);
+        html = html.replace('<head>', `<head><base href="${base}">`);
+      }
+      
+      iframe.contentWindow.document.open();
+      iframe.contentWindow.document.write(html);
+      iframe.contentWindow.document.close();
+    } catch (e) { 
+      console.error("Direct injection failed, falling back to src:", e);
+      iframe.src = url; 
     }
-
-    const doc = blankWin.document;
-    doc.open();
-    doc.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <title>Google Drive</title> <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"> <style>
-                body, html { 
-                    margin: 0; 
-                    padding: 0; 
-                    width: 100vw; 
-                    height: 100vh; 
-                    overflow: hidden; 
-                    background-color: #000; 
-                }
-                iframe { 
-                    width: 100%; 
-                    height: 100%; 
-                    border: none; 
-                }
-            </style>
-        </head>
-        <body>
-            <iframe src="${currentUrl}"></iframe>
-        </body>
-        </html>
-    `);
-    doc.close();
-});
+  } else {
+    iframe.src = url;
+  }
+};
 </script>
 
 <script>
