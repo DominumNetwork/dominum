@@ -1,105 +1,397 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chat</title>
-  <style>
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0d0d10; font-family: system-ui, sans-serif; color: #eee; }
-    #chat { width: min(420px, 100vw - 32px); height: 560px; display: flex; flex-direction: column; background: #16161b; border: 1px solid #26262e; border-radius: 14px; overflow: hidden; }
-    header { padding: 14px 16px; border-bottom: 1px solid #26262e; font-weight: 600; }
-    #status { margin: 0; padding: 10px 16px; color: #8a8a96; font-size: 14px; }
-    #status:empty { display: none; }
-    #messages { flex: 1; margin: 0; padding: 8px 16px; overflow-y: auto; list-style: none; }
-    #messages li { display: flex; gap: 10px; padding: 6px 0; line-height: 1.4; }
-    #messages img { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
-    #messages b { display: block; font-size: 14px; }
-    #messages span { overflow-wrap: anywhere; }
-    #composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #26262e; }
-    #composer input { flex: 1; padding: 10px 12px; background: #0d0d10; border: 1px solid #26262e; border-radius: 8px; color: inherit; font: inherit; }
-    button { padding: 10px 16px; border: 0; border-radius: 8px; background: #bb00ff; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
-    #login { margin: auto; }
-    .vortex-mention { color: #d27bff; font-weight: 600; }
-    .vortex-emote { height: 1.4em; vertical-align: middle; }
-    [hidden] { display: none !important; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101116">
+<title>Vortex — Community Chat</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root{color-scheme:dark;--bg:#101116;--panel:#17181f;--panel2:#1c1e27;--panel3:#242631;--line:#2c2e3a;--text:#f2f3f8;--muted:#9699aa;--accent:#a78bfa;--accent2:#7c5ce7;--good:#57d6a0;--danger:#ff7485;--radius:16px}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{background:var(--bg);color:var(--text);font:14px/1.5 'DM Sans',system-ui,sans-serif;overflow:hidden}button,input,textarea{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}button:disabled{opacity:.45;cursor:not-allowed}.app{height:100dvh;display:grid;grid-template-columns:76px 250px minmax(0,1fr);grid-template-rows:100%;background:radial-gradient(ellipse at 65% -20%,#28203e 0,transparent 48%),var(--bg)}
+.rail{background:#121319;border-right:1px solid var(--line);display:flex;align-items:center;flex-direction:column;gap:12px;padding:18px 0}.brand{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#c4b5fd,#7c3aed);display:grid;place-items:center;color:#171321;font:700 21px 'Space Grotesk';box-shadow:0 8px 26px #7c3aed35;margin-bottom:14px}.rail-btn{width:44px;height:44px;border:0;border-radius:15px;background:transparent;color:#85889a;font-size:19px;transition:.18s}.rail-btn:hover,.rail-btn.active{background:#292535;color:#d7c8ff;border-radius:13px}.rail-spacer{flex:1}.rail-avatar{width:36px;height:36px;border-radius:50%;background:#343644;display:grid;place-items:center;overflow:hidden;font-weight:700}
+.sidebar{min-width:0;background:rgba(23,24,31,.92);border-right:1px solid var(--line);display:flex;flex-direction:column}.guild-head{padding:24px 18px 20px;border-bottom:1px solid var(--line)}.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}.guild-title{font:700 20px 'Space Grotesk';margin:7px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.guild-sub{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;background:var(--good);border-radius:50%;display:inline-block}.side-scroll{padding:18px 10px;overflow:auto;flex:1}.section-label{padding:0 10px;margin:0 0 8px;display:flex;align-items:center;justify-content:space-between;color:#898c9e;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.channel-list{display:flex;flex-direction:column;gap:4px}.channel{border:0;width:100%;background:transparent;text-align:left;border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:10px;color:#a8aabb;transition:.15s}.channel:hover{background:#252630;color:#f0eff7}.channel.active{background:linear-gradient(90deg,#392d56,#2b2639);color:#e9ddff;box-shadow:inset 2px 0 var(--accent)}.hash{font-size:18px;color:#777a8d;font-weight:500}.channel.active .hash{color:#c4b5fd}.channel-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.unread{width:6px;height:6px;background:var(--accent);border-radius:50%}.side-footer{padding:12px;border-top:1px solid var(--line)}.profile{display:flex;align-items:center;gap:10px;padding:9px;border-radius:12px;background:#202129}.avatar{width:36px;height:36px;flex:0 0 36px;border-radius:50%;object-fit:cover;background:#383343;display:grid;place-items:center;font-weight:700;color:#e4d9ff}.profile-meta{min-width:0;flex:1}.profile-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.profile-state{font-size:11px;color:var(--muted)}.icon-btn{border:0;background:transparent;border-radius:9px;width:34px;height:34px;color:#9a9caf;display:grid;place-items:center;font-size:17px}.icon-btn:hover{background:#30313d;color:#fff}
+.main{min-width:0;display:flex;flex-direction:column;position:relative}.topbar{height:76px;flex-shrink:0;padding:0 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;background:#14151bd9;backdrop-filter:blur(18px)}.current-channel{display:flex;align-items:center;gap:12px;min-width:0}.channel-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#2b263a;color:#d1c1ff;font-size:21px}.current-name{font:700 17px 'Space Grotesk';white-space:nowrap}.current-desc{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top-actions{display:flex;align-items:center;gap:9px}.search{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#1b1c24;color:var(--muted);width:min(220px,25vw)}.search input{width:100%;background:transparent;border:0;outline:0;color:var(--text);min-width:0}.pill-btn{border:1px solid var(--line);background:#22232c;padding:9px 13px;border-radius:10px;color:#d5d5e0}.pill-btn:hover{background:#2b2c38}.messages{flex:1;overflow:auto;padding:24px clamp(18px,4vw,64px) 16px;scroll-behavior:smooth}.welcome{max-width:900px;margin:20px auto 34px;padding:24px;border:1px solid #383044;border-radius:18px;background:linear-gradient(125deg,#282238,#1b1c25 72%);position:relative;overflow:hidden}.welcome:after{content:"✦";position:absolute;right:28px;top:8px;font-size:90px;color:#b6a0ff14}.welcome-icon{width:44px;height:44px;border-radius:14px;background:#b59aff20;color:#d7c6ff;display:grid;place-items:center;font-size:23px}.welcome h1{font:700 clamp(21px,2.5vw,28px) 'Space Grotesk';margin:14px 0 7px}.welcome p{color:#b2b0c2;margin:0;max-width:590px}.date-divider{max-width:900px;margin:24px auto 18px;display:flex;align-items:center;gap:14px;color:#898c9d;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.date-divider:before,.date-divider:after{content:"";height:1px;background:var(--line);flex:1}.message-list{max-width:900px;margin:auto;display:flex;flex-direction:column;gap:3px}.message{display:flex;gap:13px;padding:10px 12px;border-radius:12px;position:relative;animation:appear .22s ease both}.message:hover{background:#1b1c24}.message.system{justify-content:center;color:#888b9b;font-size:12px}.message.system .message-body{max-width:100%;text-align:center}.message-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:0 0 40px;background:#33313f;display:grid;place-items:center;font-weight:700;color:#ddd2ff}.message-content{min-width:0;flex:1}.message-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}.author{font-weight:700;color:#f0eff7}.rank{font-size:10px;border-radius:5px;background:#322943;color:#d4c2ff;padding:2px 5px}.time{font-size:10px;color:#777a8a}.edited{font-size:10px;color:#777a8a}.message-text{color:#d0d1dc;overflow-wrap:anywhere;white-space:normal;margin-top:3px}.message-text a{color:#c4b5fd;text-decoration:underline}.message-text img.vortex-emote{max-height:1.5em;vertical-align:middle}.message-text .vortex-mention{color:#c4b5fd;font-weight:700;background:#7c3aed20;border-radius:4px;padding:1px 3px}.message-text pre{white-space:pre-wrap;overflow:auto;background:#111218;border:1px solid #30313d;border-radius:8px;padding:10px}.message-text code{font-family:ui-monospace,monospace;background:#111218;padding:2px 5px;border-radius:5px}.message-text pre code{padding:0}.message-actions{display:none;position:absolute;right:10px;top:-10px;background:#292a35;border:1px solid #3b3d4b;border-radius:9px;padding:3px;box-shadow:0 8px 20px #0004}.message:hover .message-actions{display:flex}.message-actions button{border:0;background:transparent;color:#b4b5c3;padding:5px 7px;border-radius:5px;font-size:11px}.message-actions button:hover{background:#414250;color:#fff}.attachment{max-width:min(420px,100%);max-height:300px;border-radius:12px;margin-top:8px;border:1px solid var(--line);object-fit:contain}.empty{margin:auto;text-align:center;color:var(--muted);padding:50px 20px}.empty .big{font-size:34px;margin-bottom:10px}.statusline{padding:0 30px;color:#e3bd7b;font-size:12px;max-height:0;overflow:hidden;transition:.2s}.statusline.show{max-height:70px;padding-top:8px;padding-bottom:8px}.typing{height:24px;padding:3px 30px;color:#999bac;font-size:12px}.composer-wrap{padding:8px clamp(18px,4vw,64px) 22px;flex-shrink:0}.reply-bar{max-width:900px;margin:0 auto 8px;padding:9px 12px;background:#24212e;border-left:3px solid var(--accent);border-radius:8px;display:flex;justify-content:space-between;align-items:center;color:#c9c2d9;font-size:12px}.composer{max-width:900px;margin:auto;display:flex;align-items:flex-end;gap:10px;padding:11px 12px;background:#1d1e27;border:1px solid #353643;border-radius:15px;box-shadow:0 12px 40px #0002}.composer:focus-within{border-color:#71609b;box-shadow:0 0 0 3px #a78bfa12}.composer textarea{flex:1;resize:none;max-height:150px;min-height:26px;background:transparent;color:var(--text);border:0;outline:0;padding:3px 2px;line-height:1.5}.composer textarea::placeholder{color:#777a8b}.send-btn{border:0;border-radius:10px;width:38px;height:38px;background:linear-gradient(145deg,#b9a4ff,#8b5cf6);color:#1b1429;font-size:18px;font-weight:700;flex-shrink:0}.send-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.composer-note{max-width:900px;margin:8px auto 0;text-align:center;font-size:10px;color:#696c7c}.login-screen{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:20px;background:#101116eF;backdrop-filter:blur(16px)}.login-card{width:min(440px,100%);padding:35px;border:1px solid #393344;border-radius:24px;background:linear-gradient(145deg,#24202f,#191a22 70%);box-shadow:0 25px 100px #0008;text-align:center}.login-logo{margin:0 auto 20px;width:66px;height:66px;border-radius:21px;background:linear-gradient(145deg,#c4b5fd,#7c3aed);color:#171321;display:grid;place-items:center;font:700 30px 'Space Grotesk'}.login-card h1{font:700 28px 'Space Grotesk';margin:0 0 8px}.login-card p{color:#a5a5b6;margin:0 0 24px}.primary-btn{border:0;background:linear-gradient(100deg,#b9a4ff,#8b5cf6);color:#1b1429;font-weight:700;padding:12px 18px;border-radius:11px;width:100%;box-shadow:0 8px 25px #8b5cf630}.primary-btn:hover{filter:brightness(1.07)}.fineprint{font-size:11px;color:#777a8a;margin-top:16px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:#282a35;border:1px solid #414351;border-radius:12px;padding:11px 16px;box-shadow:0 12px 35px #0007;opacity:0;pointer-events:none;transition:.2s;z-index:20;max-width:90vw}.toast.show{opacity:1;transform:translate(-50%,0)}.mobile-menu{display:none}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.app{grid-template-columns:64px 210px minmax(0,1fr)}.topbar{padding:0 17px}.search{width:150px}.messages{padding-left:15px;padding-right:15px}.composer-wrap{padding-left:15px;padding-right:15px}}
+@media(max-width:680px){body{overflow:hidden}.app{grid-template-columns:58px minmax(0,1fr)}.sidebar{position:absolute;z-index:4;left:58px;top:0;bottom:0;width:min(280px,calc(100vw - 58px));box-shadow:18px 0 50px #0008;transform:translateX(-110%);transition:transform .22s}.app.menu-open .sidebar{transform:translateX(0)}.main{grid-column:2}.rail{grid-column:1}.topbar{height:66px;padding:0 12px}.current-desc,.search,.desktop-only{display:none}.mobile-menu{display:grid}.messages{padding:14px 8px}.welcome{padding:18px;margin:8px 6px 20px}.message{gap:9px;padding:9px 7px}.message-avatar{width:34px;height:34px;flex-basis:34px}.composer-wrap{padding:8px 10px 12px}.composer-note{display:none}.typing{padding-left:15px}.login-card{padding:28px 22px}.guild-head{padding:20px 15px}.message-actions{right:4px}.message-actions button{padding:4px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <div id="chat">
-    <header id="title">Chat</header>
-    <p id="status">Loading...</p>
-    <button id="login" hidden>Log in with Vortex</button>
-    <ul id="messages"></ul>
-    <form id="composer" hidden>
-      <input id="text" maxlength="2000" placeholder="Say something" autocomplete="off" />
-      <button>Send</button>
-    </form>
-  </div>
-
-  <script src="https://vtx.chat/sdk/v1/vortex.js"></script>
-  <script>
-    const vortex = Vortex.init({ clientId: "vtx_7d67ad1e4c32e32bb9f2" });
-    const list = document.getElementById("messages");
-    const status = (text) => (document.getElementById("status").textContent = text || "");
-
-    function show(msg) {
-      const li = document.createElement("li");
-      li.dataset.id = msg.id;
-      const avatar = Object.assign(document.createElement("img"), { src: msg.author.avatar, alt: "" });
-      const body = document.createElement("div");
-      const name = Object.assign(document.createElement("b"), { textContent: msg.author.username });
-      const text = Object.assign(document.createElement("span"), { innerHTML: msg.html });
-      body.append(name, text);
-      li.append(avatar, body);
-      list.appendChild(li);
-      list.scrollTop = list.scrollHeight;
+<div class="app" id="app">
+  <aside class="rail">
+    <div class="brand" title="Vortex chat">V</div>
+    <button class="rail-btn active" title="Community" aria-label="Community">◈</button>
+    <button class="rail-btn" id="reportBtn" title="Report community" aria-label="Report community">⚑</button>
+    <div class="rail-spacer"></div>
+    <div class="rail-avatar" id="railAvatar">?</div>
+  </aside>
+  <aside class="sidebar">
+    <div class="guild-head">
+      <div class="eyebrow">Your community</div>
+      <div class="guild-title" id="guildName">Vortex Community</div>
+      <div class="guild-sub"><span class="dot" id="connectionDot"></span><span id="connectionText">Connecting to chat</span></div>
+    </div>
+    <div class="side-scroll">
+      <div class="section-label"><span>Text channels</span><span>⌄</span></div>
+      <div class="channel-list" id="channels"><div style="padding:12px;color:var(--muted);font-size:12px">Loading channels…</div></div>
+    </div>
+    <div class="side-footer">
+      <div class="profile">
+        <div class="avatar" id="profileAvatar">?</div>
+        <div class="profile-meta"><div class="profile-name" id="profileName">Not signed in</div><div class="profile-state" id="profileState">Connect your account</div></div>
+        <button class="icon-btn" id="profileAction" title="Sign in">↗</button>
+      </div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="current-channel">
+        <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open channels">☰</button>
+        <div class="channel-icon">#</div>
+        <div style="min-width:0"><div class="current-name" id="currentChannel">Connecting…</div><div class="current-desc" id="channelDesc">A place for the community to talk</div></div>
+      </div>
+      <div class="top-actions">
+        <label class="search" title="Filter loaded messages">⌕ <input id="searchInput" placeholder="Search messages…" aria-label="Search loaded messages"></label>
+        <button class="pill-btn desktop-only" id="refreshBtn" title="Reload recent messages">↻ Refresh</button>
+        <button class="icon-btn" id="logoutBtn" title="Sign out" hidden>⏻</button>
+      </div>
+    </header>
+    <div class="statusline" id="statusline" role="status"></div>
+    <section class="messages" id="messages" aria-live="polite">
+      <div class="welcome"><div class="welcome-icon">✦</div><h1>Welcome to the conversation</h1><p>Your community, all in one place. Choose a channel and jump in when you're ready.</p></div>
+      <div class="empty"><div class="big">◌</div>Connecting to Vortex…</div>
+    </section>
+    <div class="typing" id="typing"></div>
+    <div class="composer-wrap">
+      <div class="reply-bar" id="replyBar" hidden><span id="replyText">Replying to message</span><button class="icon-btn" id="cancelReply" aria-label="Cancel reply">×</button></div>
+      <form class="composer" id="composer">
+        <textarea id="messageInput" rows="1" maxlength="2000" placeholder="Connect to chat to send messages…" disabled aria-label="Write a message"></textarea>
+        <button class="send-btn" id="sendBtn" type="submit" aria-label="Send message" disabled>↑</button>
+      </form>
+      <div class="composer-note">Enter to send · Shift + Enter for a new line · Be kind to each other</div>
+    </div>
+    <div class="login-screen" id="loginScreen">
+      <div class="login-card">
+        <div class="login-logo">V</div>
+        <div class="eyebrow" style="margin-bottom:8px">Community chat</div>
+        <h1 id="loginTitle">Your people are here.</h1>
+        <p id="loginDescription">Sign in securely with Vortex to see channels, catch up, and join the conversation.</p>
+        <button class="primary-btn" id="loginBtn">Continue with Vortex ↗</button>
+        <div class="fineprint">Authentication is handled by Vortex. This page never asks for your password.</div>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://vtx.chat/sdk/v1/vortex.js"></script>
+<script>
+(() => {
+  "use strict";
+  const CLIENT_ID = "vtx_7d67ad1e4c32e32bb9f2";
+  const $ = id => document.getElementById(id);
+  const els = {
+    app:$("app"), guildName:$("guildName"), connectionDot:$("connectionDot"), connectionText:$("connectionText"),
+    channels:$("channels"), currentChannel:$("currentChannel"), channelDesc:$("channelDesc"), messages:$("messages"),
+    statusline:$("statusline"), typing:$("typing"), composer:$("composer"), input:$("messageInput"), send:$("sendBtn"),
+    loginScreen:$("loginScreen"), loginBtn:$("loginBtn"), loginTitle:$("loginTitle"), loginDescription:$("loginDescription"),
+    profileName:$("profileName"), profileState:$("profileState"), profileAvatar:$("profileAvatar"), railAvatar:$("railAvatar"),
+    profileAction:$("profileAction"), logoutBtn:$("logoutBtn"), search:$("searchInput"), replyBar:$("replyBar"), replyText:$("replyText")
+  };
+  let vortex = null, activeChannel = null, replyTarget = null, loading = false, historyHasMore = false, oldestMessageId = null;
+  let knownMessages = new Map(), typingUsers = new Map(), toastTimer = null, statusTimer = null;
+  const seen = new Set();
+  function toast(message) {
+    $("toast").textContent = message;
+    $("toast").classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => $("toast").classList.remove("show"), 3000);
+  }
+  function status(message, sticky = false) {
+    els.statusline.textContent = message || "";
+    els.statusline.classList.toggle("show", !!message);
+    clearTimeout(statusTimer);
+    if (message && !sticky) statusTimer = setTimeout(() => {
+      els.statusline.classList.remove("show");
+      els.statusline.textContent = "";
+    }, 6500);
+  }
+  function setConnection(connected, label) {
+    els.connectionDot.style.background = connected ? "var(--good)" : "var(--danger)";
+    els.connectionText.textContent = label;
+  }
+  function initials(name) { return (name || "?").trim().split(/\s+/).slice(0,2).map(x => x[0] || "").join("").toUpperCase() || "?"; }
+  function avatarElement(user, className) {
+    const el = document.createElement(user && user.avatar ? "img" : "div");
+    el.className = className;
+    if (user && user.avatar) { el.src = user.avatar; el.alt = ""; el.referrerPolicy = "no-referrer"; el.onerror = () => { const d=document.createElement("div"); d.className=className; d.textContent=initials(user.username); el.replaceWith(d); }; }
+    else el.textContent = initials(user && user.username);
+    return el;
+  }
+  function getChannel(id) { return (vortex?.channels || []).find(c => c.id === id); }
+  function currentChannelName() { return getChannel(activeChannel)?.name || "chat"; }
+  function timeLabel(date) {
+    const d = date ? new Date(date) : new Date();
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+  }
+  function dayLabel(date) {
+    const d = date ? new Date(date) : new Date();
+    if (Number.isNaN(d.getTime())) return "Recent messages";
+    const today = new Date();
+    if (d.toDateString() === today.toDateString()) return "Today";
+    const yesterday = new Date(); yesterday.setDate(today.getDate()-1);
+    if (d.toDateString() === yesterday.toDateString()) return "Yesterday";
+    return d.toLocaleDateString([], {month:"long",day:"numeric",year:d.getFullYear()===today.getFullYear()?undefined:"numeric"});
+  }
+  function safeRender(msg) {
+    if (msg.html) return msg.html;
+    if (vortex && typeof vortex.render === "function") return vortex.render(msg.content || "");
+    return escapeHTML(msg.content || "");
+  }
+  function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  function messageNode(msg) {
+    const row = document.createElement("article");
+    row.className = "message" + (msg.system ? " system" : "");
+    row.dataset.id = msg.id;
+    row.dataset.search = ((msg.content || "") + " " + (msg.author?.username || "")).toLowerCase();
+    if (msg.system) {
+      const body = document.createElement("div"); body.className="message-body";
+      body.textContent = msg.content || msg.text || "Community update";
+      row.append(body); return row;
     }
-
-    vortex.ready.then(async () => {
-      if (!vortex.site.allowed) return status(vortex.site.reason);
-
-      if (!vortex.user) {
-        status("");
-        const btn = document.getElementById("login");
-        btn.hidden = false;
-        btn.onclick = () =>
-          vortex.login({ popup: true }).then(
-            () => location.reload(),
-            (err) => status(err.message),
-          );
-        return;
-      }
-
-      const channel = vortex.channels.find((c) => c.id === vortex.channel);
-      document.getElementById("title").textContent = `${vortex.guild.name}${channel ? ` · #${channel.name}` : ""}`;
-
-      try {
-        const { messages } = await vortex.history();
-        messages.forEach(show);
-        status(messages.length ? "" : "No messages yet. Say hi!");
-      } catch (err) {
-        return status(err.message);
-      }
-      vortex.onmessage = (msg) => {
-        status("");
-        show(msg);
-      };
-      vortex.on("delete", ({ id }) => list.querySelector(`[data-id="${id}"]`)?.remove());
-
-      const form = document.getElementById("composer");
-      form.hidden = !channel?.canSend;
-      form.onsubmit = async (e) => {
-        e.preventDefault();
-        const input = document.getElementById("text");
-        if (!input.value.trim()) return;
-        try {
-          await vortex.send(input.value);
-          input.value = "";
-        } catch (err) {
-          status(err.message);
-        }
-      };
+    row.append(avatarElement(msg.author, "message-avatar"));
+    const body = document.createElement("div"); body.className = "message-content";
+    const head = document.createElement("div"); head.className = "message-head";
+    const author = document.createElement("span"); author.className = "author"; author.textContent = msg.author?.username || "Unknown user";
+    if (msg.author?.color && /^#[0-9a-f]{3,8}$/i.test(msg.author.color)) author.style.color = msg.author.color;
+    head.append(author);
+    if (msg.author?.rank) { const rank=document.createElement("span");rank.className="rank";rank.textContent=msg.author.rank;head.append(rank); }
+    if (msg.source === "discord") { const bridged=document.createElement("span");bridged.className="rank";bridged.textContent="DISCORD";head.append(bridged); }
+    const time=document.createElement("time");time.className="time";time.textContent=timeLabel(msg.createdAt);if(msg.createdAt)time.dateTime=new Date(msg.createdAt).toISOString();head.append(time);
+    if(msg.editedAt){const edited=document.createElement("span");edited.className="edited";edited.textContent="edited";head.append(edited);}
+    body.append(head);
+    if (msg.replyTo) {
+      const reply=document.createElement("div");reply.style.cssText="font-size:11px;color:#9992b0;border-left:2px solid #74618f;padding-left:8px;margin:4px 0";
+      reply.textContent="↳ "+(msg.replyTo.author?.username || "Message")+": "+(msg.replyTo.content || "").slice(0,100);body.append(reply);
+    }
+    const text=document.createElement("div");text.className="message-text";text.innerHTML=safeRender(msg);body.append(text);
+    if (Array.isArray(msg.attachments)) msg.attachments.forEach(url => {
+      if (!/^https?:\/\//i.test(url)) return;
+      const img=document.createElement("img");img.className="attachment";img.src=url;img.alt="Message attachment";img.loading="lazy";img.referrerPolicy="no-referrer";img.onerror=()=>img.remove();body.append(img);
     });
-  </script>
+    if(msg.gif?.url && /^https?:\/\//i.test(msg.gif.url)){const img=document.createElement("img");img.className="attachment";img.src=msg.gif.url;img.alt="GIF";img.loading="lazy";body.append(img);}
+    row.append(body);
+    const actions=document.createElement("div");actions.className="message-actions";
+    const replyBtn=document.createElement("button");replyBtn.textContent="↩ Reply";replyBtn.onclick=()=>setReply(msg);actions.append(replyBtn);
+    if(vortex?.user?.id && msg.author?.id===vortex.user.id){
+      const editBtn=document.createElement("button");editBtn.textContent="Edit";editBtn.onclick=()=>editMessage(msg);actions.append(editBtn);
+      const delBtn=document.createElement("button");delBtn.textContent="Delete";delBtn.onclick=()=>deleteMessage(msg);actions.append(delBtn);
+    } else if(msg.author?.id) {
+      const reportBtn=document.createElement("button");reportBtn.textContent="Report";reportBtn.onclick=()=>reportMessage(msg);actions.append(reportBtn);
+    }
+    row.append(actions);
+    return row;
+  }
+  function appendMessage(msg, prepend=false) {
+    if (!msg || !msg.id || seen.has(msg.id)) {
+      if (msg?.id && knownMessages.has(msg.id)) updateMessage(msg);
+      return;
+    }
+    seen.add(msg.id); knownMessages.set(msg.id,msg);
+    const node=messageNode(msg);
+    const oldHeight=els.messages.scrollHeight, oldTop=els.messages.scrollTop;
+    if(prepend) els.messages.insertBefore(node, els.messages.querySelector(".message-list")?.firstChild || null);
+    else {
+      let list=els.messages.querySelector(".message-list");
+      if(!list){els.messages.innerHTML="";list=document.createElement("div");list.className="message-list";els.messages.append(list);}
+      list.append(node);
+    }
+    if(!oldestMessageId || new Date(msg.createdAt||0) < new Date(knownMessages.get(oldestMessageId)?.createdAt||Date.now())) oldestMessageId=msg.id;
+    if(!prepend) els.messages.scrollTop=els.messages.scrollHeight;
+    else els.messages.scrollTop=els.messages.scrollHeight-oldHeight+oldTop;
+  }
+  function updateMessage(msg) {
+    if(!msg?.id) return;
+    knownMessages.set(msg.id,msg);
+    const old=els.messages.querySelector(`[data-id="${CSS.escape(msg.id)}"]`);
+    if(old) old.replaceWith(messageNode(msg));
+  }
+  function renderHistory(messages) {
+    els.messages.innerHTML="";
+    const welcome=document.createElement("div");welcome.className="welcome";
+    const wi=document.createElement("div");wi.className="welcome-icon";wi.textContent="✦";
+    const h=document.createElement("h1");h.textContent="#"+currentChannelName();
+    const p=document.createElement("p");p.textContent="You're in the right place. Say hello and get the conversation going.";
+    welcome.append(wi,h,p);els.messages.append(welcome);
+    const divider=document.createElement("div");divider.className="date-divider";divider.textContent="The conversation so far";els.messages.append(divider);
+    const list=document.createElement("div");list.className="message-list";els.messages.append(list);
+    knownMessages.clear();seen.clear();oldestMessageId=null;
+    messages.forEach(msg=>{if(!msg?.id||seen.has(msg.id))return;seen.add(msg.id);knownMessages.set(msg.id,msg);list.append(messageNode(msg));if(!oldestMessageId)oldestMessageId=msg.id;});
+    if(!messages.length){const empty=document.createElement("div");empty.className="empty";empty.innerHTML='<div class="big">✧</div><strong>It’s quiet in here.</strong><br>Be the first to say something.';els.messages.append(empty);}
+    els.messages.scrollTop=els.messages.scrollHeight;
+  }
+  function renderChannels() {
+    els.channels.innerHTML="";
+    const channels=vortex?.channels || [];
+    if(!channels.length){els.channels.innerHTML='<div style="padding:12px;color:var(--muted);font-size:12px">No channels available.</div>';return;}
+    channels.forEach(channel=>{
+      const btn=document.createElement("button");btn.className="channel"+(channel.id===activeChannel?" active":"");btn.dataset.id=channel.id;
+      const hash=document.createElement("span");hash.className="hash";hash.textContent="#";
+      const name=document.createElement("span");name.className="channel-name";name.textContent=channel.name || "channel";
+      btn.append(hash,name);
+      if(channel.id!==activeChannel){const unread=document.createElement("span");unread.className="unread";unread.style.opacity=".0";btn.append(unread);}
+      btn.onclick=()=>switchChannel(channel.id);
+      els.channels.append(btn);
+    });
+  }
+  async function loadChannel(channelId) {
+    if(!vortex || !channelId || loading) return;
+    loading=true;activeChannel=channelId;renderChannels();
+    const channel=getChannel(channelId);
+    els.currentChannel.textContent=channel?.name || "chat";
+    els.channelDesc.textContent=channel?.canSend===false?"You can read this channel":"A place for the community to talk";
+    els.input.disabled=channel?.canSend===false;els.send.disabled=channel?.canSend===false;
+    els.input.placeholder=channel?.canSend===false?"You don't have permission to send here":"Message #"+(channel?.name||"chat");
+    els.messages.innerHTML='<div class="empty"><div class="big">◌</div>Loading messages…</div>';
+    try {
+      if(vortex.channel!==channelId) await vortex.join(channelId);
+      const result=await vortex.history({channel:channelId,limit:50});
+      historyHasMore=!!result.hasMore;
+      renderHistory(result.messages || []);
+      await vortex.markRead({channel:channelId}).catch(()=>{});
+      els.app.classList.remove("menu-open");
+    } catch(err) { status(err?.message || "Couldn't load this channel.",true); }
+    finally {loading=false;}
+  }
+  async function switchChannel(id) {
+    if(id===activeChannel)return;
+    replyTarget=null;els.replyBar.hidden=true;
+    await loadChannel(id);
+  }
+  function setReply(msg) {
+    replyTarget=msg;
+    els.replyText.textContent="Replying to "+(msg.author?.username||"message")+": "+(msg.content||"").slice(0,90);
+    els.replyBar.hidden=false;els.input.focus();
+  }
+  async function editMessage(msg) {
+    const next=prompt("Edit your message:",msg.content||"");
+    if(next===null || !next.trim() || next===msg.content)return;
+    try {const updated=await vortex.edit(msg.id,next.trim(),{channel:activeChannel});updateMessage(updated);toast("Message updated");}
+    catch(err){status(err.message||"Couldn't edit message.",true);}
+  }
+  async function deleteMessage(msg) {
+    if(!confirm("Delete this message? This can't be undone."))return;
+    try {await vortex.delete(msg.id,{channel:activeChannel});removeMessage(msg.id);toast("Message deleted");}
+    catch(err){status(err.message||"Couldn't delete message.",true);}
+  }
+  function removeMessage(id){const node=els.messages.querySelector(`[data-id="${CSS.escape(id)}"]`);if(node)node.remove();knownMessages.delete(id);seen.delete(id);}
+  async function reportMessage(msg) {
+    const reason=prompt("Why are you reporting this message? Enter spam, harassment, hate_speech, nsfw, self_harm, or other.","other");
+    if(!reason)return;
+    const allowed=["spam","harassment","hate_speech","nsfw","self_harm","other"];
+    if(!allowed.includes(reason.trim())){toast("Choose one of the listed report reasons.");return;}
+    const note=prompt("Optional details (leave blank if none):","")||"";
+    try{await vortex.reportMessage(msg.id,reason.trim(),note,{channel:activeChannel});toast("Report submitted to Vortex staff.");}
+    catch(err){status(err.message||"Couldn't submit report.",true);}
+  }
+  async function sendMessage(e) {
+    e.preventDefault();const value=els.input.value.trim();
+    if(!value || !vortex || !activeChannel || els.send.disabled)return;
+    els.send.disabled=true;
+    try {
+      await vortex.send(value,{channel:activeChannel,...(replyTarget?{replyTo:replyTarget.id}:{})});
+      els.input.value="";resizeInput();replyTarget=null;els.replyBar.hidden=true;
+    } catch(err){status(err.message||"Message failed to send.",true);}
+    finally{els.send.disabled=false;els.input.focus();}
+  }
+  function resizeInput(){els.input.style.height="auto";els.input.style.height=Math.min(els.input.scrollHeight,150)+"px";}
+  function updateProfile(user) {
+    const name=user?.username || "Not signed in";
+    els.profileName.textContent=name;els.profileState.textContent=user?"Signed in to Vortex":"Connect your account";
+    const profile=avatarElement(user,"avatar");profile.id="profileAvatar";
+    els.profileAvatar.replaceWith(profile);els.profileAvatar=profile;
+    const rail=avatarElement(user,"rail-avatar");rail.id="railAvatar";
+    $("railAvatar").replaceWith(rail);
+    els.profileAction.textContent=user?"⋯":"↗";els.profileAction.title=user?"Account":"Sign in";
+    els.logoutBtn.hidden=!user;
+  }
+  function showLogin() {els.loginScreen.hidden=false;els.loginBtn.disabled=false;els.loginBtn.textContent="Continue with Vortex ↗";els.input.disabled=true;els.send.disabled=true;updateProfile(null);}
+  function hideLogin() {els.loginScreen.hidden=true;}
+  async function login() {
+    els.loginBtn.disabled=true;els.loginBtn.textContent="Opening Vortex…";
+    try {await vortex.login({popup:true});if(vortex.user) await initializeSignedIn();}
+    catch(err){status(err.message||"Sign-in didn't complete.",true);toast("Couldn't sign in. Check popup permissions.");}
+    finally {els.loginBtn.disabled=false;els.loginBtn.textContent="Continue with Vortex ↗";}
+  }
+  async function initializeSignedIn() {
+    const user=vortex.user;
+    if(!user){showLogin();return;}
+    hideLogin();updateProfile(user);
+    if(vortex.guild){els.guildName.textContent=vortex.guild.name||"Community";document.title=(vortex.guild.name||"Community")+" — Vortex Chat";}
+    setConnection(true,"Connected");
+    renderChannels();
+    const selected=vortex.channels?.find(c=>c.id===vortex.channel) || vortex.channels?.find(c=>c.canSend) || vortex.channels?.[0];
+    if(selected) await loadChannel(selected.id);
+    else {els.currentChannel.textContent="No channels";els.messages.innerHTML='<div class="empty">No channels are available for this account.</div>';}
+  }
+  async function boot() {
+    try {
+      if(!window.Vortex) throw new Error("The Vortex SDK didn't load. Check your internet connection or content blocker.");
+      vortex=Vortex.init({clientId:CLIENT_ID});
+      vortex.on("connect",()=>setConnection(true,"Live connection"));
+      vortex.on("disconnect",reason=>setConnection(false,"Reconnecting…"));
+      vortex.on("error",err=>{if(err?.message)status(err.message,true);});
+      vortex.on("login",()=>initializeSignedIn());
+      vortex.on("logout",()=>{showLogin();setConnection(false,"Signed out");});
+      vortex.on("message",msg=>{
+        if(msg.channelId && msg.channelId!==activeChannel)return;
+        status("");
+        if(msg.id && knownMessages.has(msg.id)){updateMessage(msg);return;}
+        const empty=els.messages.querySelector(".empty");if(empty)empty.remove();
+        appendMessage(msg);
+      });
+      vortex.onmessage=msg=>{
+        if(msg.channelId && msg.channelId!==activeChannel)return;
+        if(msg.id && knownMessages.has(msg.id)){updateMessage(msg);return;}
+        const empty=els.messages.querySelector(".empty");if(empty)empty.remove();
+        appendMessage(msg);
+      };
+      vortex.on("edit",msg=>{if(!msg.channelId||msg.channelId===activeChannel)updateMessage(msg);});
+      vortex.on("delete",({id,channelId})=>{if(!channelId||channelId===activeChannel)removeMessage(id);});
+      vortex.on("typing",payload=>{
+        if(payload.channelId!==activeChannel)return;
+        if(payload.typing)typingUsers.set(payload.userId,payload.username||"Someone");else typingUsers.delete(payload.userId);
+        const names=[...typingUsers.values()].filter(Boolean);
+        els.typing.textContent=names.length?(names.length===1?names[0]+" is typing…":names.slice(0,2).join(", ")+(names.length>2?" and others":"")+" are typing…"):"";
+      });
+      await vortex.ready;
+      if(!vortex.site?.allowed){els.loginTitle.textContent="This site isn't enabled yet";els.loginDescription.textContent=vortex.site?.reason||"Allow this domain in your Vortex dashboard under Where it works.";els.loginBtn.hidden=true;status(vortex.site?.reason||"This site is not allowed by Vortex.",true);setConnection(false,"Site not allowed");return;}
+      if(vortex.user) await initializeSignedIn(); else {showLogin();setConnection(false,"Sign in to connect");}
+    } catch(err) {
+      setConnection(false,"Connection issue");
+      els.loginTitle.textContent="Couldn't connect to Vortex";
+      els.loginDescription.textContent=err?.message||"The Vortex SDK could not initialize. Try refreshing the page.";
+      status(err?.message||"Vortex initialization failed.",true);
+    }
+  }
+  els.loginBtn.addEventListener("click",login);
+  els.profileAction.addEventListener("click",()=>vortex?.user?toast("You're signed in as "+vortex.user.username):login());
+  els.logoutBtn.addEventListener("click",()=>{if(confirm("Sign out of Vortex?"))vortex?.logout();});
+  els.composer.addEventListener("submit",sendMessage);
+  els.input.addEventListener("input",()=>{resizeInput();if(vortex?.user)vortex.typing({channel:activeChannel});});
+  els.input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();els.composer.requestSubmit();}});
+  $("cancelReply").addEventListener("click",()=>{replyTarget=null;els.replyBar.hidden=true;});
+  $("menuBtn").addEventListener("click",()=>els.app.classList.toggle("menu-open"));
+  $("refreshBtn").addEventListener("click",()=>activeChannel&&loadChannel(activeChannel));
+  $("reportBtn").addEventListener("click",()=>{if(vortex?.user){try{vortex.report();}catch(e){status(e.message||"Couldn't open reporting.",true);}}else toast("Sign in to report this community.");});
+  els.search.addEventListener("input",()=>{
+    const q=els.search.value.trim().toLowerCase();
+    els.messages.querySelectorAll(".message").forEach(node=>{node.style.display=!q||node.dataset.search?.includes(q)?"":"none";});
+  });
+  boot();
+})();
+</script>
 </body>
 </html>
