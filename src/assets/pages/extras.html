@@ -459,6 +459,7 @@
   }
 
   function openVortex() {
+    const page = "vortex.html";
     if (window.parent && window.parent.document.getElementById("content-frame")) {
       window.parent.document.getElementById("content-frame").src = "src/assets/pages/" + path;
     } else {
