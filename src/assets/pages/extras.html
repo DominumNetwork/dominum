@@ -450,6 +450,22 @@
       });
   }
 
+  function openVortex() {
+    const targetUrl = "src/assets/pages/vortex.html";
+    const newTab = window.open("about:blank", "_blank");
+    fetch(targetUrl)
+      .then(response => response.text())
+      .then(html => {
+        newTab.document.open();
+        newTab.document.write(html);
+        newTab.document.close();
+      })
+      .catch(err => {
+        console.error("Failed to load vortex:", err);
+        newTab.location.href = targetUrl; 
+      });
+  }
+
   function openGamePorts() {
     if (window.parent && window.parent.document.getElementById("content-frame")) {
       window.parent.document.getElementById("content-frame").src = "src/assets/pages/" + path;
@@ -458,14 +474,14 @@
     }
   }
 
-  function openVortex() {
-    const page = "vortex.html";
-    if (window.parent && window.parent.document.getElementById("content-frame")) {
-      window.parent.document.getElementById("content-frame").src = "src/assets/pages/" + path;
-    } else {
-      window.location.href = path;
-    }
-  }
+  // function openVortex() {
+  //   const page = "vortex.html";
+  //   if (window.parent && window.parent.document.getElementById("content-frame")) {
+  //     window.parent.document.getElementById("content-frame").src = "src/assets/pages/" + path;
+  //   } else {
+  //     window.location.href = path;
+  //   }
+  // }
 
   function openDataGen() {
     const page = "data-generator.html";
