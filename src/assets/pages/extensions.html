@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extensions - Dominum</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+:root {
+	--bg: #0a0518;
+	--accent: #7c3aed;
+	--blue: #a78bfa;
+	--text: #ede9fe;
+	--surface: rgba(139, 92, 246, 0.07);
+	--border: rgba(167, 139, 250, 0.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: 'Inter', sans-serif;
+	min-height: 100vh;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#dark-veil-bg {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	pointer-events: none;
+	opacity: 0.5;
+}
+.content {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 60px 20px 100px;
+	max-width: 760px;
+	margin: 0 auto;
+}
+h1 {
+	color: var(--text);
+	font-size: 2.4em;
+	letter-spacing: 3px;
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	text-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+	animation: fadeDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.subtitle {
+	font-family: system-ui, sans-serif;
+	font-size: 0.85em;
+	letter-spacing: 0.3px;
+	opacity: 0.55;
+	margin-bottom: 36px;
+	text-align: center;
+	max-width: 480px;
+}
+@keyframes fadeDown {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+.setting-box {
+	background: var(--surface);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	padding: 25px 30px;
+	width: 100%;
+	margin-bottom: 20px;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+	opacity: 0;
+	animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+	transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.setting-box:nth-child(2) { animation-delay: 0.08s; }
+.setting-box:nth-child(3) { animation-delay: 0.16s; }
+@keyframes slideUp { to { opacity: 1; } }
+.setting-box:hover {
+	border-color: rgba(255, 255, 255, 0.2);
+}
+.box-label {
+	font-size: 0.85em;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	opacity: 0.6;
+	margin-bottom: 16px;
+}
+.row { display: flex; gap: 10px; }
+input[type="text"] {
+	flex: 1;
+	padding: 12px 16px;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: rgba(0, 0, 0, 0.2);
+	color: var(--text);
+	font-family: system-ui, sans-serif;
+	font-size: 0.9em;
+	outline: none;
+	transition: all 0.25s ease;
+}
+input[type="text"]:focus {
+	border-color: var(--accent);
+	background: rgba(0, 0, 0, 0.4);
+}
+button.install-btn {
+	flex-shrink: 0;
+	padding: 12px 22px;
+	border: none;
+	border-radius: 12px;
+	background: linear-gradient(135deg, var(--accent), var(--blue));
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-size: 0.85em;
+	letter-spacing: 0.5px;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+button.install-btn:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: none; }
+
+.quick-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.quick-btn {
+	padding: 8px 14px;
+	border-radius: 20px;
+	border: 1px solid var(--border);
+	background: rgba(255,255,255,0.04);
+	color: var(--text);
+	font-family: system-ui, sans-serif;
+	font-size: 0.8em;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+.quick-btn:hover:not(:disabled) { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.25); }
+.quick-btn:disabled { opacity: 0.5; cursor: default; }
+
+.ext-item {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 4px;
+	border-bottom: 1px solid var(--border);
+}
+.ext-item:last-child { border-bottom: none; }
+.ext-icon {
+	width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+	display: flex; align-items: center; justify-content: center;
+	background: rgba(255,255,255,0.04);
+	overflow: hidden;
+}
+.ext-icon img { width: 100%; height: 100%; object-fit: contain; }
+.ext-icon i { opacity: 0.5; font-size: 15px; }
+.ext-info { flex: 1; min-width: 0; }
+.ext-name { font-family: system-ui, sans-serif; font-size: 0.92em; font-weight: 600; }
+.ext-desc { font-family: system-ui, sans-serif; font-size: 0.76em; opacity: 0.5; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ext-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.ext-toggle {
+	width: 36px; height: 20px; border-radius: 12px; border: none; cursor: pointer;
+	background: rgba(255,255,255,0.15); position: relative; transition: background 0.2s ease;
+}
+.ext-toggle::after {
+	content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+	border-radius: 50%; background: #fff; transition: transform 0.2s ease;
+}
+.ext-toggle.on { background: var(--accent); }
+.ext-toggle.on::after { transform: translateX(16px); }
+.ext-icon-btn {
+	width: 30px; height: 30px; border-radius: 8px; border: none; background: transparent;
+	color: var(--text); opacity: 0.55; cursor: pointer; display: flex; align-items: center; justify-content: center;
+	transition: opacity 0.15s ease, background 0.15s ease;
+}
+.ext-icon-btn:hover { opacity: 1; background: rgba(255,255,255,0.08); }
+.empty-state {
+	text-align: center;
+	padding: 30px 0;
+	font-family: system-ui, sans-serif;
+	font-size: 0.85em;
+	opacity: 0.4;
+}
+.about-text {
+	font-family: system-ui, sans-serif;
+	font-size: 0.78em;
+	line-height: 1.6;
+	opacity: 0.45;
+	margin-top: 10px;
+}
+#toast {
+	position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+	background: rgba(20,18,32,0.95); border: 1px solid var(--border); border-radius: 12px;
+	padding: 10px 20px; font-family: system-ui, sans-serif; font-size: 0.85em;
+	opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none;
+	z-index: 50;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.err { border-color: rgba(248,113,113,0.4); color: #f87171; }
+#toast.ok { border-color: rgba(124, 58, 237,0.4); }
+</style>
+</head>
+<body>
+
+<canvas id="dark-veil-bg" data-dark-veil data-speed="0.35" data-warp-amount="0.5" data-resolution-scale="0.75"></canvas>
+
+<div class="content">
+	<h1>Extensions</h1>
+	<div class="subtitle">Install real Chrome extensions and run them inside the Dominum browser — content scripts, background service workers, and popups included.</div>
+
+	<div class="setting-box">
+		<div class="box-label">Install Extension</div>
+		<div class="row">
+			<input type="text" id="extInput" placeholder="Chrome extension ID or .crx URL" autocomplete="off" spellcheck="false">
+			<button class="install-btn" id="installBtn">Install</button>
+		</div>
+		<div class="quick-row" id="quickRow"></div>
+	</div>
+
+	<div class="setting-box">
+		<div class="box-label" id="installedLabel">Installed (0)</div>
+		<div id="extList"></div>
+	</div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="/src/assets/js/dark-veil.js"></script>
+<script src="/src/assets/vendor/jszip.min.js"></script>
+<script type="module">
+	import { installExtension, uninstallExtension, getExtensions, setExtensionEnabled } from '/src/assets/js/ext/extensions.js';
+	import { openExtPopup } from '/src/assets/js/ext/ext-ui.js';
+
+	const QUICK_SOURCES = [
+		{ label: 'uBlock Origin Lite', id: 'ddkjiahejlhfcafbddmgiahcphecmpfh' },
+		{ label: 'Dark Reader', id: 'eimadpbcbfnmbkopoojfekhnkhdbieeh' },
+		{ label: 'SponsorBlock', id: 'mnjggcdmjocbbbhaepdhchncahnbgone' },
+	];
+
+	const extInput = document.getElementById('extInput');
+	const installBtn = document.getElementById('installBtn');
+	const quickRow = document.getElementById('quickRow');
+	const extList = document.getElementById('extList');
+	const installedLabel = document.getElementById('installedLabel');
+	const toast = document.getElementById('toast');
+
+	let busy = false;
+
+	function showToast(msg, kind) {
+		toast.textContent = msg;
+		toast.className = kind ? `show ${kind}` : 'show';
+		clearTimeout(showToast._t);
+		showToast._t = setTimeout(() => toast.classList.remove('show'), 2600);
+	}
+
+	function hasPopup(ext) {
+		const m = ext.manifest || {};
+		return !!(m.action?.default_popup || m.browser_action?.default_popup || m.page_action?.default_popup);
+	}
+
+	function render() {
+		const exts = getExtensions();
+		installedLabel.textContent = `Installed (${exts.length})`;
+
+		quickRow.innerHTML = '';
+		QUICK_SOURCES.forEach(s => {
+			const btn = document.createElement('button');
+			btn.className = 'quick-btn';
+			const already = exts.some(e => e.id === s.id);
+			btn.textContent = (already ? '✓ ' : '') + s.label;
+			btn.disabled = busy || already;
+			btn.addEventListener('click', () => install(s.id));
+			quickRow.appendChild(btn);
+		});
+
+		extList.innerHTML = '';
+		if (!exts.length) {
+			const empty = document.createElement('div');
+			empty.className = 'empty-state';
+			empty.textContent = 'No extensions installed yet.';
+			extList.appendChild(empty);
+			return;
+		}
+
+		exts.forEach(ext => {
+			const row = document.createElement('div');
+			row.className = 'ext-item';
+			row.innerHTML = `
+				<div class="ext-icon">${ext.icon ? `<img src="${ext.icon}" alt="">` : '<i class="fa-solid fa-puzzle-piece"></i>'}</div>
+				<div class="ext-info">
+					<div class="ext-name"></div>
+					<div class="ext-desc"></div>
+				</div>
+				<div class="ext-actions">
+					${hasPopup(ext) && ext.enabled !== false ? '<button class="ext-icon-btn" data-act="open" title="Open popup"><i class="fa-solid fa-arrow-up-right-from-square"></i></button>' : ''}
+					<button class="ext-toggle${ext.enabled !== false ? ' on' : ''}" data-act="toggle" title="${ext.enabled !== false ? 'Disable' : 'Enable'}"></button>
+					<button class="ext-icon-btn" data-act="remove" title="Uninstall"><i class="fa-solid fa-trash"></i></button>
+				</div>
+			`;
+			row.querySelector('.ext-name').textContent = ext.name || ext.id;
+			row.querySelector('.ext-desc').textContent = ext.manifest?.description || `v${ext.manifest?.version || ext.version || ''}`;
+
+			row.querySelector('[data-act="toggle"]')?.addEventListener('click', () => {
+				setExtensionEnabled(ext.id, ext.enabled === false);
+				render();
+			});
+			row.querySelector('[data-act="remove"]')?.addEventListener('click', () => {
+				if (!confirm(`Uninstall "${ext.name || ext.id}"?`)) return;
+				uninstallExtension(ext.id);
+				showToast('Extension removed', 'ok');
+				render();
+			});
+			row.querySelector('[data-act="open"]')?.addEventListener('click', (e) => {
+				const r = e.currentTarget.getBoundingClientRect();
+				openExtPopup(ext, r);
+			});
+
+			extList.appendChild(row);
+		});
+	}
+
+	async function install(val) {
+		val = (val || extInput.value).trim();
+		if (!val) return;
+		busy = true;
+		installBtn.disabled = true;
+		installBtn.textContent = '…';
+		render();
+		try {
+			await installExtension(val);
+			extInput.value = '';
+			showToast('Extension installed', 'ok');
+		} catch (e) {
+			showToast('Install failed: ' + e.message, 'err');
+		}
+		busy = false;
+		installBtn.disabled = false;
+		installBtn.textContent = 'Install';
+		render();
+	}
+
+	installBtn.addEventListener('click', () => install());
+	extInput.addEventListener('keydown', e => { if (e.key === 'Enter') install(); });
+
+	render();
+</script>
+</body>
+</html>

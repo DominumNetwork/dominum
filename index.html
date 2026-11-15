@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dominum</title>
+
 <link rel="icon" href="./src/assets/images/transparent-dominum.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <meta name="description" content="A proxy site with many promising features :D - Also Fish" />
 <meta property="og:type" content="website" />
@@ -18,383 +19,470 @@
 <meta name="twitter:title" content="Dominum" />
 <meta name="twitter:description" content="A proxy site with many promising features :D - Also Fish" />
 <meta name="twitter:image" content="./src/assets/images/transparent-dominum.png" />
-
+<!--                                   .........                                                        -->
+<!--                               ....=+=::..........                                                  -->
+<!--                             ....-#%%%%%%#**=-:........                                             -->
+<!--                             ...=%%%%%%%%%%%%%%%#*=:.......                                         -->
+<!--                           ...:*%%%############%%%%%%%*=:.......                                    -->
+<!--                          ...:*%####*********######%%%%%%#*=:.....                                  -->
+<!--                         ...:#####****************#####%%%%%%#+:....                                -->
+<!--                     ......-##************************#####%%%%%#=.....                             -->
+<!--                  ......:=+**#####################*******#####%%%%%*:...                            -->
+<!--               ......-+*###############**##############*****####%%%%%*-....                         -->
+<!--             .....-+*####********+++++++++++++*******#####**+**##%%%%%%*:....               .....   -->
+<!--           ....:=*****++++++=======+++============+++++********+*##%%%%%%+....             .......  -->
+<!--         ....:=***++======---------=*+===================++++****+*#%%%%%%#:...           ...:+:..  -->
+<!--       .....=**+=--------------------++======-------------====++****+*#%%%%#-...       .....=%*:..  -->
+<!--       ...:+*+=-:.....::::::::::::----+++=====-----------------==++*****%%%%#:...    .....-#%%+...  -->
+<!--      ...-**+-:.......:=++=-::::::::::-**++=====------------------==++****%%%#:.........=#%%%%=...  -->
+<!--    ....=**+-:......:*%%*#@%=:::::::--:-#*+++=====------------------==++***#%%*......-*%%%%%%%-..   -->
+<!--    ...-**+-:.......+@@@%@@@@-:::-------+#*++++=====------------------==++***+-..:=*#%%%%%%%%#-..   -->
+<!--   ...-**+-:........*@@@%%%@%-::--------=#***++++====-------------------==+***+#%%%%%%%%%%%%%#:..   -->
+<!--  ...:+*+-:.........-%%%%%%%=::----------*#***++++====-------------------==+*****#%###%%%%%%%*:..   -->
+<!--  ...-#*=-:...........-+*+=:.::----------+#****+++=====-------------------==+*****#####%%%%%%*..    -->
+<!--  ..:+##*=-:..................::---------+##***+++=====------------------===++**##*#####%%%%%*..    -->
+<!--  ...:+#%##*+-::..............::---------=##***++++=====----------------====+++**######%%%%%%+..    -->
+<!--   ......:=*##*+=-:........:.::::--------+##***+++=======-------------======+++**#%%####%%%%%+..    -->
+<!--     ...:--:..-+##*=-:...:::::::::-------+#***++++==========-----=============+**#%#####%%%%%+..    -->
+<!--     ...*%###*+-::+#+:::::::::::::::----=+#*+++++============================++*#######%%%%%%+..    -->
+<!--     ...+#*++===+++==:::::::::::::::::--=**+++++======================----==+*###%%####%%%%%%+..    -->
+<!--     ...:*#*+==--:::::::::::::::::::::::+*++++====================------==+*###%%%%%%%%%%%%%%+..    -->
+<!--      ...:*#**+==---:::::::::::::::::::-+=====================-------==+**##*+*#%%%%%%%%%%%%%*...   -->
+<!--       ....=##**+===---:::::::::::::::-+=--:::::------------------==++*###*=.....-+#%%%%%%%%%#:..   -->
+<!--        ....-*##**+++===----:::::::::-=-:::::::::::::::::------==++*####*-..........-*%%%%%%%%-..   -->
+<!--          ....=**##***+++====-----::-=-::::::::::::--------===++*######%%-...     .....-#%%%%%=...  -->
+<!--           .....-+*###****+++++=====----------------=====+++**######%%%%%*:...      .....:+#%%+...  -->
+<!--             .....:=**######******+++++++========++++++***#####*+--+#%%%%%+...         .....-#*:..  -->
+<!--                .....:=**##########*********++******##########=.........:-:...            ........  -->
+<!--                  .......:=+*#############################%%%%*... ...........              .....   -->
+<!--                      ........::-=++***########**#%%%%%%%%%%%%#:...                                 -->
+<!--                             .....................:*%%%%%%%%%%%*....                                -->
+<!--                                               ......:=*#%%%%%%%=...                                -->
+<!--                                                  ........:--=+**:..                                -->
+<!--                                                          ..........                                -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
+<!--                                                                                                    -->
 <style>
-  :root {
-    --bg: #0b0a16;
-    --accent: #7a5cff;
-    --blue: #00bfff;
-    --text: #e6e6ff;
-    --surface: rgba(255, 255, 255, 0.05);
-    --border: rgba(255, 255, 255, 0.1);
-    --card-bg: rgba(255, 255, 255, 0.03);
-  }
+	:root {
+		--bg: #0a0518;
+		--accent: #7c3aed;
+		--blue: #a78bfa;
+		--text: #ede9fe;
+		--surface: rgba(139, 92, 246, 0.07);
+		--border: rgba(167, 139, 250, 0.18);
+		--card-bg: rgba(18, 10, 36, 0.45);
+	}
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
 
-  body {
-    display: flex;
-    height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Orbitron', sans-serif;
-    overflow: hidden;
-    position: relative;
-  }
+	body {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		background: var(--bg);
+		color: var(--text);
+		font-family: 'Inter', sans-serif;
+		overflow: hidden;
+		position: relative;
+	}
 
-  body::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(122, 92, 255, 0.05) 0%, transparent 60%);
-    z-index: 0;
-    pointer-events: none;
-  }
+	body::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
+		background: radial-gradient(circle at center, rgba(124, 58, 237, 0.05) 0%, transparent 60%);
+		z-index: -1;
+		pointer-events: none;
+	}
 
-  aside {
-    position: relative;
-    z-index: 10;
-    width: 76px;
-    height: calc(100vh - 40px);
-    margin: 20px;
-    background: var(--surface);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px 0;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  }
+	.bento-btn {
+		position: fixed;
+		bottom: 16px;
+		left: 16px;
+		z-index: 100;
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
+		backdrop-filter: blur(26px) saturate(160%);
+		-webkit-backdrop-filter: blur(26px) saturate(160%);
+		border: 1px solid var(--border);
+		color: var(--text);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 1.1em;
+		transition: background 0.15s ease, transform 0.1s ease;
+	}
+	.bento-btn:hover { background: rgba(255, 255, 255, 0.1); }
+	.bento-btn i {
+		color: #fff;
+		mix-blend-mode: difference;
+	}
+	.bento-btn:active { transform: scale(0.92); }
 
-  .sidebar-top,
-  .sidebar-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-  }
+	.bento-panel {
+		position: fixed;
+		bottom: 68px;
+		left: 16px;
+		z-index: 99;
+		width: 280px;
+		padding: 12px;
+		border-radius: 18px;
+		background: color-mix(in srgb, var(--bg) 85%, black);
+		backdrop-filter: blur(40px) saturate(160%);
+		-webkit-backdrop-filter: blur(40px) saturate(160%);
+		border: 1px solid var(--border);
+		box-shadow: 0 20px 55px rgba(0, 0, 0, 0.5);
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-auto-rows: 62px;
+		gap: 8px;
+		opacity: 0;
+		transform: translateY(8px) scale(0.97);
+		pointer-events: none;
+		transition: opacity 0.16s cubic-bezier(0.2,0,0.2,1), transform 0.16s cubic-bezier(0.2,0,0.2,1);
+	}
 
-  .nav-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    color: var(--text);
-    background: transparent;
-  }
+	.bento-panel.open {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		pointer-events: auto;
+	}
 
-  .nav-item i {
-    font-size: 1.35em;
-    transition: all 0.3s ease;
-  }
+	.bento-tile {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+		padding: 10px;
+		border-radius: 12px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		color: var(--text);
+		cursor: pointer;
+		text-decoration: none;
+		transition: background 0.12s ease, border-color 0.12s ease, transform 0.1s ease;
+	}
 
-  .nav-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--accent);
-    transform: scale(1.05);
-  }
+	.bento-tile.wide { grid-column: span 2; }
 
-  .nav-item.active {
-    background: var(--accent);
-    color: var(--bg);
-    box-shadow: 0 0 15px rgba(122, 92, 255, 0.5);
-  }
+	.bento-tile.full {
+		grid-column: span 4;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 10px;
+	}
+	.bento-tile.full i { align-self: center; font-size: 1.3em; }
 
-  .nav-item.active i {
-    transform: scale(1.1);
-  }
+	.bento-tile:hover {
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(255, 255, 255, 0.2);
+		transform: scale(1.03);
+	}
 
-  .nav-item::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translate(10px, -50%) scale(0.9);
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.8em;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-    z-index: 20;
-  }
+	.bento-tile:active { transform: scale(0.96); }
 
-  .nav-item:hover::after {
-    opacity: 1;
-    transform: translate(25px, -50%) scale(1);
-  }
+	.bento-tile.active {
+		background: color-mix(in srgb, var(--accent) 24%, var(--surface));
+		border-color: var(--accent);
+	}
 
-  .iframe-container {
-    flex: 1;
-    position: relative;
-    height: 100vh;
-    z-index: 1;
-    overflow: hidden;
-  }
+	.bento-tile i {
+		font-size: 1.15em;
+		align-self: flex-end;
+	}
 
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
+	.bento-tile .label {
+		font-size: 0.72em;
+		font-weight: 600;
+	}
 
-  iframe.loaded {
-    opacity: 1;
-    transform: scale(1);
-  }
+	.frame-wrap {
+		flex: 1;
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+	}
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: none;
+		opacity: 0;
+		transform: scale(0.98);
+		transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+	}
+
+	iframe.loaded {
+		opacity: 1;
+		transform: scale(1);
+	}
 </style>
+<link rel="stylesheet" href="/src/assets/theme-minimal.css">
 </head>
 <body>
 
-  <aside>
-    <div class="sidebar-top">
-      <div class="nav-item active" data-tooltip="Home" onclick="loadPage('home', this)">
-        <i class="fa-solid fa-house"></i>
-      </div>
-      <div class="nav-item" data-tooltip="Games" onclick="loadPage('games', this)">
-        <i class="fa-solid fa-gamepad"></i>
-      </div>
-      <div class="nav-item" data-tooltip="Apps" onclick="loadPage('apps', this)">
-        <i class="fa-solid fa-box-archive"></i>
-      </div>
-      <div class="nav-item" data-tooltip="Search" onclick="loadPage('search', this)">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </div>
-      <div class="nav-item" data-tooltip="Settings" onclick="loadPage('settings', this)">
-        <i class="fa-solid fa-gear"></i>
-      </div>
-      <div class="nav-item" data-tooltip="Extras" onclick="loadPage('extras', this)">
-        <i class="fa-solid fa-plus"></i>
-      </div>
-    </div>
+	<button class="bento-btn" id="bentoToggle" title="Menu">
+		<i class="fa-solid fa-grip"></i>
+	</button>
 
-    <div class="sidebar-bottom">
-      <div class="nav-item" data-tooltip="Discord" onclick="window.open('https://dsc.gg/dominum/', '_blank')">
-        <i class="fa-brands fa-discord"></i>
-      </div>
-    </div>
-  </aside>
+	<div class="bento-panel" id="bentoPanel">
+		<div class="bento-tile wide active" data-tooltip="Home" onclick="loadPage('home', this)">
+			<i class="fa-solid fa-house"></i>
+			<span class="label">Home</span>
+		</div>
+		<div class="bento-tile" data-tooltip="Games" onclick="loadPage('games', this)">
+			<i class="fa-solid fa-gamepad"></i>
+			<span class="label">Games</span>
+		</div>
+		<div class="bento-tile" data-tooltip="Apps" onclick="loadPage('apps', this)">
+			<i class="fa-solid fa-box-archive"></i>
+			<span class="label">Apps</span>
+		</div>
+		<div class="bento-tile" data-tooltip="Search" onclick="loadPage('search', this)">
+			<i class="fa-solid fa-magnifying-glass"></i>
+			<span class="label">Search</span>
+		</div>
+		<div class="bento-tile" data-tooltip="AI" onclick="loadPage('ai', this)">
+			<i class="fa-solid fa-robot"></i>
+			<span class="label">AI</span>
+		</div>
+		<div class="bento-tile" data-tooltip="Settings" onclick="loadPage('settings', this)">
+			<i class="fa-solid fa-gear"></i>
+			<span class="label">Settings</span>
+		</div>
+		<div class="bento-tile" data-tooltip="Extras" onclick="loadPage('extras', this)">
+			<i class="fa-solid fa-plus"></i>
+			<span class="label">Extras</span>
+		</div>
+		<div class="bento-tile full" data-tooltip="Discord" onclick="window.open('https://dsc.gg/dominum/', '_blank')">
+			<i class="fa-brands fa-discord"></i>
+			<span class="label">Discord</span>
+		</div>
+	</div>
 
-  <div class="iframe-container">
-    <iframe id="content-frame" src="./src/assets/pages/home.html"></iframe>
-  </div>
+	<div class="frame-wrap">
+		<iframe id="content-frame" src="./src/assets/pages/home.html"></iframe>
+	</div>
 
 <script>
-    function injectBaseTag(doc) {
-        if (!doc) return;
-        try {
-            if (!doc.querySelector('base')) {
-                const base = doc.createElement('base');
-                let basePath = window.location.pathname;
-                if (!basePath.endsWith('/')) {
-                    basePath = basePath.substring(0, basePath.lastIndexOf('/') + 1);
-                }
-                base.href = window.location.origin + basePath;
-                doc.head.insertBefore(base, doc.head.firstChild);
-            }
-        } catch(e) {}
-    }
+	function injectBaseTag(doc) {
+		if (!doc) return;
+		try {
+			if (!doc.querySelector('base')) {
+				const base = doc.createElement('base');
+				let basePath = window.location.pathname;
+				if (!basePath.endsWith('/')) {
+					basePath = basePath.substring(0, basePath.lastIndexOf('/') + 1);
+				}
+				base.href = window.location.origin + basePath;
+				doc.head.insertBefore(base, doc.head.firstChild);
+			}
+		} catch(e) {}
+	}
 
-    function getCookie(name) {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        return match ? decodeURIComponent(match[2]) : null;
-    }
-    
-    function setCookie(name, value, days = 365) {
-        const d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
-    }
+	function getCookie(name) {
+		const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+		return match ? decodeURIComponent(match[2]) : null;
+	}
 
-    function loadPage(page, element) {
-        if(element) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-        }
+	function setCookie(name, value, days = 365) {
+		const d = new Date();
+		d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+		document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
+	}
 
-        const frame = document.getElementById("content-frame");
-        frame.classList.remove("loaded"); 
-        
-        setTimeout(() => {
-            frame.src = `./src/assets/pages/${page}.html`;
-            frame.onload = () => {
-                injectBaseTag(frame.contentWindow.document);
-                frame.classList.add("loaded"); 
-                loadTheme(); 
-            };
-        }, 400); 
-    }
+	function loadPage(page, element) {
+		if(element) {
+			document.querySelectorAll('.bento-tile').forEach(el => el.classList.remove('active'));
+			element.classList.add('active');
+		}
+		closeBentoPanel();
 
-    document.getElementById("content-frame").onload = function() {
-        injectBaseTag(this.contentWindow.document);
-        this.classList.add("loaded");
-        loadTheme();
-    }
+		const frame = document.getElementById("content-frame");
+		frame.classList.remove("loaded");
 
-    const currentUrl = window.location.href;
-    document.getElementById('og-url').setAttribute('content', currentUrl);
-    document.getElementById('twitter-url').setAttribute('content', currentUrl);
+		setTimeout(() => {
+			frame.src = `./src/assets/pages/${page}.html`;
+			frame.onload = () => {
+				injectBaseTag(frame.contentWindow.document);
+				frame.classList.add("loaded");
+				loadTheme();
+			};
+		}, 400);
+	}
 
-    const root = document.documentElement;
-    const themes = {
-      default:{"--bg":"#0b0a16","--accent":"#7a5cff","--blue":"#00bfff","--text":"#e6e6ff",
-              "--surface":"rgba(255,255,255,0.05)","--border":"rgba(255,255,255,0.1)","--card-bg":"rgba(255,255,255,0.03)"},
-      cyber:{"--bg":"#050c1b","--accent":"#39ff14","--blue":"#00ffff","--text":"#e0ffe0",
-            "--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.1)","--card-bg":"rgba(0,255,0,0.03)"},
-      sunset:{"--bg":"#1a0b0b","--accent":"#ff6f61","--blue":"#ffa500","--text":"#fff0e6",
-              "--surface":"rgba(255,110,100,0.05)","--border":"rgba(255,110,100,0.1)","--card-bg":"rgba(255,110,100,0.03)"},
-      neon:{"--bg":"#0f0020","--accent":"#ff00ff","--blue":"#00ffff","--text":"#ffffff",
-            "--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.1)","--card-bg":"rgba(255,0,255,0.03)"},
-      darkred:{"--bg":"#1b0000","--accent":"#ff0000","--blue":"#cc0000","--text":"#ffe6e6",
-              "--surface":"rgba(255,0,0,0.05)","--border":"rgba(255,0,0,0.1)","--card-bg":"rgba(255,0,0,0.03)"},
-      dnv2:{"--bg": "#050007","--accent": "#ff00de","--blue": "#00fff7","--text": "#ffffff",
-            "--surface": "rgba(255, 0, 255, 0.05)","--border": "rgba(255, 0, 255, 0.15)","--card-bg": "rgba(15, 0, 30, 0.7)"},
-      matrix: {"--bg": "#001100","--accent": "#00ff00","--blue": "#33ff33","--text": "#99ff99",
-              "--surface": "rgba(0, 255, 0, 0.05)","--border": "rgba(0, 255, 0, 0.15)","--card-bg": "rgba(0, 50, 0, 0.7)"}
-    };
+	const bentoToggle = document.getElementById("bentoToggle");
+	const bentoPanel = document.getElementById("bentoPanel");
+	function closeBentoPanel() { bentoPanel.classList.remove("open"); }
+	bentoToggle.addEventListener("click", (e) => {
+		e.stopPropagation();
+		bentoPanel.classList.toggle("open");
+	});
+	document.addEventListener("click", (e) => {
+		if (!bentoPanel.contains(e.target) && !bentoToggle.contains(e.target)) closeBentoPanel();
+	});
 
-    function applyTheme(theme) {
-        Object.entries(theme).forEach(([k, v]) => root.style.setProperty(k, v));
-        
-        const frame = document.getElementById("content-frame");
-        if (frame && frame.contentWindow) {
-            try {
-                Object.entries(theme).forEach(([k, v]) => frame.contentWindow.document.documentElement.style.setProperty(k, v));
-            } catch (e) {}
-        }
-    }
+	document.getElementById("content-frame").onload = function() {
+		injectBaseTag(this.contentWindow.document);
+		this.classList.add("loaded");
+		loadTheme();
+	}
 
-    function loadTheme() {
-        const name = localStorage.getItem("dominum-theme") || "default";
-        let themeToApply = themes[name] || themes['default'];
+	const currentUrl = window.location.href;
+	document.getElementById('og-url').setAttribute('content', currentUrl);
+	document.getElementById('twitter-url').setAttribute('content', currentUrl);
 
-        if (name === "custom") {
-            try {
-                const custom = JSON.parse(localStorage.getItem("dominum-custom-theme"));
-                if (custom) {
-                    themeToApply = { ...themes.default, ...custom }; 
-                }
-            } catch (e) {
-                themeToApply = themes['default'];
-            }
-        }
-        applyTheme(themeToApply);
-    }
+	const root = document.documentElement;
+	const themes = {
+		default:{"--bg":"#0a0518","--accent":"#7c3aed","--blue":"#a78bfa","--text":"#ede9fe",
+				"--surface":"rgba(139,92,246,0.07)","--border":"rgba(167,139,250,0.18)","--card-bg":"rgba(18,10,36,0.45)"},
+		cyber:{"--bg":"#050c1b","--accent":"#39ff14","--blue":"#00ffff","--text":"#e0ffe0",
+				"--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.1)","--card-bg":"rgba(0,255,0,0.03)"},
+		sunset:{"--bg":"#1a0b0b","--accent":"#ff6f61","--blue":"#ffa500","--text":"#fff0e6",
+				"--surface":"rgba(255,110,100,0.05)","--border":"rgba(255,110,100,0.1)","--card-bg":"rgba(255,110,100,0.03)"},
+		neon:{"--bg":"#0f0020","--accent":"#ff00ff","--blue":"#00ffff","--text":"#ffffff",
+				"--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.1)","--card-bg":"rgba(255,0,255,0.03)"},
+		darkred:{"--bg":"#1b0000","--accent":"#ff0000","--blue":"#cc0000","--text":"#ffe6e6",
+				"--surface":"rgba(255,0,0,0.05)","--border":"rgba(255,0,0,0.1)","--card-bg":"rgba(255,0,0,0.03)"},
+		dnv2:{"--bg": "#050007","--accent": "#ff00de","--blue": "#00fff7","--text": "#ffffff",
+				"--surface": "rgba(255, 0, 255, 0.05)","--border": "rgba(255, 0, 255, 0.15)","--card-bg": "rgba(15, 0, 30, 0.7)"},
+		matrix: {"--bg": "#001100","--accent": "#00ff00","--blue": "#33ff33","--text": "#99ff99",
+				"--surface": "rgba(0, 255, 0, 0.05)","--border": "rgba(0, 255, 0, 0.15)","--card-bg": "rgba(0, 50, 0, 0.7)"}
+	};
 
-    (function() {
-        const cloakData = getCookie("dominum-cloak");
-        if (cloakData) {
-            try {
-                const { title, icon } = JSON.parse(cloakData);
-                if (title) document.title = title;
-                if (icon) {
-                    let link = document.querySelector("link[rel='icon']") || document.createElement("link");
-                    link.rel = "icon";
-                    link.href = icon;
-                    document.head.appendChild(link);
-                }
-            } catch (e) {}
-        }
+	function applyTheme(theme) {
+		Object.entries(theme).forEach(([k, v]) => root.style.setProperty(k, v));
 
-        document.addEventListener("keydown", e => {
-            const key = (getCookie("dominum-panic-key") || "`").toLowerCase();
-            const link = getCookie("dominum-panic-link") || "https://google.com/";
-            if (e.key.toLowerCase() === key) {
-                window.location.href = link;
-            }
-        });
-    })();
+		const frame = document.getElementById("content-frame");
+		if (frame && frame.contentWindow) {
+			try {
+				Object.entries(theme).forEach(([k, v]) => frame.contentWindow.document.documentElement.style.setProperty(k, v));
+			} catch (e) {}
+		}
+	}
 
-    function exportSettings() {
-        try {
-            const settingsData = {
-                "dominum-theme": localStorage.getItem("dominum-theme"),
-                "dominum-custom-theme": localStorage.getItem("dominum-custom-theme"),
-                "allCookies": document.cookie
-            };
-            
-            const dataString = btoa(JSON.stringify(settingsData));
-            const blob = new Blob([dataString], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'dominum-settings.dnw';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+	function loadTheme() {
+		const name = localStorage.getItem("dominum-theme") || "default";
+		let themeToApply = themes[name] || themes['default'];
 
-        } catch (error) {
-            alert("Failed to export settings.");
-        }
-    }
+		if (name === "custom") {
+			try {
+				const custom = JSON.parse(localStorage.getItem("dominum-custom-theme"));
+				if (custom) {
+					themeToApply = { ...themes.default, ...custom };
+				}
+			} catch (e) {
+				themeToApply = themes['default'];
+			}
+		}
+		applyTheme(themeToApply);
+	}
 
-    function importSettings(dataString) {
-        try {
-            const importedData = JSON.parse(atob(dataString));
-            
-            if (importedData["dominum-theme"] !== undefined) {
-                localStorage.setItem("dominum-theme", importedData["dominum-theme"]);
-            }
-            if (importedData["dominum-custom-theme"] !== undefined) {
-                localStorage.setItem("dominum-custom-theme", importedData["dominum-custom-theme"]);
-            }
-            
-            if (importedData.allCookies) {
-                const d = new Date();
-                d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
-                const expires = "expires=" + d.toUTCString();
+	(function() {
+		const cloakData = getCookie("dominum-cloak");
+		if (cloakData) {
+			try {
+				const { title, icon } = JSON.parse(cloakData);
+				if (title) document.title = title;
+				if (icon) {
+					let link = document.querySelector("link[rel='icon']") || document.createElement("link");
+					link.rel = "icon";
+					link.href = icon;
+					document.head.appendChild(link);
+				}
+			} catch (e) {}
+		}
 
-                const cookies = importedData.allCookies.split(';');
-                cookies.forEach(cookie => {
-                    const cookieString = cookie.trim();
-                    if (cookieString) {
-                        document.cookie = cookieString + ";" + expires + ";path=/";
-                    }
-                });
-            }
-            
-            alert("Settings imported successfully! The page will now reload.");
-            window.location.reload();
+		document.addEventListener("keydown", e => {
+			const key = (getCookie("dominum-panic-key") || "`").toLowerCase();
+			const link = getCookie("dominum-panic-link") || "https://google.com/";
+			if (e.key.toLowerCase() === key) {
+				window.location.href = link;
+			}
+		});
+	})();
 
-        } catch (error) {
-            alert("Failed to import settings. The file may be corrupt or invalid.");
-        }
-    }
+	function exportSettings() {
+		try {
+			const settingsData = {
+				"dominum-theme": localStorage.getItem("dominum-theme"),
+				"dominum-custom-theme": localStorage.getItem("dominum-custom-theme"),
+				"allCookies": document.cookie
+			};
 
-    loadTheme();
+			const dataString = btoa(JSON.stringify(settingsData));
+			const blob = new Blob([dataString], { type: 'text/plain' });
+			const url = URL.createObjectURL(blob);
+
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = 'dominum-settings.dnw';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+
+		} catch (error) {
+			alert("Failed to export settings.");
+		}
+	}
+
+	function importSettings(dataString) {
+		try {
+			const importedData = JSON.parse(atob(dataString));
+
+			if (importedData["dominum-theme"] !== undefined) {
+				localStorage.setItem("dominum-theme", importedData["dominum-theme"]);
+			}
+			if (importedData["dominum-custom-theme"] !== undefined) {
+				localStorage.setItem("dominum-custom-theme", importedData["dominum-custom-theme"]);
+			}
+
+			if (importedData.allCookies) {
+				const d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				const expires = "expires=" + d.toUTCString();
+
+				const cookies = importedData.allCookies.split(';');
+				cookies.forEach(cookie => {
+					const cookieString = cookie.trim();
+					if (cookieString) {
+						document.cookie = cookieString + ";" + expires + ";path=/";
+					}
+				});
+			}
+
+			alert("Settings imported successfully! The page will now reload.");
+			window.location.reload();
+
+		} catch (error) {
+			alert("Failed to import settings. The file may be corrupt or invalid.");
+		}
+	}
+
+	loadTheme();
 </script>
 </body>
 </html>

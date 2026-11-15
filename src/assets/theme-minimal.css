@@ -1,0 +1,41 @@
+:root {
+	--bg: #0a0a0d;
+	--accent: #6b7280;
+	--blue: #8b93a1;
+	--text: #e5e5ea;
+	--surface: rgba(255, 255, 255, 0.035);
+	--border: rgba(255, 255, 255, 0.08);
+	--card-bg: rgba(255, 255, 255, 0.02);
+}
+
+* {
+	text-shadow: none !important;
+}
+
+body::before {
+	display: none !important;
+}
+
+aside, .setting-box, .card, .app-card, .game-card, iframe, .search-container input,
+.tab, .toolbar, .omnibox {
+	box-shadow: none !important;
+	backdrop-filter: blur(6px) !important;
+	-webkit-backdrop-filter: blur(6px) !important;
+}
+
+.nav-item.active {
+	box-shadow: none !important;
+}
+
+.nav-item:hover, .nav-item.active {
+	transform: none !important;
+}
+
+.search-container input:focus, .omnibox:focus {
+	box-shadow: none !important;
+	border-color: var(--border) !important;
+}
+
+*, *::before, *::after {
+	animation-duration: 0.15s !important;
+}

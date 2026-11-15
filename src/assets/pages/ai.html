@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI - Dominum</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+	:root {
+		--bg: #0a0518;
+		--accent: #7c3aed;
+		--blue: #a78bfa;
+		--text: #ede9fe;
+		--text-dim: rgba(237, 233, 254, 0.55);
+		--surface: rgba(139, 92, 246, 0.07);
+		--border: rgba(167, 139, 250, 0.18);
+		--bubble-user: rgba(139, 92, 246, 0.16);
+		--bubble-ai: rgba(255, 255, 255, 0.025);
+	}
+	* { box-sizing: border-box; }
+	html, body {
+		margin: 0; padding: 0; height: 100%;
+		font-family: 'Inter', system-ui, sans-serif;
+		background: var(--bg);
+		color: var(--text);
+		overflow: hidden;
+	}
+	body { background: transparent; }
+	#veil {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		pointer-events: none;
+		opacity: 0.85;
+	}
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+	}
+	.inner {
+		max-width: 1100px;
+		width: 100%;
+		margin: 0 auto;
+	}
+	header {
+		padding: 16px 24px;
+		background: transparent;
+		backdrop-filter: blur(24px) saturate(160%);
+		-webkit-backdrop-filter: blur(24px) saturate(160%);
+		border-bottom: 1px solid var(--border);
+		flex-shrink: 0;
+	}
+	header .inner {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+	.title { font-size: 1rem; font-weight: 700; opacity: 0.92; flex-shrink: 0; }
+	#badges { display: flex; gap: 4px; flex-shrink: 0; }
+	.m-badge {
+		font-size: 0.62rem;
+		letter-spacing: 0.3px;
+		text-transform: uppercase;
+		padding: 2px 6px;
+		border-radius: 6px;
+		background: rgba(255,255,255,0.06);
+		color: var(--text);
+		opacity: 0.85;
+	}
+	.picker { position: relative; margin-left: auto; flex-shrink: 0; }
+	.picker-btn {
+		display: flex; align-items: center; gap: 8px;
+		background: rgba(255,255,255,0.06);
+		border: 1px solid var(--border);
+		border-radius: 9px;
+		padding: 7px 12px;
+		color: var(--text);
+		font-family: inherit; font-size: 0.82rem;
+		cursor: pointer;
+		max-width: 220px;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+	.picker-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+	.picker-btn .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+	.picker-btn .fa-chevron-down { font-size: 0.7em; opacity: 0.6; flex-shrink: 0; margin-left: auto; transition: transform 0.15s ease; }
+	.picker.open .picker-btn .fa-chevron-down { transform: rotate(180deg); }
+	.badge {
+		display: flex; align-items: center; justify-content: center;
+		border-radius: 6px;
+		color: #fff;
+		font-weight: 700;
+		flex-shrink: 0;
+		line-height: 1;
+		overflow: hidden;
+	}
+	.badge-icon {
+		display: block;
+		width: 60%; height: 60%;
+		background-color: #fff;
+		-webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;
+		mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+	}
+	.modal-backdrop {
+		position: fixed; inset: 0;
+		background: rgba(0,0,0,0.55);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		padding-top: 12vh;
+		z-index: 200;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: opacity 0.16s ease;
+	}
+	.modal-backdrop.open { opacity: 1; visibility: visible; pointer-events: auto; }
+	.modal {
+		width: min(440px, 92vw);
+		height: min(520px, 70vh);
+		background: color-mix(in srgb, var(--bg) 90%, black);
+		border: 1px solid var(--border);
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		transform: translateY(-12px) scale(0.97);
+		transition: transform 0.16s ease;
+	}
+	.modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+	.modal-search {
+		display: flex; align-items: center; gap: 10px;
+		padding: 14px 16px;
+		border-bottom: 1px solid var(--border);
+		flex-shrink: 0;
+	}
+	.modal-search i.fa-magnifying-glass { font-size: 0.85em; opacity: 0.4; }
+	.modal-search input {
+		flex: 1; background: transparent; border: none; outline: none;
+		color: var(--text); font-family: inherit; font-size: 0.9rem;
+	}
+	.modal-close {
+		width: 28px; height: 28px; border-radius: 8px;
+		border: none; background: rgba(255,255,255,0.06);
+		color: var(--text-dim);
+		display: flex; align-items: center; justify-content: center;
+		cursor: pointer; font-size: 0.75rem; flex-shrink: 0;
+	}
+	.modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+	.modal-list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 8px; }
+	.pgroup { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.5; padding: 8px 8px 4px; }
+	.prow {
+		display: flex; align-items: center; gap: 10px;
+		padding: 8px 10px; border-radius: 9px; cursor: pointer;
+		transition: background 0.1s ease;
+	}
+	.prow:hover { background: rgba(255,255,255,0.06); }
+	.prow.selected { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+	.prow-icon { flex-shrink: 0; }
+	.prow-info { flex: 1; min-width: 0; }
+	.prow-name { font-size: 0.82rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.prow-badges { display: flex; gap: 3px; margin-top: 2px; }
+	.prow-badge { font-size: 0.55rem; text-transform: uppercase; opacity: 0.55; background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px; }
+	.prow .fa-check { font-size: 0.75em; color: var(--accent); flex-shrink: 0; }
+	.modal-empty { padding: 16px; text-align: center; font-size: 0.78rem; opacity: 0.5; }
+	#messages { flex: 1; overflow-y: auto; padding: 24px; background: transparent; }
+	#messages .inner { background: transparent; display: flex; flex-direction: column; gap: 12px; min-height: 100%; }
+	.empty {
+		flex: 1;
+		display: flex; flex-direction: column; align-items: center; justify-content: center;
+		text-align: center; gap: 8px; opacity: 0.7;
+	}
+	.empty i { font-size: 2.2rem; opacity: 0.4; margin-bottom: 6px; }
+	.empty .head { font-size: 1.1rem; font-weight: 700; }
+	.empty .sub { font-size: 0.85rem; opacity: 0.6; max-width: 320px; }
+	.msg-tag { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 0.68rem; font-weight: 700; opacity: 0.6; }
+	.msg {
+		max-width: 75%;
+		padding: 10px 14px;
+		border-radius: 14px;
+		line-height: 1.45;
+		font-size: 0.92rem;
+		white-space: pre-wrap;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+	.msg.user { align-self: flex-end; background: var(--bubble-user); border: 1px solid rgba(167, 139, 250, 0.22); }
+	.msg.ai { align-self: flex-start; background: var(--bubble-ai); border: 1px solid var(--border); }
+	.msg.pending { opacity: 0.5; }
+	.msg-imgs { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+	.msg-imgs img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; }
+	form {
+		display: flex;
+		padding: 24px 24px 32px;
+		min-height: 220px;
+		flex-shrink: 0;
+		background: transparent;
+		backdrop-filter: blur(24px) saturate(160%);
+		-webkit-backdrop-filter: blur(24px) saturate(160%);
+		border-top: 1px solid var(--border);
+	}
+	form .inner { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+	.attach-strip { display: flex; gap: 8px; flex-wrap: wrap; }
+	.attach-strip:empty { display: none; }
+	.chip { position: relative; width: 56px; height: 56px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0; }
+	.chip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+	.chip .rm {
+		position: absolute; top: 2px; right: 2px;
+		width: 16px; height: 16px;
+		border-radius: 50%;
+		background: rgba(0,0,0,0.65);
+		color: #fff;
+		display: flex; align-items: center; justify-content: center;
+		font-size: 0.55rem;
+		cursor: pointer;
+		border: none;
+	}
+	.row { display: flex; gap: 8px; align-items: flex-end; flex: 1; }
+	textarea {
+		flex: 1;
+		resize: none;
+		height: 100%;
+		min-height: 130px;
+		padding: 14px 16px;
+		border-radius: 14px;
+		border: 1px solid var(--border);
+		background: rgba(255,255,255,0.05);
+		color: var(--text);
+		font-family: inherit;
+		font-size: 0.95rem;
+		line-height: 1.5;
+		outline: none;
+		transition: border-color 0.15s ease, background 0.15s ease;
+	}
+	textarea:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+	button {
+		border: 1px solid var(--border);
+		background: rgba(255,255,255,0.06);
+		color: var(--text);
+		border-radius: 12px;
+		width: 46px;
+		height: 46px;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 0.95rem;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+	button:hover { background: var(--accent); border-color: var(--accent); }
+	button:disabled { opacity: 0.4; cursor: default; background: rgba(255,255,255,0.06); border-color: var(--border); }
+	#attachBtn { align-self: flex-end; color: var(--text-dim); }
+	#attachBtn.has-files { color: var(--accent); border-color: var(--accent); }
+</style>
+<link rel="stylesheet" href="/src/assets/theme-minimal.css">
+</head>
+<body>
+<canvas id="veil"></canvas>
+
+<div class="wrap">
+	<header>
+		<div class="inner">
+			<span class="title">Dominum AI</span>
+			<span id="badges"></span>
+			<div class="picker" id="picker">
+				<button type="button" class="picker-btn" id="pickerBtn">
+					<span id="pickerIcon"></span>
+					<span class="name" id="pickerLabel">Loading models…</span>
+					<i class="fa-solid fa-chevron-down"></i>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<div id="messages">
+		<div class="inner" id="messagesInner">
+			<div class="empty" id="empty">
+				<i class="fa-solid fa-comment-dots"></i>
+				<div class="head">Ask Dominum AI anything</div>
+				<div class="sub">Pick a model above, attach an image if you need to, and start typing below.</div>
+			</div>
+		</div>
+	</div>
+
+	<form id="chatForm">
+		<div class="inner">
+			<div class="attach-strip" id="attachStrip"></div>
+			<div class="row">
+				<button type="button" id="attachBtn" title="Attach image"><i class="fa-solid fa-paperclip"></i></button>
+				<input type="file" id="attachInput" accept="image/*" multiple hidden>
+				<textarea id="input" placeholder="Ask anything..." rows="1"></textarea>
+				<button type="submit" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-backdrop" id="pickerBackdrop">
+	<div class="modal" id="pickerModal">
+		<div class="modal-search">
+			<i class="fa-solid fa-magnifying-glass"></i>
+			<input type="text" id="pickerSearch" placeholder="Search models..." autocomplete="off">
+			<button type="button" class="modal-close" id="pickerClose"><i class="fa-solid fa-xmark"></i></button>
+		</div>
+		<div class="modal-list" id="pickerList"></div>
+	</div>
+</div>
+
+<script src="/src/assets/js/dark-veil.js"></script>
+<script>
+	try {
+		window.DarkVeil?.create(document.getElementById('veil'), {
+			speed: 0.4, warpAmount: 1.1, noiseIntensity: 0.02, resolutionScale: 0.75,
+		});
+	} catch (e) { console.warn('[ai] veil init failed', e); }
+</script>
+
+<script>
+	const PROVIDER_META = {
+		qwen: { label: "Qwen", color: "#6b4bff", mono: "Q" },
+		openai: { label: "OpenAI", color: "#10a37f", mono: "O" },
+		anthropic: { label: "Anthropic", color: "#d97757", mono: "A" },
+		google: { label: "Google", color: "#4285f4", mono: "G" },
+		deepseek: { label: "DeepSeek", color: "#4d6bfe", mono: "D" },
+		meta: { label: "Meta", color: "#0668e1", mono: "M" },
+		xai: { label: "xAI", color: "#111111", mono: "X" },
+		minimax: { label: "MiniMax", color: "#ff4d4f", mono: "M" },
+		moonshotai: { label: "Moonshot", color: "#1f2937", mono: "K" },
+		cohere: { label: "Cohere", color: "#39594d", mono: "C" },
+		zai: { label: "Z.ai", color: "#2563eb", mono: "Z" },
+		mistral: { label: "Mistral", color: "#fa520f", mono: "M" },
+		nvidia: { label: "NVIDIA", color: "#76b900", mono: "N" },
+		amazon: { label: "Amazon", color: "#ff9900", mono: "A" },
+		groq: { label: "Groq", color: "#f55036", mono: "G" },
+		microsoft: { label: "Microsoft", color: "#00a4ef", mono: "M" },
+		huggingface: { label: "Hugging Face", color: "#ffd21e", mono: "H" },
+		perplexity: { label: "Perplexity", color: "#1fb8cd", mono: "P" },
+		deepai: { label: "DeepAI", color: "#2b7fff", mono: "D" },
+		xiaomi: { label: "Xiaomi", color: "#ff6900", mono: "M" },
+		tencent: { label: "Tencent", color: "#0052d9", mono: "T" },
+		stepfun: { label: "StepFun", color: "#005dff", mono: "S" },
+		poolside: { label: "Poolside", color: "#111111", mono: "P" },
+		rednote: { label: "RedNote", color: "#ff2442", mono: "R" },
+		liquidai: { label: "Liquid AI", color: "#0f172a", mono: "L" },
+		inclusionai: { label: "InclusionAI", color: "#1677ff", mono: "I" },
+		meituan: { label: "Meituan", color: "#ffd100", mono: "L" },
+		moondream: { label: "Moondream", color: "#7c3aed", mono: "M" },
+		blackforest: { label: "Black Forest Labs", color: "#111111", mono: "F" },
+		stabilityai: { label: "Stability AI", color: "#7c3aed", mono: "S" },
+		leonardo: { label: "Leonardo AI", color: "#f0a020", mono: "L" },
+		other: { label: "Other", color: "#8a8f98", mono: "·" },
+	};
+	function providerMeta(ownedBy) {
+		const key = (ownedBy || '').toLowerCase().replace(/[\s_]+/g, '');
+		return PROVIDER_META[key] || { label: ownedBy || 'Other', color: PROVIDER_META.other.color, mono: (ownedBy || '?')[0]?.toUpperCase() || '?' };
+	}
+	const PROVIDER_ICON_SLUGS = {
+		openai: 'openai', anthropic: 'anthropic', qwen: 'qwen', google: 'google',
+		meta: 'meta', mistral: 'mistralai', deepseek: 'deepseek', nvidia: 'nvidia',
+		amazon: 'amazon', microsoft: 'microsoft', huggingface: 'huggingface',
+		perplexity: 'perplexity', xiaomi: 'xiaomi', xai: 'x', zai: 'zdotai',
+	};
+	function providerIconUrl(ownedBy) {
+		const key = (ownedBy || '').toLowerCase().replace(/[\s_]+/g, '');
+		const slug = PROVIDER_ICON_SLUGS[key];
+		return slug ? `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg` : null;
+	}
+	function badgeHtml(ownedBy, size) {
+		const meta = providerMeta(ownedBy);
+		const iconUrl = providerIconUrl(ownedBy);
+		const inner = iconUrl
+			? `<span class="badge-icon" style="-webkit-mask-image:url('${iconUrl}');mask-image:url('${iconUrl}');"></span>`
+			: meta.mono;
+		return `<div class="badge" style="width:${size}px;height:${size}px;background:${meta.color};font-size:${size * 0.5}px;">${inner}</div>`;
+	}
+
+	const messagesScroll = document.getElementById('messages');
+	const messagesEl = document.getElementById('messagesInner');
+	const form = document.getElementById('chatForm');
+	const input = document.getElementById('input');
+	const sendBtn = document.getElementById('sendBtn');
+	const attachBtn = document.getElementById('attachBtn');
+	const attachInput = document.getElementById('attachInput');
+	const attachStrip = document.getElementById('attachStrip');
+	const badges = document.getElementById('badges');
+	const picker = document.getElementById('picker');
+	const pickerBtn = document.getElementById('pickerBtn');
+	const pickerIcon = document.getElementById('pickerIcon');
+	const pickerLabel = document.getElementById('pickerLabel');
+	const pickerList = document.getElementById('pickerList');
+	const pickerSearch = document.getElementById('pickerSearch');
+	const pickerBackdrop = document.getElementById('pickerBackdrop');
+	const pickerClose = document.getElementById('pickerClose');
+	const history = [];
+	let models = [];
+	let selectedModel = null;
+	let attachments = [];
+
+	function renderAttachments() {
+		attachStrip.innerHTML = '';
+		attachBtn.classList.toggle('has-files', attachments.length > 0);
+		attachments.forEach((a, i) => {
+			const chip = document.createElement('div');
+			chip.className = 'chip';
+			chip.innerHTML = `<img src="${a.dataUrl}" alt=""><button type="button" class="rm"><i class="fa-solid fa-xmark"></i></button>`;
+			chip.querySelector('.rm').addEventListener('click', () => {
+				attachments.splice(i, 1);
+				renderAttachments();
+			});
+			attachStrip.appendChild(chip);
+		});
+	}
+	attachBtn.addEventListener('click', () => attachInput.click());
+	attachInput.addEventListener('change', async () => {
+		const files = Array.from(attachInput.files || []).slice(0, 4 - attachments.length);
+		for (const file of files) {
+			const dataUrl = await new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onload = () => resolve(reader.result);
+				reader.onerror = reject;
+				reader.readAsDataURL(file);
+			}).catch(() => null);
+			if (dataUrl) attachments.push({ name: file.name, dataUrl });
+		}
+		attachInput.value = '';
+		renderAttachments();
+	});
+
+	function addMessage(role, text, images) {
+		document.getElementById('empty')?.remove();
+		const div = document.createElement('div');
+		div.className = `msg ${role}`;
+		if (role === 'ai') {
+			const m = models.find(x => x.id === selectedModel);
+			const tag = document.createElement('div');
+			tag.className = 'msg-tag';
+			tag.innerHTML = badgeHtml(m?.owned_by, 14) + `<span></span>`;
+			tag.querySelector('span').textContent = m ? m.label : 'AI';
+			div.appendChild(tag);
+		}
+		if (images && images.length) {
+			const strip = document.createElement('div');
+			strip.className = 'msg-imgs';
+			images.forEach(src => {
+				const img = document.createElement('img');
+				img.src = src;
+				strip.appendChild(img);
+			});
+			div.appendChild(strip);
+		}
+		const textNode = document.createElement('span');
+		textNode.textContent = text;
+		div.appendChild(textNode);
+		messagesEl.appendChild(div);
+		messagesScroll.scrollTop = messagesScroll.scrollHeight;
+		return { el: div, textNode };
+	}
+
+	function renderBadges(id) {
+		const m = models.find(x => x.id === id);
+		badges.innerHTML = '';
+		if (!m) return;
+		[m.reasoning && 'Reasoning', m.vision && 'Vision'].filter(Boolean).forEach(f => {
+			const span = document.createElement('span');
+			span.className = 'm-badge';
+			span.textContent = f;
+			badges.appendChild(span);
+		});
+	}
+
+	function setPickerLabel(id) {
+		const m = models.find(x => x.id === id);
+		pickerLabel.textContent = m ? m.label : 'Default model';
+		pickerIcon.innerHTML = m ? badgeHtml(m.owned_by, 18) : '';
+	}
+
+	function renderModelList(filter) {
+		const q = (filter || '').trim().toLowerCase();
+		const filtered = models.filter(m =>
+			!q || m.label.toLowerCase().includes(q) || (m.owned_by || '').toLowerCase().includes(q)
+		);
+		pickerList.innerHTML = '';
+		if (!filtered.length) {
+			const empty = document.createElement('div');
+			empty.className = 'modal-empty';
+			empty.textContent = 'No models match.';
+			pickerList.appendChild(empty);
+			return;
+		}
+		const groups = new Map();
+		filtered.forEach(m => {
+			const key = m.owned_by || 'other';
+			if (!groups.has(key)) groups.set(key, []);
+			groups.get(key).push(m);
+		});
+		groups.forEach((list, provider) => {
+			const label = document.createElement('div');
+			label.className = 'pgroup';
+			label.textContent = providerMeta(provider).label;
+			pickerList.appendChild(label);
+			list.forEach(m => {
+				const row = document.createElement('div');
+				row.className = 'prow' + (m.id === selectedModel ? ' selected' : '');
+				const flags = [m.reasoning && 'Reasoning', m.vision && 'Vision'].filter(Boolean);
+				row.innerHTML = `
+					<div class="prow-icon">${badgeHtml(m.owned_by, 24)}</div>
+					<div class="prow-info">
+						<div class="prow-name"></div>
+						<div class="prow-badges"></div>
+					</div>
+					${m.id === selectedModel ? '<i class="fa-solid fa-check"></i>' : ''}
+				`;
+				row.querySelector('.prow-name').textContent = m.label;
+				const badgesEl = row.querySelector('.prow-badges');
+				flags.forEach(f => {
+					const b = document.createElement('span');
+					b.className = 'prow-badge';
+					b.textContent = f;
+					badgesEl.appendChild(b);
+				});
+				row.addEventListener('click', () => selectModel(m.id));
+				pickerList.appendChild(row);
+			});
+		});
+	}
+
+	function selectModel(id) {
+		selectedModel = id;
+		localStorage.setItem('dominum-ai-model', id);
+		setPickerLabel(id);
+		renderBadges(id);
+		closePicker();
+		renderModelList(pickerSearch.value);
+	}
+
+	function openPicker() {
+		picker.classList.add('open');
+		pickerBackdrop.classList.add('open');
+		pickerSearch.value = '';
+		renderModelList('');
+		pickerSearch.focus();
+	}
+	function closePicker() {
+		picker.classList.remove('open');
+		pickerBackdrop.classList.remove('open');
+	}
+
+	pickerBtn.addEventListener('click', (e) => {
+		e.stopPropagation();
+		pickerBackdrop.classList.contains('open') ? closePicker() : openPicker();
+	});
+	pickerClose.addEventListener('click', closePicker);
+	pickerBackdrop.addEventListener('click', (e) => {
+		if (e.target === pickerBackdrop) closePicker();
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && pickerBackdrop.classList.contains('open')) closePicker();
+	});
+	pickerSearch.addEventListener('input', () => renderModelList(pickerSearch.value));
+
+	const PREFERRED_DEFAULT = 'glm-5.3';
+	const ALLOWED_MODELS = ['glm-5.3', 'gpt-5.6-sol', 'claude-sonnet-5', 'qwen3-235b', 'deepseek-v4-pro'];
+
+	async function loadModels() {
+		try {
+			const res = await fetch('/api/ai/models');
+			const data = await res.json();
+			const allModels = Array.isArray(data.models) ? data.models : [];
+			models = ALLOWED_MODELS.map(id => allModels.find(m => m.id === id)).filter(Boolean);
+			const saved = localStorage.getItem('dominum-ai-model');
+			if (models.some(m => m.id === saved)) {
+				selectedModel = saved;
+			} else if (models.some(m => m.id === PREFERRED_DEFAULT)) {
+				selectedModel = PREFERRED_DEFAULT;
+			} else {
+				selectedModel = data.default || models[0]?.id || null;
+			}
+
+			if (!models.length) {
+				pickerLabel.textContent = 'Default model';
+				return;
+			}
+			setPickerLabel(selectedModel);
+			renderBadges(selectedModel);
+			renderModelList('');
+		} catch (err) {
+			pickerLabel.textContent = 'Default model';
+		}
+	}
+	loadModels();
+
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const text = input.value.trim();
+		if (!text && !attachments.length) return;
+		input.value = '';
+		const pendingAttachments = attachments;
+		attachments = [];
+		renderAttachments();
+
+		addMessage('user', text, pendingAttachments.map(a => a.dataUrl));
+		if (pendingAttachments.length) {
+			const content = [];
+			if (text) content.push({ type: 'text', text });
+			pendingAttachments.forEach(a => content.push({ type: 'image_url', image_url: { url: a.dataUrl } }));
+			history.push({ role: 'user', content });
+		} else {
+			history.push({ role: 'user', content: text });
+		}
+
+		sendBtn.disabled = true;
+		const pending = addMessage('ai', 'Thinking...');
+		pending.el.classList.add('pending');
+
+		try {
+			const res = await fetch('/api/ai/chat', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ messages: history, model: selectedModel || undefined })
+			});
+			const data = await res.json();
+			const reply = data?.choices?.[0]?.message?.content || 'No response.';
+			pending.textNode.textContent = reply;
+			pending.el.classList.remove('pending');
+			history.push({ role: 'assistant', content: reply });
+		} catch (err) {
+			pending.textNode.textContent = 'Error reaching AI backend.';
+			pending.el.classList.remove('pending');
+		} finally {
+			sendBtn.disabled = false;
+		}
+	});
+
+	input.addEventListener('keydown', e => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			form.requestSubmit();
+		}
+	});
+</script>
+<script>
+const root = document.documentElement;
+const themes = {
+	default:{"--bg":"#0a0518","--accent":"#7c3aed","--blue":"#a78bfa","--text":"#ede9fe","--surface":"rgba(139,92,246,0.07)","--border":"rgba(167,139,250,0.18)"},
+	cyber:{"--bg":"#050c1b","--accent":"#39ff14","--blue":"#00ffff","--text":"#e0ffe0","--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.1)"},
+	sunset:{"--bg":"#1a0b0b","--accent":"#ff6f61","--blue":"#ffa500","--text":"#fff0e6","--surface":"rgba(255,110,100,0.05)","--border":"rgba(255,110,100,0.1)"},
+	neon:{"--bg":"#0f0020","--accent":"#ff00ff","--blue":"#00ffff","--text":"#ffffff","--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.1)"},
+	darkred:{"--bg":"#1b0000","--accent":"#ff0000","--blue":"#cc0000","--text":"#ffe6e6","--surface":"rgba(255,0,0,0.05)","--border":"rgba(255,0,0,0.1)"},
+	dnv2:{"--bg":"#050007","--accent":"#ff00de","--blue":"#00fff7","--text":"#ffffff","--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.15)"},
+	matrix:{"--bg":"#001100","--accent":"#00ff00","--blue":"#33ff33","--text":"#99ff99","--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.15)"}
+};
+function applyTheme(theme){
+	Object.entries(theme).forEach(([k,v])=>root.style.setProperty(k,v));
+}
+(function(){
+	const name = localStorage.getItem("dominum-theme") || "default";
+	if(name === "custom"){
+		const custom = JSON.parse(localStorage.getItem("dominum-custom-theme") || "{}");
+		applyTheme(custom);
+	} else applyTheme(themes[name]);
+})();
+</script>
+</body>
+</html>

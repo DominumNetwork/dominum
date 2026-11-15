@@ -5,285 +5,714 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dominum Browser</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0d0d10;
-    --tab-bg: #18181c;
-    --accent: #7a5cff;
-    --text: #e6e6ff;
-  }
+	:root {
+		--text: #e8eaed;
+		--accent: #8ab4f8;
+		--border: rgba(255,255,255,0.07);
+		--chrome-bg: var(--surface, rgba(32, 33, 36, 0.7));
+		--chrome-bg-2: var(--surface, rgba(41, 42, 45, 0.78));
+		--tab-active: color-mix(in srgb, var(--accent) 22%, var(--surface, rgba(53, 54, 58, 0.75)));
+		--tab-inactive: transparent;
+		--tab-hover: color-mix(in srgb, var(--text) 8%, transparent);
+		--omnibox-bg: color-mix(in srgb, var(--text) 8%, transparent);
+		--omnibox-focus: color-mix(in srgb, var(--text) 12%, transparent);
+		--text-dim: color-mix(in srgb, var(--text) 55%, transparent);
+		--chrome-blur: blur(22px) saturate(160%);
+	}
 
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
+	* { box-sizing: border-box; }
 
-  /* Tabs Bar */
-  .tabs {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 36px;
-    background: var(--tab-bg);
-    border-bottom: 1px solid #1f1f25;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
+	#dark-veil-bg {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		pointer-events: none;
+		opacity: 0.55;
+	}
 
-  .tab {
-    background: #1f1f25;
-    padding: 4px 12px;
-    border-radius: 6px 6px 0 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    flex-shrink: 1;
-    animation: tabIn 0.3s ease forwards;
-  }
+	body {
+		margin: 0;
+		font-family: 'Roboto', 'Google Sans Text', system-ui, sans-serif;
+		background: #0d0d10;
+		color: var(--text);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		user-select: none;
+	}
 
-  .tab.active {
-    background: #2b2b35;
-  }
+	.tabs {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: 42px;
+		background: var(--chrome-bg);
+		backdrop-filter: var(--chrome-blur);
+		-webkit-backdrop-filter: var(--chrome-blur);
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding: 5px 6px;
+		gap: 2px;
+		flex-shrink: 0;
+		scrollbar-width: none;
+	}
+	.tabs::-webkit-scrollbar { display: none; }
 
-  .tab:hover {
-    background: #25252f;
-  }
+	.tab {
+		position: relative;
+		background: transparent;
+		padding: 0 8px 0 10px;
+		height: 32px;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+		white-space: nowrap;
+		min-width: 76px;
+		max-width: 224px;
+		flex: 1 1 180px;
+		animation: tabIn 0.18s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+		transition: background 0.12s ease;
+	}
 
-  .tab span {
-    font-size: 0.85em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
-  }
+	.tab.dragging { opacity: 0.4; }
+	.tab.drag-over { border-left: 2px solid var(--accent); }
 
-  .tab.removing {
-    animation: tabOut 0.25s ease forwards;
-  }
+	.tab .favicon.has-img {
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
 
-  .tab-controls {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    right: 0;
-    height: 100%;
-    background: var(--tab-bg);
-    padding-right: 6px;
-  }
+	.tab .favicon {
+		width: 15px;
+		height: 15px;
+		border-radius: 4px;
+		background: linear-gradient(135deg, var(--accent), #4285f4);
+		flex-shrink: 0;
+		transition: transform 0.3s ease;
+	}
 
-  .tab-controls i {
-    color: var(--accent);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
+	.tab.loading .favicon {
+		background: none;
+		border: 1.5px solid rgba(255,255,255,0.15);
+		border-top-color: var(--accent);
+		border-radius: 50%;
+		animation: spin 0.7s linear infinite;
+	}
 
-  .tab-controls i:hover {
-    background: #24242d;
-    transform: scale(1.2);
-  }
+	.tab.active {
+		background: rgba(255,255,255,0.09);
+		z-index: 2;
+	}
 
-  @keyframes tabIn {
-    from { opacity: 0; transform: scale(0.85); }
-    to { opacity: 1; transform: scale(1); }
-  }
+	.tab:not(.active):hover {
+		background: rgba(255,255,255,0.05);
+	}
 
-  @keyframes tabOut {
-    from { opacity: 1; transform: scale(1); }
-    to { opacity: 0; transform: scale(0.7); }
-  }
+	.tab span {
+		font-size: 0.78em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: rgba(255,255,255,0.45);
+		letter-spacing: -0.01em;
+		transition: color 0.12s ease;
+	}
 
-  .toolbar {
-    height: 44px;
-    display: flex;
-    align-items: center;
-    background: var(--bg);
-    padding: 0 10px;
-    gap: 8px;
-    border-bottom: 1px solid #1f1f25;
-  }
+	.tab.active span { color: var(--text); }
+	.tab:hover span { color: rgba(255,255,255,0.7); }
 
-  .toolbar button {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1.05em;
-    transition: transform 0.2s ease, color 0.2s ease;
-  }
+	.tab .tab-close {
+		margin-left: auto;
+		width: 18px; height: 18px;
+		display: flex; align-items: center; justify-content: center;
+		border-radius: 50%;
+		font-size: 0.65em;
+		color: rgba(255,255,255,0.4);
+		opacity: 0;
+		transition: opacity 0.1s ease, background 0.1s ease, color 0.1s ease;
+		flex-shrink: 0;
+	}
 
-  .toolbar button:hover {
-    transform: scale(1.2);
-    color: var(--accent);
-  }
+	.tab:hover .tab-close, .tab.active .tab-close { opacity: 1; }
+	.tab .tab-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
 
-  .omnibox {
-    flex: 1;
-    background: #1b1b22;
-    border: 1px solid #2b2b35;
-    border-radius: 20px;
-    padding: 8px 14px;
-    color: var(--text);
-    font-size: 0.9em;
-    outline: none;
-    transition: all 0.3s ease;
-  }
+	.tab.removing {
+		animation: tabOut 0.15s cubic-bezier(0.4, 0, 1, 1) forwards;
+	}
 
-  .omnibox:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-  }
+	@keyframes tabIn {
+		from { opacity: 0; max-width: 0; min-width: 0; padding-left: 0; padding-right: 0; }
+		to { opacity: 1; }
+	}
 
-  iframe {
-    flex: 1;
-    border: none;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    transition: opacity 0.4s ease;
-    opacity: 0;
-  }
+	@keyframes tabOut {
+		from { opacity: 1; max-width: 224px; }
+		to { opacity: 0; max-width: 0; min-width: 0; margin: 0; padding: 0; }
+	}
 
-  iframe.loaded {
-    opacity: 1;
-  }
+	@keyframes spin {
+		to { transform: rotate(360deg); }
+	}
+
+	.new-tab-btn {
+		width: 26px; height: 26px;
+		display: flex; align-items: center; justify-content: center;
+		border-radius: 50%;
+		color: rgba(255,255,255,0.4);
+		cursor: pointer;
+		margin-left: 4px;
+		flex-shrink: 0;
+		font-size: 0.75em;
+		background: rgba(255,255,255,0.04);
+		transition: background 0.12s ease, color 0.12s ease, transform 0.1s ease;
+	}
+	.new-tab-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+	.new-tab-btn:active { transform: scale(0.88); }
+
+	.toolbar {
+		height: 48px;
+		display: flex;
+		align-items: center;
+		background: var(--tab-active);
+		backdrop-filter: var(--chrome-blur);
+		-webkit-backdrop-filter: var(--chrome-blur);
+		padding: 0 8px;
+		gap: 2px;
+		flex-shrink: 0;
+		position: relative;
+	}
+
+	.toolbar button {
+		background: none;
+		border: none;
+		color: var(--text-dim);
+		cursor: pointer;
+		font-size: 0.95em;
+		width: 32px; height: 32px;
+		border-radius: 50%;
+		display: flex; align-items: center; justify-content: center;
+		transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+	}
+
+	.toolbar button:hover {
+		background: rgba(255,255,255,0.08);
+		color: var(--text);
+	}
+
+	.toolbar button:active { transform: scale(0.9); }
+
+	.toolbar button:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+	.toolbar button:disabled:hover { background: none; }
+
+	.toolbar #reload.spinning i { animation: spin 0.6s linear infinite; }
+
+	.omnibox-wrap {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		background: var(--omnibox-bg);
+		border-radius: 18px;
+		padding: 0 8px 0 14px;
+		height: 36px;
+		margin: 0 6px;
+		transition: background 0.18s ease, box-shadow 0.18s ease;
+	}
+
+	.omnibox-wrap:focus-within {
+		background: var(--omnibox-focus);
+	}
+
+	.omnibox-wrap .lock {
+		color: var(--text-dim);
+		font-size: 0.8em;
+		flex-shrink: 0;
+	}
+
+	.omnibox {
+		flex: 1;
+		background: transparent;
+		border: none;
+		color: var(--text);
+		font-size: 0.85em;
+		outline: none;
+		height: 100%;
+		font-family: inherit;
+	}
+
+	.omnibox::placeholder { color: var(--text-dim); }
+
+	.engine-pill {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		border: none;
+		font-size: 0.68em;
+		font-family: inherit;
+		color: var(--text-dim);
+		background: rgba(255,255,255,0.06);
+		padding: 3px 9px 3px 3px;
+		border-radius: 10px;
+		cursor: pointer;
+		letter-spacing: 0.3px;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+	.engine-pill:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+	.engine-badge {
+		width: 16px; height: 16px;
+		border-radius: 4px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+
+	#extToolbarBtn {
+		position: relative;
+		background: none;
+		border: none;
+		color: var(--text-dim);
+		cursor: pointer;
+		font-size: 0.95em;
+		width: 32px; height: 32px;
+		border-radius: 50%;
+		display: flex; align-items: center; justify-content: center;
+		transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+		flex-shrink: 0;
+	}
+	#extToolbarBtn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+	#extToolbarBtn:active { transform: scale(0.9); }
+	#extToolbarBtn .ext-badge {
+		position: absolute;
+		top: 2px; right: 2px;
+		min-width: 14px; height: 14px;
+		padding: 0 3px;
+		border-radius: 7px;
+		background: var(--accent);
+		color: #202124;
+		font-size: 0.6em;
+		font-weight: 700;
+		display: flex; align-items: center; justify-content: center;
+		line-height: 1;
+	}
+
+	.ext-panel {
+		position: fixed;
+		width: 300px;
+		background: rgba(32,33,36,0.98);
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+		z-index: 2000;
+		overflow: hidden;
+		backdrop-filter: blur(20px) saturate(160%);
+		-webkit-backdrop-filter: blur(20px) saturate(160%);
+		animation: panelIn 0.14s cubic-bezier(0.2,0.8,0.2,1);
+	}
+	@keyframes panelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+	.ext-panel-hdr { padding: 13px 15px 10px; border-bottom: 1px solid var(--border); }
+	.ext-panel-hdr span { font-size: 13px; font-weight: 600; color: var(--text); }
+	.ext-panel-empty { padding: 20px 14px; font-size: 12px; color: var(--text-dim); text-align: center; }
+	.ep-group { padding: 8px 0 2px; }
+	.ep-group + .ep-group { border-top: 1px solid var(--border); }
+	.ep-group-lbl { font-size: 11px; font-weight: 700; color: var(--text-dim); padding: 0 15px 2px; letter-spacing: 0.3px; }
+	.ep-group-sub { font-size: 10.5px; color: var(--text-dim); opacity: 0.8; padding: 0 15px 6px; line-height: 1.4; }
+	.ext-panel-item { display: flex; align-items: center; gap: 10px; padding: 7px 15px; transition: background 0.08s ease; cursor: default; position: relative; }
+	.ext-panel-item:hover { background: rgba(255,255,255,0.05); }
+	.ext-panel-item.clickable { cursor: pointer; }
+	.ext-panel-item.ep-disabled .ext-panel-name { opacity: 0.4; }
+	.ext-panel-icon { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; font-size: 12px; color: var(--text-dim); }
+	.ext-panel-icon img { width: 100%; height: 100%; object-fit: contain; }
+	.ext-panel-name { flex: 1; font-size: 12.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.ep-actions { display: flex; align-items: center; gap: 1px; opacity: 0; transition: opacity 0.08s ease; flex-shrink: 0; }
+	.ext-panel-item:hover .ep-actions { opacity: 1; }
+	.ep-dots { width: 26px; height: 26px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.08s ease; }
+	.ep-dots:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+	.ep-menu-wrap { position: relative; }
+	.ep-menu { position: absolute; right: 0; top: 100%; margin-top: 4px; background: #2b2c30; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); padding: 4px; min-width: 170px; z-index: 2100; }
+	.ep-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; background: none; border: none; color: var(--text); font-size: 12px; cursor: pointer; border-radius: 6px; text-align: left; font-family: inherit; }
+	.ep-menu button:hover { background: rgba(255,255,255,0.08); }
+	.ep-menu button i { font-size: 12px; color: var(--text-dim); width: 14px; text-align: center; }
+	.ep-footer { display: flex; align-items: center; gap: 9px; padding: 10px 15px; border-top: 1px solid var(--border); cursor: pointer; font-size: 12px; color: var(--text-dim); transition: background 0.08s ease; }
+	.ep-footer:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+	.ext-window {
+		position: fixed;
+		background: var(--chrome-bg-2);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+		z-index: 2000;
+		overflow: hidden;
+		min-width: 180px;
+		animation: panelIn 0.14s cubic-bezier(0.2,0.8,0.2,1);
+	}
+	.ext-window-bar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); user-select: none; }
+	.ext-window-title { flex: 1; font-size: 12px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.ext-window-close { flex-shrink: 0; width: 22px; height: 22px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: all 0.1s ease; }
+	.ext-window-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+	.ext-window-frame { display: block; width: 100%; height: 100%; border: none; background: #fff; }
+	.ext-window-error { padding: 18px; font-size: 12px; color: var(--text-dim); text-align: center; max-width: 300px; }
+
+	.progress {
+		position: absolute;
+		bottom: 0; left: 0;
+		height: 2.5px;
+		width: 0%;
+		background: var(--accent);
+		transition: width 0.25s ease;
+	}
+	.progress.active {
+		animation: progressPulse 1.1s ease-in-out infinite;
+	}
+
+	@keyframes progressPulse {
+		0% { width: 10%; opacity: 1; }
+		50% { width: 75%; opacity: 1; }
+		100% { width: 96%; opacity: 0.4; }
+	}
+
+	.page-area {
+		flex: 1;
+		position: relative;
+		background: #000;
+		overflow: hidden;
+	}
+
+	.tab-frame {
+		position: absolute;
+		top: 0; left: 0;
+		border: none;
+		width: 100%;
+		height: 100%;
+		background: #0d0d10;
+		display: none;
+	}
+
+	.tab-frame.active-frame {
+		display: block;
+	}
 </style>
 </head>
 <body>
 
+<canvas id="dark-veil-bg" data-dark-veil data-speed="0.35" data-warp-amount="0.5" data-resolution-scale="0.75"></canvas>
+
 <div class="tabs" id="tabs">
-  <div class="tab active"><i class="fa-solid fa-globe"></i><span>New Tab</span></div>
-  <div class="tab-controls">
-    <i class="fa-solid fa-plus" id="newTab"></i>
-    <i class="fa-solid fa-xmark" id="closeTab"></i>
-  </div>
+	<div class="new-tab-btn" id="newTab"><i class="fa-solid fa-plus"></i></div>
 </div>
 
 <div class="toolbar">
-  <button id="back"><i class="fa-solid fa-arrow-left"></i></button>
-  <button id="forward"><i class="fa-solid fa-arrow-right"></i></button>
-  <button id="reload"><i class="fa-solid fa-rotate-right"></i></button>
-  <input class="omnibox" id="omnibox" type="text" placeholder="Search or enter URL">
+	<button id="back" disabled><i class="fa-solid fa-arrow-left"></i></button>
+	<button id="forward" disabled><i class="fa-solid fa-arrow-right"></i></button>
+	<button id="reload"><i class="fa-solid fa-rotate-right"></i></button>
+	<div class="omnibox-wrap">
+		<i class="fa-solid fa-lock lock"></i>
+		<input class="omnibox" id="omnibox" type="text" placeholder="Search Dominum or type a URL">
+	</div>
+	<button class="engine-pill" id="enginePill" title="Proxy engine">
+		<img class="engine-badge" id="engineBadge" src="/src/assets/images/engines/scramjet.webp" alt="">
+	</button>
+	<button id="extToolbarBtn" title="Extensions">
+		<i class="fa-solid fa-puzzle-piece"></i>
+		<span class="ext-badge" id="extBadge" style="display:none;"></span>
+	</button>
+	<div class="progress" id="progress"></div>
 </div>
 
-<iframe id="viewer" src="/src/assets/pages/prx/home.html"></iframe>
+<div class="page-area" id="pageArea"></div>
 
+<script src="/src/assets/js/dark-veil.js"></script>
 <script>
-const iframe = document.getElementById('viewer');
 const omnibox = document.getElementById('omnibox');
 const reloadBtn = document.getElementById('reload');
+const backBtn = document.getElementById('back');
+const forwardBtn = document.getElementById('forward');
 const tabsContainer = document.getElementById('tabs');
 const newTabBtn = document.getElementById('newTab');
-const closeTabBtn = document.getElementById('closeTab');
+const pageArea = document.getElementById('pageArea');
+const progress = document.getElementById('progress');
+const enginePill = document.getElementById('enginePill');
 
-document.getElementById('back').addEventListener('click', () => iframe.contentWindow.history.back());
-document.getElementById('forward').addEventListener('click', () => iframe.contentWindow.history.forward());
+const DEFAULT_FAV = '/src/assets/images/transparent-dominum.png';
+const tabs = [];
+let activeId = null;
+let tabSeq = 0;
 
-function updateTabWidths() {
-  const tabs = [...document.querySelectorAll('.tab')];
-  const totalWidth = tabsContainer.offsetWidth - 90;
-  const count = tabs.length;
-  const tabWidth = Math.max(80, Math.min(240, totalWidth / count));
-  tabs.forEach(tab => tab.style.flex = `0 1 ${tabWidth}px`);
+function startLoading() {
+	progress.classList.add('active');
+	reloadBtn.classList.add('spinning');
+}
+function stopLoading() {
+	progress.classList.remove('active');
+	progress.style.width = '100%';
+	reloadBtn.classList.remove('spinning');
+	setTimeout(() => { progress.style.width = '0%'; }, 200);
+}
+
+function getTab(id) { return tabs.find(t => t.id === id); }
+function activeTab() { return getTab(activeId); }
+
+function updateTabUI(tab) {
+	const span = tab.el.querySelector('span');
+	if (span) span.textContent = tab.title || tab.url || 'New Tab';
+	const favEl = tab.el.querySelector('.favicon');
+	if (favEl) {
+		if (tab.fav) {
+			favEl.classList.add('has-img');
+			favEl.style.backgroundImage = `url("${tab.fav}")`;
+		} else {
+			favEl.classList.remove('has-img');
+			favEl.style.backgroundImage = '';
+		}
+	}
+	if (tab.id === activeId && document.activeElement !== omnibox) {
+		omnibox.value = tab.url || '';
+	}
+}
+
+const engineBadge = document.getElementById('engineBadge');
+function syncEnginePill() {
+	const name = localStorage.getItem('dominum-engine') || 'scramjet';
+	engineBadge.src = name === 'uv'
+		? '/src/assets/images/engines/uv.png'
+		: '/src/assets/images/engines/scramjet.webp';
+}
+
+function createTabFrame(id, url) {
+	const frame = document.createElement('iframe');
+	frame.className = 'tab-frame';
+	frame.dataset.tabId = id;
+	frame.src = url
+		? `/src/assets/pages/prx/home.html?tabId=${id}&url=${encodeURIComponent(url)}`
+		: `/src/assets/pages/prx/home.html?tabId=${id}`;
+	frame.addEventListener('load', () => {
+		const tab = getTab(id);
+		if (!tab) return;
+		tab.loading = false;
+		tab.el.classList.remove('loading');
+		if (id === activeId) { stopLoading(); backBtn.disabled = false; }
+	});
+	pageArea.appendChild(frame);
+	return frame;
+}
+
+function newTab(url) {
+	if (tabs.length >= 9) return null;
+	const id = 't' + (++tabSeq);
+
+	const el = document.createElement('div');
+	el.className = 'tab loading';
+	el.draggable = true;
+	el.dataset.tabId = id;
+	el.innerHTML = `<div class="favicon"></div><span>New Tab</span><div class="tab-close"><i class="fa-solid fa-xmark"></i></div>`;
+	tabsContainer.insertBefore(el, newTabBtn);
+
+	const frame = createTabFrame(id, url);
+	const tab = { id, el, frame, url: url || '', title: 'New Tab', fav: DEFAULT_FAV, loading: true };
+	tabs.push(tab);
+	updateTabUI(tab);
+	activateTab(id);
+	return tab;
+}
+
+function activateTab(id) {
+	const tab = getTab(id);
+	if (!tab) return;
+	activeId = id;
+	tabs.forEach(t => {
+		t.el.classList.toggle('active', t.id === id);
+		t.frame.classList.toggle('active-frame', t.id === id);
+	});
+	omnibox.value = tab.url || '';
+	backBtn.disabled = false;
+	forwardBtn.disabled = false;
+	if (tab.loading) startLoading(); else stopLoading();
+	syncEnginePill();
+}
+
+function closeTab(id) {
+	const idx = tabs.findIndex(t => t.id === id);
+	if (idx === -1) return;
+	const tab = tabs[idx];
+	const wasActive = id === activeId;
+	tab.el.classList.add('removing');
+	setTimeout(() => {
+		tab.el.remove();
+		tab.frame.remove();
+		tabs.splice(idx, 1);
+		if (!tabs.length) {
+			newTab();
+		} else if (wasActive) {
+			activateTab(tabs[tabs.length - 1].id);
+		}
+	}, 180);
 }
 
 function loadURL(input) {
-  let url = input.trim();
-  if (!url) return;
-  
-  iframe.classList.remove('loaded');
-  
-  iframe.src = `/src/assets/pages/prx/home.html?url=${encodeURIComponent(url)}`;
+	const url = input.trim();
+	if (!url) return;
+	const tab = activeTab();
+	if (!tab) return;
+	tab.url = url;
+	tab.title = '';
+	tab.loading = true;
+	tab.el.classList.add('loading');
+	startLoading();
+	tab.frame.src = `/src/assets/pages/prx/home.html?tabId=${tab.id}&url=${encodeURIComponent(url)}`;
 }
 
 omnibox.addEventListener('keydown', e => {
-  if (e.key === 'Enter') loadURL(omnibox.value);
+	if (e.key === 'Enter') loadURL(omnibox.value);
 });
 
-iframe.addEventListener('load', () => iframe.classList.add('loaded'));
-reloadBtn.addEventListener('click', () => iframe.contentWindow.location.reload());
+backBtn.addEventListener('click', () => { try { activeTab()?.frame.contentWindow.history.back(); } catch(e) {} });
+forwardBtn.addEventListener('click', () => { try { activeTab()?.frame.contentWindow.history.forward(); } catch(e) {} });
 
-newTabBtn.addEventListener('click', () => {
-  const tabCount = document.querySelectorAll('.tab').length;
-  if (tabCount >= 10) return;
-
-  const tab = document.createElement('div');
-  tab.className = 'tab';
-  tab.innerHTML = `<i class="fa-solid fa-globe"></i><span>New Tab</span>`;
-  tabsContainer.insertBefore(tab, document.querySelector('.tab-controls'));
-  activateTab(tab);
-  updateTabWidths();
+reloadBtn.addEventListener('click', () => {
+	const tab = activeTab();
+	if (!tab) return;
+	startLoading();
+	try { tab.frame.contentWindow.location.reload(); } catch(e) { tab.frame.src = tab.frame.src; }
 });
+
+enginePill.addEventListener('click', () => {
+	const current = localStorage.getItem('dominum-engine') || 'scramjet';
+	localStorage.setItem('dominum-engine', current === 'scramjet' ? 'uv' : 'scramjet');
+	syncEnginePill();
+});
+
+window.addEventListener('message', e => {
+	if (e.data?.type !== 'dominum-tab-state') return;
+	const tab = getTab(e.data.tabId);
+	if (!tab) return;
+	if (e.data.url) tab.url = e.data.url;
+	if (e.data.title) tab.title = e.data.title;
+	if (e.data.fav) tab.fav = e.data.fav;
+	updateTabUI(tab);
+});
+
+newTabBtn.addEventListener('click', () => newTab());
 
 tabsContainer.addEventListener('click', e => {
-  const tab = e.target.closest('.tab');
-  if (tab && !tab.classList.contains('active')) {
-    activateTab(tab);
-  }
+	const closeBtn = e.target.closest('.tab-close');
+	const tab = e.target.closest('.tab');
+	if (!tab) return;
+	if (closeBtn) { closeTab(tab.dataset.tabId); return; }
+	if (tab.dataset.tabId !== activeId) activateTab(tab.dataset.tabId);
 });
 
-closeTabBtn.addEventListener('click', () => {
-  const active = document.querySelector('.tab.active');
-  if (!active) return;
-  active.classList.add('removing');
-  setTimeout(() => {
-    active.remove();
-    const remaining = document.querySelectorAll('.tab');
-    if (!remaining.length) newTabBtn.click();
-    else remaining[remaining.length - 1].classList.add('active');
-    updateTabWidths();
-  }, 200);
+let dragTab = null;
+tabsContainer.addEventListener('dragstart', e => {
+	const tab = e.target.closest('.tab');
+	if (!tab) return;
+	dragTab = tab;
+	tab.classList.add('dragging');
+	e.dataTransfer.effectAllowed = 'move';
+});
+tabsContainer.addEventListener('dragover', e => {
+	const tab = e.target.closest('.tab');
+	if (!tab || tab === dragTab) return;
+	e.preventDefault();
+	e.dataTransfer.dropEffect = 'move';
+	tab.classList.add('drag-over');
+});
+tabsContainer.addEventListener('dragleave', e => {
+	const tab = e.target.closest('.tab');
+	if (tab) tab.classList.remove('drag-over');
+});
+tabsContainer.addEventListener('drop', e => {
+	const tab = e.target.closest('.tab');
+	if (!tab || !dragTab || tab === dragTab) return;
+	e.preventDefault();
+	tab.classList.remove('drag-over');
+	const els = [...tabsContainer.querySelectorAll('.tab')];
+	const fromIdx = els.indexOf(dragTab);
+	const toIdx = els.indexOf(tab);
+	if (fromIdx < toIdx) tab.after(dragTab);
+	else tab.before(dragTab);
+});
+tabsContainer.addEventListener('dragend', () => {
+	if (dragTab) dragTab.classList.remove('dragging');
+	tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('drag-over'));
+	dragTab = null;
 });
 
-function activateTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
-  iframe.src = '/src/assets/pages/prx/home.html';
-  omnibox.value = '';
+function openInternalPage(path, label) {
+	const tab = activeTab();
+	if (!tab) return;
+	tab.title = label;
+	tab.url = '';
+	tab.fav = DEFAULT_FAV;
+	tab.frame.src = path;
+	updateTabUI(tab);
 }
 
-window.addEventListener('resize', updateTabWidths);
-updateTabWidths();
+(function() {
+	const params = new URLSearchParams(window.location.search);
+	const q = params.get('q');
+	newTab(q ? q.trim() : undefined);
+})();
+</script>
+<script type="module">
+	import { toggleExtDropdown, extensionCount } from '/src/assets/js/ext/ext-ui.js';
+
+	const extBtn = document.getElementById('extToolbarBtn');
+	const extBadge = document.getElementById('extBadge');
+
+	function refreshBadge() {
+		const n = extensionCount();
+		extBadge.style.display = n ? 'flex' : 'none';
+		extBadge.textContent = n;
+	}
+	refreshBadge();
+	window.addEventListener('storage', refreshBadge);
+	window.addEventListener('focus', refreshBadge);
+
+	extBtn.addEventListener('click', () => {
+		toggleExtDropdown(extBtn, {
+			onManage: () => openInternalPage('/src/assets/pages/extensions.html', 'Extensions'),
+		});
+	});
 </script>
 <script>
 const root = document.documentElement;
 const themes = {
-  default:{"--bg":"#0b0a16","--accent":"#7a5cff","--blue":"#00bfff","--text":"#e6e6ff",
-           "--surface":"rgba(255,255,255,0.05)","--border":"rgba(255,255,255,0.1)","--card-bg":"rgba(255,255,255,0.03)"},
-  cyber:{"--bg":"#050c1b","--accent":"#39ff14","--blue":"#00ffff","--text":"#e0ffe0",
-         "--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.1)","--card-bg":"rgba(0,255,0,0.03)"},
-  sunset:{"--bg":"#1a0b0b","--accent":"#ff6f61","--blue":"#ffa500","--text":"#fff0e6",
-          "--surface":"rgba(255,110,100,0.05)","--border":"rgba(255,110,100,0.1)","--card-bg":"rgba(255,110,100,0.03)"},
-  neon:{"--bg":"#0f0020","--accent":"#ff00ff","--blue":"#00ffff","--text":"#ffffff",
-        "--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.1)","--card-bg":"rgba(255,0,255,0.03)"},
-  darkred:{"--bg":"#1b0000","--accent":"#ff0000","--blue":"#cc0000","--text":"#ffe6e6",
-           "--surface":"rgba(255,0,0,0.05)","--border":"rgba(255,0,0,0.1)","--card-bg":"rgba(255,0,0,0.03)"},
-  dnv2:{"--bg": "#050007","--accent": "#ff00de","--blue": "#00fff7","--text": "#ffffff",
-         "--surface": "rgba(255, 0, 255, 0.05)","--border": "rgba(255, 0, 255, 0.15)","--card-bg": "rgba(15, 0, 30, 0.7)"},
-  matrix: {"--bg": "#001100","--accent": "#00ff00","--blue": "#33ff33","--text": "#99ff99",
-         "--surface": "rgba(0, 255, 0, 0.05)","--border": "rgba(0, 255, 0, 0.15)","--card-bg": "rgba(0, 50, 0, 0.7)"}
+	default:{"--bg":"#0b0a16","--accent":"#7a5cff","--blue":"#00bfff","--text":"#e6e6ff",
+			 "--surface":"rgba(255,255,255,0.05)","--border":"rgba(255,255,255,0.1)","--card-bg":"rgba(255,255,255,0.03)"},
+	cyber:{"--bg":"#050c1b","--accent":"#39ff14","--blue":"#00ffff","--text":"#e0ffe0",
+		   "--surface":"rgba(0,255,0,0.05)","--border":"rgba(0,255,0,0.1)","--card-bg":"rgba(0,255,0,0.03)"},
+	sunset:{"--bg":"#1a0b0b","--accent":"#ff6f61","--blue":"#ffa500","--text":"#fff0e6",
+			"--surface":"rgba(255,110,100,0.05)","--border":"rgba(255,110,100,0.1)","--card-bg":"rgba(255,110,100,0.03)"},
+	neon:{"--bg":"#0f0020","--accent":"#ff00ff","--blue":"#00ffff","--text":"#ffffff",
+		  "--surface":"rgba(255,0,255,0.05)","--border":"rgba(255,0,255,0.1)","--card-bg":"rgba(255,0,255,0.03)"},
+	darkred:{"--bg":"#1b0000","--accent":"#ff0000","--blue":"#cc0000","--text":"#ffe6e6",
+			 "--surface":"rgba(255,0,0,0.05)","--border":"rgba(255,0,0,0.1)","--card-bg":"rgba(255,0,0,0.03)"},
+	dnv2:{"--bg": "#050007","--accent": "#ff00de","--blue": "#00fff7","--text": "#ffffff",
+		   "--surface": "rgba(255, 0, 255, 0.05)","--border": "rgba(255, 0, 255, 0.15)","--card-bg": "rgba(15, 0, 30, 0.7)"},
+	matrix: {"--bg": "#001100","--accent": "#00ff00","--blue": "#33ff33","--text": "#99ff99",
+		   "--surface": "rgba(0, 255, 0, 0.05)","--border": "rgba(0, 255, 0, 0.15)","--card-bg": "rgba(0, 50, 0, 0.7)"}
 };
 
 function applyTheme(theme){
-  Object.entries(theme).forEach(([k,v])=>root.style.setProperty(k,v));
+	Object.entries(theme).forEach(([k,v])=>root.style.setProperty(k,v));
 }
 
 (function(){
-  const name = localStorage.getItem("dominum-theme") || "default";
-  if(name === "custom"){
-    const custom = JSON.parse(localStorage.getItem("dominum-custom-theme") || "{}");
-    applyTheme(custom);
-  } else applyTheme(themes[name]);
+	const name = localStorage.getItem("dominum-theme") || "default";
+	if(name === "custom"){
+		const custom = JSON.parse(localStorage.getItem("dominum-custom-theme") || "{}");
+		applyTheme(custom);
+	} else applyTheme(themes[name]);
 })();
 </script>
 </body>
