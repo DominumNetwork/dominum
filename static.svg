@@ -1,10 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
-  <title id="title">Dominum static page</title>
+  <title id="title">Dominum</title>
+  <link rel="icon" href="./src/assets/images/dominum-transparent.png">
   <desc id="desc">Self-contained SVG rendering the static page with embedded HTML.</desc>
   <foreignObject x="0" y="0" width="1920" height="1080">
     <iframe xmlns="http://www.w3.org/1999/xhtml" title="Dominum static" style="width:1920px;height:1080px;border:0;background:#0b0f19;" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
+&lt;base href=&quot;https://cdn.jsdelivr.net/gh/DominumNetwork/dominum@main/&quot;&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
 &lt;title&gt;Dominum&lt;/title&gt;
